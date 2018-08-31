@@ -26,7 +26,7 @@ class Scenario extends Item{
 class Rover extends Item{
     constructor(x,y,width,height){
         super(x,y,width,height);
-        this.direction = 'N';
+        this.direction = 'E';
         this.image = new Image();
         this.image.src = './images/RoverEast.png';
         this.damage = 10;
@@ -41,8 +41,7 @@ class Enemy extends Item{
         super(x,y,width,height);
         this.direction = 'N';
         this.image = new Image();
-        this.image.src = './images/Enemy.png';
-        this.direction = 'S';
+        this.image.src = './images/Enemy2.png';
     }
     draw(direction){
         if ((frames / 10) % 2 === 0){
@@ -51,18 +50,22 @@ class Enemy extends Item{
             let vel=0.1;
             switch(direction){
                 case 'NW':
+                    this.image.src = './images/Enemy.png';
                     this.x -= Math.floor(Math.random()*this.height*vel);
                     this.y -= Math.floor(Math.random()*this.height*vel);
                 break;
                 case 'NE':
+                    this.image.src = './images/Enemy2.png';
                     this.x += Math.floor(Math.random()*this.height*vel);
                     this.y -= Math.floor(Math.random()*this.height*vel);
                 break;
                 case 'SW':
+                    this.image.src = './images/Enemy.png';
                     this.x -= Math.floor(Math.random()*this.height*vel);
                     this.y += Math.floor(Math.random()*this.height*vel);
                 break;
                 case 'SE':
+                    this.image.src = './images/Enemy2.png';
                     this.x += Math.floor(Math.random()*this.height*vel);
                     this.y += Math.floor(Math.random()*this.height*vel);
                 break;
