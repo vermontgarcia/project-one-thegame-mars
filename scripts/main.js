@@ -21,13 +21,13 @@ var interval;
 var frames = 0;
 var velocity = 5;
 var enemies = [];
-var scale = 1;
-var deepFactor = 0.5;
+var scale = 1; 
+var deepFactor = 0.3;
 var enemiesQuantity = 20;
 
 //Creating instances
 var scenario = new Scenario(0,-canvas.height,canvas.width*2, canvas.height*2);
-var rover = new Rover(canvas.width/8,canvas.height*.1,50,26);
+var rover = new Rover((canvas.width/(2*scale)),(canvas.height/(2*scale)),100,54);
 var station1 = new Station((canvas.width*2)*0.85,50,100,30);
 
 
@@ -52,16 +52,16 @@ function distance(x1,y1,x2,y2){
 
 function enemyDirection(enemy,rover){
     let direction = '';
-    if(enemy.y + enemy.height/2 > rover.y + rover.height/2){
+    if(enemy.y > rover.y){
         direction += 'N'
-        if (enemy.x + enemy.width/2 > rover.x + rover.width/2){
+        if (enemy.x > rover.x){
             direction += 'W'
         } else {
             direction += 'E';
         }
     } else {
         direction += 'S'
-        if (enemy.x + enemy.width/2 > rover.x + rover.width/2){
+        if (enemy.x > rover.x){
             direction += 'W'
         } else {
             direction += 'E';
@@ -98,50 +98,69 @@ addEventListener('keydown', function(e){
         case 37:
             //W
             rover.image.src = '../images/RoverWest.png'
-            if (rover.x > scenario.x + (scenario.width - scenario.width*0.25)
-                || rover.x < scenario.x + (scenario.width - scenario.width*0.75)){
+            console.log(scale)
+            if (rover.x > scenario.x + (scenario.width - scenario.width*(1/(4*scale))) //0.25
+                || rover.x < scenario.x + (scenario.width - scenario.width*(3/(4*scale)))){  //0.75
                     rover.x -=velocity;
+                    console.log('W If '+ rover.x,scenario.x)
+
+                    
             } else {
                 scenario.x +=velocity;
                 station1.x +=velocity;
                 enemies.forEach(function(enemy){
                     enemy.x += velocity;
                 });
+                console.log('W else '+ rover.x,scenario.x)
             }
         break;
         case 38:
             //N
             rover.image.src = '../images/RoverNorth.png'
-            scenario.y +=velocity;
-            station1.y +=velocity;
-            enemies.forEach(function(enemy){
-                enemy.y += velocity;
-            });
+            if (rover.y > scenario.y + (scenario.height - scenario.height*(1/(4*scale)))
+                || rover.y < scenario.y + (scenario.height - scenario.height*(3/(4*scale)))){
+                rover.y -=velocity;
+            } else {
+                scenario.y +=velocity;
+                station1.y +=velocity;
+                enemies.forEach(function(enemy){
+                    enemy.y += velocity;
+                });
+            }
             rover.width = rover.width - deepFactor;
             rover.height = rover.height - deepFactor;
         break;
         case 39:
             //E
             rover.image.src = '../images/RoverEast.png'
-            if (rover.x > scenario.x + (scenario.width - scenario.width*0.25)
-                || rover.x < scenario.x + (scenario.width - scenario.width*0.75)){
+            if (rover.x > scenario.x + (scenario.width - scenario.width*(1/(4*scale)))
+                || rover.x < scenario.x + (scenario.width - scenario.width*(3/(4*scale)))){
                 rover.x +=velocity;
+                console.log('E If '+ rover.x,scenario.x)
             } else {
                 scenario.x -=velocity;
                 station1.x -=velocity;
                 enemies.forEach(function(enemy){
                     enemy.x -= velocity;
                 });
+                console.log('E If '+ rover.x,scenario.x)
             }
         break;
         case 40:
             //S
             rover.image.src = '../images/RoverSouth.png'
-            scenario.y -=velocity;
-            station1.y -=velocity;
-            enemies.forEach(function(enemy){
-                enemy.y -= velocity;
-            });
+            if (rover.y > scenario.y + (scenario.height - scenario.height*(1/(4*scale)))
+                || rover.y < scenario.y + (scenario.height - scenario.height*(3/(4*scale)))){
+                rover.y +=velocity;
+            } else {
+                scenario.y -=velocity;
+                station1.y -=velocity;
+                enemies.forEach(function(enemy){
+                    enemy.y -= velocity;
+                });
+            }
+            
+            
             rover.width = rover.width + deepFactor;
             rover.height = rover.height + deepFactor;
         break;

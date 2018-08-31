@@ -32,7 +32,7 @@ class Rover extends Item{
         this.damage = 10;
     }
     draw(){
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
     }
 }
 
@@ -68,7 +68,7 @@ class Enemy extends Item{
                 break;
             }            
         }
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
     }
 }
 
