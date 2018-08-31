@@ -24,6 +24,7 @@ var enemies = [];
 var scale = 1; 
 var deepFactor = 0.3;
 var enemiesQuantity = 20;
+var borderError = "Error trying to excced the grid borders"
 
 //Creating instances
 var scenario = new Scenario(0,-canvas.height*3,canvas.width*4, canvas.height*4);
@@ -171,7 +172,7 @@ function turnLeft(rover){
     console.log("moveForward");
     switch (actualDirection){
         case "N":
-            if (rover.y - 1 < 0){
+            if (rover.y - rover.height/2 - velocity*2 < 0){  //ok
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverNorth.png'
@@ -184,12 +185,12 @@ function turnLeft(rover){
                         enemy.y += velocity;
                     });
                 }
-                rover.width = rover.width - deepFactor;
-                rover.height = rover.height - deepFactor;
+                //rover.width = rover.width - deepFactor;
+                //rover.height = rover.height - deepFactor;
             }
         break;
         case "E":
-            if (rover.x + 1 > canvas.width){
+            if (rover.x + rover.width/2 + velocity*2 > canvas.width){ //ok
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverEast.png'
@@ -207,7 +208,7 @@ function turnLeft(rover){
             }
         break;
         case "S":
-            if (rover.y + 1 > canvas.height){
+            if (rover.y + rover.height/2 + velocity*2 > canvas.height){  //ok
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverSouth.png'
@@ -220,12 +221,12 @@ function turnLeft(rover){
                         enemy.y -= velocity;
                     });
                 }
-                rover.width = rover.width + deepFactor;
-                rover.height = rover.height + deepFactor;
+                //rover.width = rover.width + deepFactor;
+                //rover.height = rover.height + deepFactor;
             }    
         break;
         case "W":
-            if (rover.x - 1 < 0){
+            if (rover.x - rover.width/2 - velocity*2 < 0){  //ok
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverWest.png'
@@ -257,7 +258,7 @@ function turnLeft(rover){
     console.log("moveBackward");
     switch (actualDirection){
         case "S":
-            if (rover.y + 1 > canvas.height){
+            if (rover.y - rover.height/2 - velocity*2 < 0){     //rover.y + rover.height/2 + 1 > canvas.height
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverNorth.png'
@@ -270,12 +271,12 @@ function turnLeft(rover){
                         enemy.y += velocity;
                     });
                 }
-                rover.width = rover.width - deepFactor;
-                rover.height = rover.height - deepFactor;
+                //rover.width = rover.width - deepFactor;
+                //rover.height = rover.height - deepFactor;
             }
         break;
         case "W":
-            if (rover.x - 1 < 0){
+            if (rover.x + rover.width/2 + velocity*2 > canvas.width){   //rover.x - rover.width/2 - 1 < 0
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverEast.png'
@@ -293,7 +294,7 @@ function turnLeft(rover){
             }
         break;
         case "N":
-            if (rover.y - 1 < 0){
+            if (rover.y + rover.height/2 + velocity*2 > canvas.height){    //rover.y - rover.height/2 - 1 < 0
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverSouth.png'
@@ -306,12 +307,12 @@ function turnLeft(rover){
                         enemy.y -= velocity;
                     });
                 }
-                rover.width = rover.width + deepFactor;
-                rover.height = rover.height + deepFactor;
+                //rover.width = rover.width + deepFactor;
+                //rover.height = rover.height + deepFactor;
             }
         break;
         case "E":
-            if (rover.x + 1 > canvas.width){
+            if (rover.x - rover.width/2 - velocity*2 < 0){   //rover.x + rover.width/2 + 1 > canvas.width
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverWest.png'
