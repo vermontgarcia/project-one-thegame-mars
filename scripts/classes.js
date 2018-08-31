@@ -13,7 +13,7 @@ class Scenario extends Item{
     constructor(x,y,width,height){
         super(x,y,width,height)
         this.image = new Image();
-        this.image.src = '../images/MarsLandsCape.png';
+        this.image.src = './images/MarsLandsCape.png';
     } 
     draw (){
         //this.x--;
@@ -28,7 +28,8 @@ class Rover extends Item{
         super(x,y,width,height);
         this.direction = 'N';
         this.image = new Image();
-        this.image.src = '../images/RoverEast.png';
+        this.image.src = './images/RoverEast.png';
+        this.damage = 10;
     }
     draw(){
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -40,20 +41,38 @@ class Enemy extends Item{
         super(x,y,width,height);
         this.direction = 'N';
         this.image = new Image();
-        this.image.src = '../images/Enemy.png';
+        this.image.src = './images/Enemy.png';
         this.direction = 'S';
     }
-    draw(){
-        if ((frames / 100) % 2 === 0){
-            let direction = Math.pow(-1, Math.floor(Math.random()*10));
-            this.x += Math.floor(Math.random()*this.width*0.5);
-            this.y += Math.floor(Math.random()*this.height*0.3) * direction;
+    draw(direction){
+        if ((frames / 10) % 2 === 0){
+            //let direction = Math.pow(-1, Math.floor(Math.random()*10));
+            
+            let vel=0.1;
+            switch(direction){
+                case 'NW':
+                    this.x -= Math.floor(Math.random()*this.height*vel);
+                    this.y -= Math.floor(Math.random()*this.height*vel);
+                break;
+                case 'NE':
+                    this.x += Math.floor(Math.random()*this.height*vel);
+                    this.y -= Math.floor(Math.random()*this.height*vel);
+                break;
+                case 'SW':
+                    this.x -= Math.floor(Math.random()*this.height*vel);
+                    this.y += Math.floor(Math.random()*this.height*vel);
+                break;
+                case 'SE':
+                    this.x += Math.floor(Math.random()*this.height*vel);
+                    this.y += Math.floor(Math.random()*this.height*vel);
+                break;
+            }            
         }
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
 
-class Astronaut{
+class Astronaut extends Item{
     constructor(){
 
     }
@@ -62,7 +81,7 @@ class Astronaut{
     }
 }
 
-class Transbordador{
+class Transbordador extends Item{
     constructor(){
 
     }
@@ -70,13 +89,12 @@ class Transbordador{
 
     }
 }
-
 
 class Station extends Item{
     constructor(x,y,width,height){
         super(x,y,width,height);
         this.image = new Image();
-        this.image.src = '../images/MarsStation.png'
+        this.image.src = './images/MarsStation.png'
     }
     draw(){
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -97,5 +115,3 @@ class Visor{
 
     }
 }
-
-
