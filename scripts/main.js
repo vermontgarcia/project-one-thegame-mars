@@ -21,13 +21,13 @@ var interval;
 var frames = 0;
 var velocity = 5;
 var enemies = [];
-var scale = 1; 
+var scale = 4;
 var deepFactor = 0.3;
 var enemiesQuantity = 20;
 var borderError = "Error trying to excced the grid borders"
 
 //Creating instances
-var scenario = new Scenario(0,-canvas.height*3,canvas.width*4, canvas.height*4);
+var scenario = new Scenario(0,-canvas.height*(scale-1),canvas.width*scale, canvas.height*scale);
 var rover = new Rover((canvas.width/2),(canvas.height/2),100,54);
 var station1 = new Station((canvas.width*2)*0.85,50,100,30);
 
@@ -39,7 +39,7 @@ console.log('rover' + rover.x, rover.y)
 //Defining auxiliar functions
 
 function startGame(){
-    //ctx.scale(scale,scale);
+    
     interval = setInterval(function(){
         frames++;
         ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -176,7 +176,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverNorth.png'
-                if (rover.y - scenario.y > 2800 || rover.y - scenario.y < 400){
+                if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
+                    || rover.y - scenario.y < canvas.height/2){
                     rover.y -=velocity;
                 } else {
                     scenario.y +=velocity;
@@ -194,7 +195,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverEast.png'
-                if (rover.x - scenario.x < 600 || rover.x - scenario.x > 4200){
+                if (rover.x - scenario.x < canvas.width/2 
+                    || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                     rover.x +=velocity;
                     console.log('E If '+ rover.x,scenario.x)
                 } else {
@@ -212,7 +214,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverSouth.png'
-                if (rover.y - scenario.y > 2800 || rover.y - scenario.y < 400){
+                if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
+                    || rover.y - scenario.y < canvas.height/2){
                     rover.y +=velocity;
                 } else {
                     scenario.y -=velocity;
@@ -230,7 +233,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverWest.png'
-                if (rover.x - scenario.x < 600 || rover.x - scenario.x > 4200){
+                if (rover.x - scenario.x < canvas.width/2 
+                    || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                         rover.x -=velocity;
                         console.log('W If '+ rover.x,scenario.x)
                 } else {
@@ -262,7 +266,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverNorth.png'
-                if (rover.y - scenario.y > 2800 || rover.y - scenario.y < 400){
+                if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
+                    || rover.y - scenario.y < canvas.height/2){
                     rover.y -=velocity;
                 } else {
                     scenario.y +=velocity;
@@ -280,7 +285,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverEast.png'
-                if (rover.x - scenario.x < 600 || rover.x - scenario.x > 4200){
+                if (rover.x - scenario.x < canvas.width/2 
+                    || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                     rover.x +=velocity;
                     console.log('E If '+ rover.x,scenario.x)
                 } else {
@@ -298,7 +304,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverSouth.png'
-                if (rover.y - scenario.y > 2800 || rover.y - scenario.y < 400){
+                if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
+                    || rover.y - scenario.y < canvas.height/2){
                     rover.y +=velocity;
                 } else {
                     scenario.y -=velocity;
@@ -316,7 +323,8 @@ function turnLeft(rover){
                 console.log(borderError);
             } else {
                 //rover.image.src = '../images/RoverWest.png'
-                if (rover.x - scenario.x < 600 || rover.x - scenario.x > 4200){
+                if (rover.x - scenario.x < canvas.width/2 
+                    || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                         rover.x -=velocity;
                         console.log('W If '+ rover.x,scenario.x)
                 } else {
