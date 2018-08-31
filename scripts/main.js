@@ -16,12 +16,12 @@ document.addEventListener("click", function (e) {
     }
 });
 
-//Definig vairables
+//Definig variables
 var interval;
 var frames = 0;
 var velocity = 5;
 var enemies = [];
-var scale = 4;
+var scale = 3;
 var deepFactor = 0.3;
 var enemiesQuantity = 20;
 var borderError = "Error trying to excced the grid borders"
@@ -31,15 +31,9 @@ var scenario = new Scenario(0,-canvas.height*(scale-1),canvas.width*scale, canva
 var rover = new Rover((canvas.width/2),(canvas.height/2),100,54);
 var station1 = new Station((canvas.width*2)*0.85,50,100,30);
 
-console.log('Scenario' + scenario.width, scenario.height)
-console.log('Scenario' + scenario.x, scenario.y)
-console.log('rover' + rover.x, rover.y)
-
-
 //Defining auxiliar functions
 
 function startGame(){
-    
     interval = setInterval(function(){
         frames++;
         ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -172,10 +166,9 @@ function turnLeft(rover){
     console.log("moveForward");
     switch (actualDirection){
         case "N":
-            if (rover.y - rover.height/2 - velocity*2 < 0){  //ok
+            if (rover.y - rover.height/2 - velocity*2 < 0){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverNorth.png'
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y -=velocity;
@@ -191,29 +184,25 @@ function turnLeft(rover){
             }
         break;
         case "E":
-            if (rover.x + rover.width/2 + velocity*2 > canvas.width){ //ok
+            if (rover.x + rover.width/2 + velocity*2 > canvas.width){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverEast.png'
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                     rover.x +=velocity;
-                    console.log('E If '+ rover.x,scenario.x)
                 } else {
                     scenario.x -=velocity;
                     station1.x -=velocity;
                     enemies.forEach(function(enemy){
                         enemy.x -= velocity;
                     });
-                    console.log('E If '+ rover.x,scenario.x)
                 }
             }
         break;
         case "S":
-            if (rover.y + rover.height/2 + velocity*2 > canvas.height){  //ok
+            if (rover.y + rover.height/2 + velocity*2 > canvas.height){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverSouth.png'
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y +=velocity;
@@ -229,21 +218,18 @@ function turnLeft(rover){
             }    
         break;
         case "W":
-            if (rover.x - rover.width/2 - velocity*2 < 0){  //ok
+            if (rover.x - rover.width/2 - velocity*2 < 0){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverWest.png'
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                         rover.x -=velocity;
-                        console.log('W If '+ rover.x,scenario.x)
                 } else {
                     scenario.x +=velocity;
                     station1.x +=velocity;
                     enemies.forEach(function(enemy){
                         enemy.x += velocity;
                     });
-                    console.log('W else '+ rover.x,scenario.x)
                 }
             }
         break;
@@ -262,10 +248,9 @@ function turnLeft(rover){
     console.log("moveBackward");
     switch (actualDirection){
         case "S":
-            if (rover.y - rover.height/2 - velocity*2 < 0){     //rover.y + rover.height/2 + 1 > canvas.height
+            if (rover.y - rover.height/2 - velocity*2 < 0){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverNorth.png'
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y -=velocity;
@@ -281,29 +266,25 @@ function turnLeft(rover){
             }
         break;
         case "W":
-            if (rover.x + rover.width/2 + velocity*2 > canvas.width){   //rover.x - rover.width/2 - 1 < 0
+            if (rover.x + rover.width/2 + velocity*2 > canvas.width){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverEast.png'
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                     rover.x +=velocity;
-                    console.log('E If '+ rover.x,scenario.x)
                 } else {
                     scenario.x -=velocity;
                     station1.x -=velocity;
                     enemies.forEach(function(enemy){
                         enemy.x -= velocity;
                     });
-                    console.log('E If '+ rover.x,scenario.x)
                 }
             }
         break;
         case "N":
-            if (rover.y + rover.height/2 + velocity*2 > canvas.height){    //rover.y - rover.height/2 - 1 < 0
+            if (rover.y + rover.height/2 + velocity*2 > canvas.height){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverSouth.png'
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y +=velocity;
@@ -319,21 +300,18 @@ function turnLeft(rover){
             }
         break;
         case "E":
-            if (rover.x - rover.width/2 - velocity*2 < 0){   //rover.x + rover.width/2 + 1 > canvas.width
+            if (rover.x - rover.width/2 - velocity*2 < 0){
                 console.log(borderError);
             } else {
-                //rover.image.src = '../images/RoverWest.png'
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                         rover.x -=velocity;
-                        console.log('W If '+ rover.x,scenario.x)
                 } else {
                     scenario.x +=velocity;
                     station1.x +=velocity;
                     enemies.forEach(function(enemy){
                         enemy.x += velocity;
                     });
-                    console.log('W else '+ rover.x,scenario.x)
                 }
             }
         break;
@@ -361,7 +339,7 @@ addEventListener('keydown', function(e){
             turnRight(rover);
         break;
         case 40:
-            //S
+            //Move Backward
             moveBackward(rover);
         break;
         default:
