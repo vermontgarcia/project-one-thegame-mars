@@ -34,7 +34,7 @@ var borderError = "Error trying to excced the grid borders";
 const roverHeight = 300;
 const roverWidthFront = 300;
 const roverWidthSide = 300*1.38;
-const enemyHeight = 300;
+const enemyHeight = 200;
 const enemyWidth = 160;
 
 //Creating instances
