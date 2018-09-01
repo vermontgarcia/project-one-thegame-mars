@@ -22,8 +22,8 @@ var frames = 0;
 var velocity = 5;
 var roverVelFac = 0.05;
 var enemies = [];
-var scenarioScale = 4;
-var itemScale = 0.5;
+var scenarioScale = 2;
+var itemScale = 0.3;
 var deepFactorRover;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
@@ -36,13 +36,21 @@ const roverWidthFront = 300;
 const roverWidthSide = 300*1.38;
 const enemyHeight = 200;
 const enemyWidth = 160;
+const stationWidth = 200;
+const stationHeight = stationWidth * 0.4;
 
 //Creating instances
 var scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale);
 
 deepFactorRover = (canvas.height/2 - scenario.y)/scenario.height;
-var rover = new Rover((canvas.width/2),(canvas.height/2),roverWidthSide*itemScale*deepFactorRover,roverHeight*itemScale*deepFactorRover);
-var station1 = new Station((canvas.width*2)*0.85,50,100,30);
+//var rover = new Rover(scenario.x + scenario.width*(0.5/scenarioScale), scenario.y + scenario.height * (0.5*scenarioScale), roverWidthSide*itemScale*deepFactorRover, roverHeight*itemScale*deepFactorRover);
+var rover = new Rover(canvas.width*0.5, canvas.height*0.5, roverWidthSide*itemScale*deepFactorRover, roverHeight*itemScale*deepFactorRover);
+
+var station1 = new Station(scenario.x + scenario.width*0.8, scenario.y + scenario.height*0.5,stationWidth*scenarioScale,stationHeight*scenarioScale);
+
+console.log('scenario x, y, w & h ', scenario.x, scenario.y, scenario.width, scenario.height)
+console.log('rover x, y, w & h ', rover.x, rover.y, rover.width, rover.height)
+console.log('station1 x, y, w & h ', station1.x, station1.y, station1.width, station1.height)
 
 //Defining auxiliar functions
 
@@ -101,9 +109,9 @@ function generateEnemies(){
     if (frames % 1000 == 0 || frames % 700 == 0 || frames % 1700 == 0){
         let width = enemyWidth*itemScale;
         let height = enemyHeight*itemScale;
-        let x = Math.floor(Math.random()*scenario.width)-width;
-        let y = Math.floor(Math.random()*scenario.height)-height;
-        if(y > scenario.height/2){
+        let x = scenario.x + Math.floor(Math.random()*scenario.width)-width;
+        let y = scenario.y + Math.floor(Math.random()*scenario.height)-height;
+        if(y > scenario.y + scenario.height/2){
             let enemy = new Enemy(x,y,width,height)
             enemies.push(enemy);
         }
@@ -113,8 +121,8 @@ function generateEnemies(){
 function drawEnemies (){
     enemies.forEach(function(enemy){
         deepFactorEnemie = (enemy.y - scenario.y)/scenario.height;
-        enemy.width = enemyWidth*itemScale*deepFactorEnemie;
-        enemy.height = enemyHeight*itemScale*deepFactorEnemie;
+        enemy.width = enemyWidth * itemScale * deepFactorEnemie;
+        enemy.height = enemyHeight * itemScale * deepFactorEnemie;
 
         enemy.draw(enemyDirection(enemy,rover),deepFactorEnemie);
     })
