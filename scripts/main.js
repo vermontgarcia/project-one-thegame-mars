@@ -20,21 +20,22 @@ document.addEventListener("click", function (e) {
 var interval;
 var frames = 0;
 var velocity = 5;
-var roverVelFac = 0.1;
+var roverVelFac = 0.05;
 var enemies = [];
-var scenarioScale = 1;
-var itemScale = 1;
+var scenarioScale = 4;
+var itemScale = 0.5;
 var deepFactorRover;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
 var borderError = "Error trying to excced the grid borders";
 
+
+//Defining constants
 const roverHeight = 300;
 const roverWidthFront = 300;
 const roverWidthSide = 300*1.38;
-
-const enemyHeight = 180;
-const enemyWidth = 130;
+const enemyHeight = 300;
+const enemyWidth = 160;
 
 //Creating instances
 var scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale);
@@ -87,11 +88,11 @@ function gameOver(){
 
 function roverDimUpdate(){
     deepFactorRover = (rover.y - scenario.y)/scenario.height;
-    rover.height = roverHeight * deepFactorRover;
+    rover.height = roverHeight * deepFactorRover * itemScale;
     if (rover.direction === 'E' || rover.direction === 'W'){
-        rover.width = roverWidthSide * deepFactorRover;
+        rover.width = roverWidthSide * deepFactorRover * itemScale;
     } else {
-        rover.width = roverWidthFront * deepFactorRover;
+        rover.width = roverWidthFront * deepFactorRover * itemScale;
     }
 }
 
@@ -200,6 +201,7 @@ function turnLeft(rover){
     let actualDirection = rover.direction;
     //updatePosition(rover, grid, "*");  
     console.log("moveForward");
+    //roverDimUpdate();
     switch (actualDirection){
         case "N":
             if (rover.y - rover.height/2 - velocity*2 < 0){
@@ -209,7 +211,6 @@ function turnLeft(rover){
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y -= rover.height*roverVelFac;
-                    roverDimUpdate();
                 } else {
                     scenario.y +=rover.height*roverVelFac;
                     station1.y +=rover.height*roverVelFac;
@@ -247,7 +248,6 @@ function turnLeft(rover){
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y +=rover.height*roverVelFac;
-                    roverDimUpdate();
                 } else {
                     scenario.y -=rover.height*roverVelFac;
                     station1.y -=rover.height*roverVelFac;
@@ -286,6 +286,7 @@ function turnLeft(rover){
     var actualDirection = rover.direction;
     //updatePosition(rover, grid, "*");
     console.log("moveBackward");
+    //roverDimUpdate();
     switch (actualDirection){
         case "S":
             if (rover.y - rover.height/2 - velocity*2 < 0){
@@ -294,7 +295,6 @@ function turnLeft(rover){
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y -=rover.height*roverVelFac;
-                    roverDimUpdate();
                 } else {
                     scenario.y +=rover.height*roverVelFac;
                     station1.y +=rover.height*roverVelFac;
@@ -327,7 +327,6 @@ function turnLeft(rover){
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
                     rover.y +=rover.height*roverVelFac;
-                    roverDimUpdate();
                 } else {
                     scenario.y -=rover.height*roverVelFac;
                     station1.y -=rover.height*roverVelFac;
