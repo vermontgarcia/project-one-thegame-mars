@@ -32,6 +32,7 @@ class Rover extends Item{
         this.damage = 10;
     }
     draw(){
+        //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
     }
 }
