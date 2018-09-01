@@ -52,23 +52,23 @@ class Enemy extends Item{
             switch(direction){
                 case 'NW':
                     this.image.src = './images/Enemy.png';
-                    this.x -= Math.floor(Math.random()*this.height*vel);
-                    this.y -= Math.floor(Math.random()*this.height*vel);
+                    this.x -= Math.floor(Math.random()*this.width*vel);
+                    this.y -= Math.floor(Math.random()*this.width*vel);
                 break;
                 case 'NE':
                     this.image.src = './images/Enemy2.png';
-                    this.x += Math.floor(Math.random()*this.height*vel);
-                    this.y -= Math.floor(Math.random()*this.height*vel);
+                    this.x += Math.floor(Math.random()*this.width*vel);
+                    this.y -= Math.floor(Math.random()*this.width*vel);
                 break;
                 case 'SW':
                     this.image.src = './images/Enemy.png';
-                    this.x -= Math.floor(Math.random()*this.height*vel);
-                    this.y += Math.floor(Math.random()*this.height*vel);
+                    this.x -= Math.floor(Math.random()*this.width*vel);
+                    this.y += Math.floor(Math.random()*this.width*vel);
                 break;
                 case 'SE':
                     this.image.src = './images/Enemy2.png';
-                    this.x += Math.floor(Math.random()*this.height*vel);
-                    this.y += Math.floor(Math.random()*this.height*vel);
+                    this.x += Math.floor(Math.random()*this.width*vel);
+                    this.y += Math.floor(Math.random()*this.width*vel);
                 break;
             }            
         }

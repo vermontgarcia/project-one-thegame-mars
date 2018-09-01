@@ -20,6 +20,7 @@ document.addEventListener("click", function (e) {
 var interval;
 var frames = 0;
 var velocity = 5;
+var roverVelFac = 0.1;
 var enemies = [];
 var scenarioScale = 1;
 var itemScale = 1;
@@ -207,13 +208,13 @@ function turnLeft(rover){
 
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
-                    rover.y -=velocity;
+                    rover.y -= rover.height*roverVelFac;
                     roverDimUpdate();
                 } else {
-                    scenario.y +=velocity;
-                    station1.y +=velocity;
+                    scenario.y +=rover.height*roverVelFac;
+                    station1.y +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.y += velocity;
+                        enemy.y += rover.height*roverVelFac;
                     });
                 }
             }
@@ -229,12 +230,12 @@ function turnLeft(rover){
                 }
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
-                    rover.x +=velocity;
+                    rover.x +=rover.height*roverVelFac;
                 } else {
-                    scenario.x -=velocity;
-                    station1.x -=velocity;
+                    scenario.x -=rover.height*roverVelFac;
+                    station1.x -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.x -= velocity;
+                        enemy.x -= rover.height*roverVelFac;
                     });
                 }
             }
@@ -245,13 +246,13 @@ function turnLeft(rover){
             } else {
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
-                    rover.y +=velocity;
+                    rover.y +=rover.height*roverVelFac;
                     roverDimUpdate();
                 } else {
-                    scenario.y -=velocity;
-                    station1.y -=velocity;
+                    scenario.y -=rover.height*roverVelFac;
+                    station1.y -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.y -= velocity;
+                        enemy.y -= rover.height*roverVelFac;
                     });
                 }
             }    
@@ -262,12 +263,12 @@ function turnLeft(rover){
             } else {
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
-                        rover.x -=velocity;
+                        rover.x -=rover.height*roverVelFac;
                 } else {
-                    scenario.x +=velocity;
-                    station1.x +=velocity;
+                    scenario.x +=rover.height*roverVelFac;
+                    station1.x +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.x += velocity;
+                        enemy.x += rover.height*roverVelFac;
                     });
                 }
             }
@@ -292,13 +293,13 @@ function turnLeft(rover){
             } else {
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
-                    rover.y -=velocity;
+                    rover.y -=rover.height*roverVelFac;
                     roverDimUpdate();
                 } else {
-                    scenario.y +=velocity;
-                    station1.y +=velocity;
+                    scenario.y +=rover.height*roverVelFac;
+                    station1.y +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.y += velocity;
+                        enemy.y += rover.height*roverVelFac;
                     });
                 }
             }
@@ -309,12 +310,12 @@ function turnLeft(rover){
             } else {
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
-                    rover.x +=velocity;
+                    rover.x +=rover.height*roverVelFac;
                 } else {
-                    scenario.x -=velocity;
-                    station1.x -=velocity;
+                    scenario.x -=rover.height*roverVelFac;
+                    station1.x -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.x -= velocity;
+                        enemy.x -= rover.height*roverVelFac;
                     });
                 }
             }
@@ -325,13 +326,13 @@ function turnLeft(rover){
             } else {
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
-                    rover.y +=velocity;
+                    rover.y +=rover.height*roverVelFac;
                     roverDimUpdate();
                 } else {
-                    scenario.y -=velocity;
-                    station1.y -=velocity;
+                    scenario.y -=rover.height*roverVelFac;
+                    station1.y -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.y -= velocity;
+                        enemy.y -= rover.height*roverVelFac;
                     });
                 }
             }
@@ -347,12 +348,12 @@ function turnLeft(rover){
                 }
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
-                        rover.x -=velocity;
+                        rover.x -=rover.height*roverVelFac;
                 } else {
-                    scenario.x +=velocity;
-                    station1.x +=velocity;
+                    scenario.x +=rover.height*roverVelFac;
+                    station1.x +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
-                        enemy.x += velocity;
+                        enemy.x += rover.height*roverVelFac;
                     });
                 }
             }
