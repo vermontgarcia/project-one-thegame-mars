@@ -30,7 +30,30 @@ class Rover extends Item{
         this.image = new Image();
         this.image.src = './images/RoverEast.png';
         this.damage = 10;
+        this.energy = 100;
+        this.condition = 100;
+        }
+
+    boundaries(){
+        //Scenario North
+        if (rover.y - scenario.y < scenario.y + scenario.height*0.53){  ///rover.y - rover.height/2 - velocity*2 < northBoundary
+            rover.y +=1;
+            console.log('Scenario Restriction')
+            return true;            
+        } 
+        //Station
+        //if (distance(this.x + this.width/2 ,this.y + this.height/2, station1.x + station1.width/2, station1.y+station1.height/2 )< station1.width/2){
+        //    console.log('Station Restriction')
+        //    return true;            
+        //} 
+        //Obstacles
+        
+        
+        //No restrictions
+        return false;
+        
     }
+
     draw(){
         //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         roverDimUpdate();
@@ -47,30 +70,68 @@ class Enemy extends Item{
     }
     draw(direction){
         if ((frames / 10) % 2 === 0){
-            //let direction = Math.pow(-1, Math.floor(Math.random()*10));
+            var distanceCharacter = distance(this.x, this.y, rover.x, rover.y);
             
-            let vel=0.1;
-            switch(direction){
-                case 'NW':
-                    this.image.src = './images/Enemy.png';
-                    this.x -= Math.floor(Math.random()*this.width*vel);
-                    this.y -= Math.floor(Math.random()*this.width*vel);
-                break;
-                case 'NE':
-                    this.image.src = './images/Enemy2.png';
-                    this.x += Math.floor(Math.random()*this.width*vel);
-                    this.y -= Math.floor(Math.random()*this.width*vel);
-                break;
-                case 'SW':
-                    this.image.src = './images/Enemy.png';
-                    this.x -= Math.floor(Math.random()*this.width*vel);
-                    this.y += Math.floor(Math.random()*this.width*vel);
-                break;
-                case 'SE':
-                    this.image.src = './images/Enemy2.png';
-                    this.x += Math.floor(Math.random()*this.width*vel);
-                    this.y += Math.floor(Math.random()*this.width*vel);
-                break;
+            if(distanceCharacter < rover.height * roverSDFactor){
+                let vel = 0.2;
+                switch(direction){
+                    case 'NW':
+                        this.image.src = './images/Enemy.png';
+                        this.x -= Math.floor(Math.random()*this.width*vel);
+                        this.y -= Math.floor(Math.random()*this.width*vel);
+                    break;
+                    case 'NE':
+                        this.image.src = './images/Enemy2.png';
+                        this.x += Math.floor(Math.random()*this.width*vel);
+                        this.y -= Math.floor(Math.random()*this.width*vel);
+                    break;
+                    case 'SW':
+                        this.image.src = './images/Enemy.png';
+                        this.x -= Math.floor(Math.random()*this.width*vel);
+                        this.y += Math.floor(Math.random()*this.width*vel);
+                    break;
+                    case 'SE':
+                        this.image.src = './images/Enemy2.png';
+                        this.x += Math.floor(Math.random()*this.width*vel);
+                        this.y += Math.floor(Math.random()*this.width*vel);
+                    break;
+                } 
+            
+            } else {    
+                let vel = 0.05;
+
+                if (Math.floor(Math.random()*2)===1){
+                    //console.log('Direction')
+                    switch(direction){
+                        case 'NW':
+                            this.image.src = './images/Enemy.png';
+                            this.x -= Math.floor(Math.random()*this.width*vel);
+                            this.y -= Math.floor(Math.random()*this.width*vel);
+                        break;
+                        case 'NE':
+                            this.image.src = './images/Enemy2.png';
+                            this.x += Math.floor(Math.random()*this.width*vel);
+                            this.y -= Math.floor(Math.random()*this.width*vel);
+                        break;
+                        case 'SW':
+                            this.image.src = './images/Enemy.png';
+                            this.x -= Math.floor(Math.random()*this.width*vel);
+                            this.y += Math.floor(Math.random()*this.width*vel);
+                        break;
+                        case 'SE':
+                            this.image.src = './images/Enemy2.png';
+                            this.x += Math.floor(Math.random()*this.width*vel);
+                            this.y += Math.floor(Math.random()*this.width*vel);
+                        break;
+                    } 
+                } else {
+                    //console.log('No dierection')
+                    let direction = Math.pow(-1, Math.floor(Math.random()*3));
+                    //console.log('direction', direction)
+                    this.x -= Math.floor(Math.random()*this.width*vel)*direction;
+                    direction = Math.pow(-1, Math.floor(Math.random()*3));
+                    this.y -= Math.floor(Math.random()*this.width*vel)*direction;
+                }
             }            
         }
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);

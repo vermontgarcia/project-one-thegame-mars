@@ -22,13 +22,18 @@ var frames = 0;
 var velocity = 5;
 var roverVelFac = 0.05;
 var enemies = [];
-var scenarioScale = 2;
-var itemScale = 0.3;
+var scenarioScale = 1;
+var itemScale = 0.35;
+var roverSDFactor = 3;
 var deepFactorRover;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
+
+
 var borderError = "Error trying to excced the grid borders";
 
+var northBoundary;
+var stationBoundary;
 
 //Defining constants
 const roverHeight = 300;
@@ -44,22 +49,37 @@ var scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scen
 
 deepFactorRover = (canvas.height/2 - scenario.y)/scenario.height;
 //var rover = new Rover(scenario.x + scenario.width*(0.5/scenarioScale), scenario.y + scenario.height * (0.5*scenarioScale), roverWidthSide*itemScale*deepFactorRover, roverHeight*itemScale*deepFactorRover);
-var rover = new Rover(canvas.width*0.5, canvas.height*0.5, roverWidthSide*itemScale*deepFactorRover, roverHeight*itemScale*deepFactorRover);
 
 var station1 = new Station(scenario.x + scenario.width*0.8, scenario.y + scenario.height*0.5,stationWidth*scenarioScale,stationHeight*scenarioScale);
 
-console.log('scenario x, y, w & h ', scenario.x, scenario.y, scenario.width, scenario.height)
-console.log('rover x, y, w & h ', rover.x, rover.y, rover.width, rover.height)
-console.log('station1 x, y, w & h ', station1.x, station1.y, station1.width, station1.height)
+var rover = new Rover(canvas.width*0.25, canvas.height*0.75, roverWidthSide*itemScale*deepFactorRover, roverHeight*itemScale*deepFactorRover);
+//console.log('scenario x, y, w & h ', scenario.x, scenario.y, scenario.width, scenario.height)
+//console.log('rover x, y, w & h ', rover.x, rover.y, rover.width, rover.height)
+//console.log('station1 x, y, w & h ', station1.x, station1.y, station1.width, station1.height)
 
 //Defining auxiliar functions
 
 function startGame(){
+
+    //Initializing variables
+    northBoundary = scenario.y + scenario.height*0.53;
+    
+
+
+
+
     interval = setInterval(function(){
         frames++;
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         scenario.draw();
         station1.draw();
+        
+        //Auxiliar drowings
+        ctx.beginPath();    
+        ctx.arc(station1.x + station1.width/2, station1.y + station1.height/2, station1.width/2, 0, Math.PI*2, false)
+        ctx.stroke();
+        /////
+
         generateEnemies();
         rover.draw();
         drawEnemies();
@@ -67,7 +87,7 @@ function startGame(){
 }
 
 function distance(x1,y1,x2,y2){
-    return Math.sqrt((Math.pow(x2,x1)+Math.pow(y2-y1)));
+    return Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));
 }
 
 function enemyDirection(enemy,rover){
@@ -111,7 +131,7 @@ function generateEnemies(){
         let height = enemyHeight*itemScale;
         let x = scenario.x + Math.floor(Math.random()*scenario.width)-width;
         let y = scenario.y + Math.floor(Math.random()*scenario.height)-height;
-        if(y > scenario.y + scenario.height/2){
+        if(y > northBoundary && distance(x,y,rover.x,rover.y) > rover.height * roverSDFactor){
             let enemy = new Enemy(x,y,width,height)
             enemies.push(enemy);
         }
@@ -212,14 +232,16 @@ function turnLeft(rover){
     //roverDimUpdate();
     switch (actualDirection){
         case "N":
-            if (rover.y - rover.height/2 - velocity*2 < 0){
+            if (rover.y - rover.height/2 - velocity*2 < 0 || rover.boundaries(actualDirection)){
+                //rover.y += 3;
                 console.log(borderError);
             } else {
-
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
-                    || rover.y - scenario.y < canvas.height/2){
+                || rover.y - scenario.y < canvas.height/2){
+                    //Scenario fixed, Character moving
                     rover.y -= rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.y +=rover.height*roverVelFac;
                     station1.y +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -229,7 +251,8 @@ function turnLeft(rover){
             }
         break;
         case "E":
-            if (rover.x + rover.width/2 + velocity*2 > canvas.width){
+            if (rover.x + rover.width/2 + velocity*2 > canvas.width || rover.boundaries()){
+                //rover.x -= 3;
                 console.log(borderError);
             } else {
                 if (frames%2 === 0){
@@ -239,8 +262,10 @@ function turnLeft(rover){
                 }
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
+                    //Scenario fixed, Character moving
                     rover.x +=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.x -=rover.height*roverVelFac;
                     station1.x -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -250,13 +275,16 @@ function turnLeft(rover){
             }
         break;
         case "S":
-            if (rover.y + rover.height/2 + velocity*2 > canvas.height){
+            if (rover.y + rover.height/2 + velocity*2 > canvas.height || rover.boundaries()){
+                //rover.y -= 3;
                 console.log(borderError);
             } else {
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                     || rover.y - scenario.y < canvas.height/2){
+                    //Scenario fixed, Character moving
                     rover.y +=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.y -=rover.height*roverVelFac;
                     station1.y -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -266,13 +294,16 @@ function turnLeft(rover){
             }    
         break;
         case "W":
-            if (rover.x - rover.width/2 - velocity*2 < 0){
+            if (rover.x - rover.width/2 - velocity*2 < 0 || rover.boundaries()){
+                //rover.x += 3;
                 console.log(borderError);
             } else {
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
-                        rover.x -=rover.height*roverVelFac;
+                    //Scenario fixed, Character moving
+                    rover.x -=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.x +=rover.height*roverVelFac;
                     station1.x +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -297,13 +328,16 @@ function turnLeft(rover){
     //roverDimUpdate();
     switch (actualDirection){
         case "S":
-            if (rover.y - rover.height/2 - velocity*2 < 0){
+            if (rover.y - rover.height/2 - velocity*2 < 0 || rover.boundaries()){
+                //rover.y += 3;
                 console.log(borderError);
             } else {
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
+                    //Scenario fixed, Character moving
                     rover.y -=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.y +=rover.height*roverVelFac;
                     station1.y +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -313,13 +347,16 @@ function turnLeft(rover){
             }
         break;
         case "W":
-            if (rover.x + rover.width/2 + velocity*2 > canvas.width){
+            if (rover.x + rover.width/2 + velocity*2 > canvas.width || rover.boundaries()){
+                //rover.x -= 3;
                 console.log(borderError);
             } else {
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
+                    //Scenario fixed, Character moving
                     rover.x +=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.x -=rover.height*roverVelFac;
                     station1.x -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -329,13 +366,16 @@ function turnLeft(rover){
             }
         break;
         case "N":
-            if (rover.y + rover.height/2 + velocity*2 > canvas.height){
+            if (rover.y + rover.height/2 + velocity*2 > canvas.height || rover.boundaries()){
+                //rover.y -= 3;
                 console.log(borderError);
             } else {
                 if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                     || rover.y - scenario.y < canvas.height/2){
+                    //Scenario fixed, Character moving
                     rover.y +=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.y -=rover.height*roverVelFac;
                     station1.y -=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -345,7 +385,8 @@ function turnLeft(rover){
             }
         break;
         case "E":
-            if (rover.x - rover.width/2 - velocity*2 < 0){
+            if (rover.x - rover.width/2 - velocity*2 < 0 || rover.boundaries()){
+                //rover.x += 3;
                 console.log(borderError);
             } else {
                 if (frames%2 === 0){
@@ -355,8 +396,10 @@ function turnLeft(rover){
                 }
                 if (rover.x - scenario.x < canvas.width/2 
                     || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
-                        rover.x -=rover.height*roverVelFac;
+                    //Scenario fixed, Character moving
+                    rover.x -=rover.height*roverVelFac;
                 } else {
+                    //Character fixed, Scenario moving
                     scenario.x +=rover.height*roverVelFac;
                     station1.x +=rover.height*roverVelFac;
                     enemies.forEach(function(enemy){
@@ -369,7 +412,6 @@ function turnLeft(rover){
         console.log("Direction not identified");
         break;
     }
-    console.log("Position (" + rover.x + "," + rover.y + ")");
     //updatePosition(rover, grid, "R");
     //printGrid(grid);
   }
