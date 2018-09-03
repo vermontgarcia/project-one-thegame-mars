@@ -48,7 +48,7 @@ const enemyHeight = 200;
 const enemyWidth = 160;
 const stationWidth = 200;
 const stationHeight = stationWidth * 0.4;
-const scale = 0.2/scenarioScale;
+const scale = 0.3/scenarioScale;
 
 //Creating instances
 var scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale);
@@ -79,6 +79,7 @@ function startGame(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         //Drawing map canvas
         mCtx.clearRect(0, 0, map.width, map.height);
+        mCtx.lineWidth = 3;
         
         
         scenario.draw();
@@ -91,9 +92,15 @@ function startGame(){
         /////
         
         
-        mCtx.beginPath();    
-        mCtx.arc(map.width/2, map.height/2, 10, 0, Math.PI*2, false)
+        mCtx.beginPath();
+        mCtx.moveTo(map.width/2,map.height/2-10);
+        mCtx.lineTo(map.width/2,map.height/2+10)
+        mCtx.moveTo(map.width/2-10,map.height/2);
+        mCtx.lineTo(map.width/2+10,map.height/2)
         mCtx.stroke();
+        //mCtx.beginPath();
+        //mCtx.arc(map.width/2, map.height/2, 13, 0, Math.PI*2, false)
+        //mCtx.stroke();
         
         
         generateEnemies();
@@ -424,6 +431,18 @@ function turnLeft(rover){
     //printGrid(grid);
   }
 
+  function toggleMap (){
+      $('.map').toggleClass('hide');
+  }
+  
+  function toggleSumary (){
+      $('.map').toggleClass('hide');
+  }
+  
+  function pauseGame (){
+      $('.map').toggleClass('hide');
+  }
+
 addEventListener('keydown', function(e){
     switch(e.keyCode){
         case 37:
@@ -441,6 +460,18 @@ addEventListener('keydown', function(e){
         case 40:
             //Move Backward
             moveBackward(rover);
+        break;
+        case 77:
+            //Toggle Map Visibility
+            toggleMap();
+        break;
+        case 80:
+            //Pause or resume the game
+            toggleMap();
+        break;
+        case 83:
+            //Show summary
+            toggleMap();
         break;
         default:
         break;        

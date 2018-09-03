@@ -71,6 +71,11 @@ class Rover extends Item{
         
         mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
 
+        mCtx.beginPath();
+        mCtx.strokeStyle = 'green';
+        mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
+        mCtx.stroke();
+        mCtx.strokeStyle = 'black';
     }
 }
 
@@ -144,11 +149,22 @@ class Enemy extends Item{
                     this.x -= Math.floor(Math.random()*this.width*vel)*direction;
                     direction = Math.pow(-1, Math.floor(Math.random()*3));
                     this.y -= Math.floor(Math.random()*this.width*vel)*direction;
+                    if (this.y < (scenario.height*0.55)+scenario.y){
+                        this.y+= 20;
+                    }
                 }
             }            
         }
+        //Main
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+
+        //Map
         mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+        mCtx.beginPath();
+        mCtx.strokeStyle = '#FF0000';
+        mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
+        mCtx.stroke();
+        mCtx.strokeStyle = '#000000';
     }
 }
 

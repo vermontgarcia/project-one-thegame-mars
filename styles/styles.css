@@ -14,8 +14,8 @@
 
 .map{
     position: fixed;
-    top: 10px;
-    left: 10px;
+    top: 2vh;
+    left: calc(50vw - 285px);
 }
 
 #map{
@@ -25,4 +25,8 @@
 #mars{
     width: 100%;
     height: 100%;
+}
+
+.hide{
+    display: none;
 }
