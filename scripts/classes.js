@@ -62,6 +62,13 @@ class Rover extends Item{
         */
     }
 
+    collition(item){
+        return (this.x < item.width) &&
+            (this.x + this.width > item.x) &&
+            (this.y < item.y + item.height) &&
+            (this.y + this.height > item.y);
+    }
+
     draw(){
         //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         roverDimUpdate();

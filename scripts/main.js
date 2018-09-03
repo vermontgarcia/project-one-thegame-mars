@@ -169,6 +169,10 @@ function drawEnemies (){
         enemy.height = enemyHeight * itemScale * deepFactorEnemie;
 
         enemy.draw(enemyDirection(enemy,rover),deepFactorEnemie);
+
+        if(rover.collition(enemy)){
+            console.log('damage')
+        }
     })
 }
 
