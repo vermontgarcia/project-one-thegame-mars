@@ -12,6 +12,16 @@
     overflow: hidden;
 }
 
+.map{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+#map{
+    border: 1px solid black;
+}
+
 #mars{
     width: 100%;
     height: 100%;

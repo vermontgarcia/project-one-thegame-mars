@@ -20,6 +20,7 @@ class Scenario extends Item{
         //if(this.x < -canvas.width) this.x = 0;
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         //ctx.drawImage(this.image, this.x+this.width, this.y, this.width, this.height);
+        mCtx.drawImage(this.image, 0, 0, map.width, map.height);
     }
 }
 
@@ -35,6 +36,13 @@ class Rover extends Item{
         }
 
     boundaries(){
+
+
+
+
+
+
+        /*
         //Scenario North
         if (rover.y - scenario.y < scenario.y + scenario.height*0.53){  ///rover.y - rover.height/2 - velocity*2 < northBoundary
             rover.y +=1;
@@ -51,13 +59,18 @@ class Rover extends Item{
         
         //No restrictions
         return false;
-        
+        */
     }
 
     draw(){
         //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         roverDimUpdate();
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        
+        //Map drawing
+        
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+
     }
 }
 
@@ -135,6 +148,7 @@ class Enemy extends Item{
             }            
         }
         ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
     }
 }
 
@@ -164,6 +178,7 @@ class Station extends Item{
     }
     draw(){
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        mCtx.drawImage(this.image, (this.x-scenario.x)*scale, (this.y-scenario.y)*scale, this.width*scale, this.height*scale);
     }
 }
 
