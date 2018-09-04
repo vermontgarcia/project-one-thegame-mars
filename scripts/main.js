@@ -32,8 +32,9 @@ var itemScale = 0.35;
 var roverSDFactor = 3;
 var deepFactorRover;
 var deepFactorEnemie;
-var enemiesQuantity = 20;
+var enemiesQuantity = 40;
 
+var gameState = 'inactive';
 
 var borderError = "Error trying to excced the grid borders";
 
@@ -66,6 +67,7 @@ var rover = new Rover(canvas.width*0.25, canvas.height*0.75, roverWidthSide*item
 //Defining auxiliar functions
 
 function startGame(){
+    gameState = 'active';
 
     //Initializing variables
     northBoundary = scenario.height - scenario.height*0.53;
@@ -116,16 +118,16 @@ function distance(x1,y1,x2,y2){
 
 function enemyDirection(enemy,rover){
     let direction = '';
-    if(enemy.y > rover.y){
+    if(enemy.y + enemy.height*0.5 > rover.y + rover.height * 0.5){
         direction += 'N'
-        if (enemy.x > rover.x){
+        if (enemy.x + enemy.width * 0.5 > rover.x + rover.width * 0.5){
             direction += 'W'
         } else {
             direction += 'E';
         }
     } else {
         direction += 'S'
-        if (enemy.x > rover.x){
+        if (enemy.x + enemy.width * 0.5 > rover.x + rover.width * 0.5){
             direction += 'W'
         } else {
             direction += 'E';
@@ -135,6 +137,8 @@ function enemyDirection(enemy,rover){
 }
 
 function gameOver(){
+    gameState = 'gameOver';
+    clearInterval(interval);
 
 }
 
@@ -262,9 +266,9 @@ function turnLeft(rover){
     switch (actualDirection){
         case "N":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverNorth2.png';
+                rover.image.src = './images/RoverNorth2.png';
             } else {
-                rover.image.src = '../images/RoverNorth.png';
+                rover.image.src = './images/RoverNorth.png';
             }
             if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
             || rover.y - scenario.y < canvas.height/2){
@@ -281,9 +285,9 @@ function turnLeft(rover){
         break;
         case "E":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverEast2.png';
+                rover.image.src = './images/RoverEast2.png';
             } else {
-                rover.image.src = '../images/RoverEast.png';
+                rover.image.src = './images/RoverEast.png';
             }
             if (rover.x - scenario.x < canvas.width/2 
                 || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
@@ -300,9 +304,9 @@ function turnLeft(rover){
         break;
         case "S":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverSouth2.png';
+                rover.image.src = './images/RoverSouth2.png';
             } else {
-                rover.image.src = '../images/RoverSouth.png';
+                rover.image.src = './images/RoverSouth.png';
             }
             if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                 || rover.y - scenario.y < canvas.height/2){
@@ -319,9 +323,9 @@ function turnLeft(rover){
         break;
         case "W":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverWest2.png';
+                rover.image.src = './images/RoverWest2.png';
             } else {
-                rover.image.src = '../images/RoverWest.png';
+                rover.image.src = './images/RoverWest.png';
             }
             if (rover.x - scenario.x < canvas.width/2 
                 || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
@@ -353,9 +357,9 @@ function turnLeft(rover){
     switch (actualDirection){
         case "S":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverSouth2.png';
+                rover.image.src = './images/RoverSouth2.png';
             } else {
-                rover.image.src = '../images/RoverSouth.png';
+                rover.image.src = './images/RoverSouth.png';
             }
             if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                 || rover.y - scenario.y < canvas.height/2){
@@ -372,9 +376,9 @@ function turnLeft(rover){
         break;
         case "W":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverWest2.png';
+                rover.image.src = './images/RoverWest2.png';
             } else {
-                rover.image.src = '../images/RoverWest.png';
+                rover.image.src = './images/RoverWest.png';
             }
             if (rover.x - scenario.x < canvas.width/2 
                 || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
@@ -391,9 +395,9 @@ function turnLeft(rover){
         break;
         case "N":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverNorth2.png';
+                rover.image.src = './images/RoverNorth2.png';
             } else {
-                rover.image.src = '../images/RoverNorth.png';
+                rover.image.src = './images/RoverNorth.png';
             }
             if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
                 || rover.y - scenario.y < canvas.height/2){
@@ -410,9 +414,9 @@ function turnLeft(rover){
         break;
         case "E":
             if (frames%2 === 0){
-                rover.image.src = '../images/RoverEast2.png';
+                rover.image.src = './images/RoverEast2.png';
             } else {
-                rover.image.src = '../images/RoverEast.png';
+                rover.image.src = './images/RoverEast.png';
             }
             if (rover.x - scenario.x < canvas.width/2 
                 || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
@@ -443,8 +447,14 @@ function turnLeft(rover){
       $('.map').toggleClass('hide');
   }
   
-  function pauseGame (){
-      $('.map').toggleClass('hide');
+  function pauseResumeGame (){
+      if (gameState === 'active'){
+          gameState = 'paused';
+          clearInterval(interval);
+      } else if (gameState = 'paused') {
+          gameState = 'active';
+          startGame();
+      }
   }
 
 addEventListener('keydown', function(e){
@@ -471,7 +481,7 @@ addEventListener('keydown', function(e){
         break;
         case 80:
             //Pause or resume the game
-            toggleMap();
+            pauseResumeGame();
         break;
         case 83:
             //Show summary

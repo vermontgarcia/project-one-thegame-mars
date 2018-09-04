@@ -31,7 +31,7 @@ class Rover extends Item{
         this.image = new Image();
         this.image.src = './images/RoverEast.png';
         this.dischargeImage = new Image();
-        this.dischargeImage.src = '../images/discharge.png';
+        this.dischargeImage.src = './images/discharge.png';
         this.damage = 1;
         this.energy = 100;
         this.condition = 10000;
@@ -75,6 +75,7 @@ class Rover extends Item{
     receiveDamage(enemy){
         this.condition -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
+        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenario.x) * scale, (this.y - this.height - scenario.y)*scale, this.width*2*scale, this.height*2*scale);
         console.log('Rover ',this.condition);
 
     }
@@ -126,7 +127,7 @@ class Enemy extends Item{
 
     draw(direction){
         if ((frames / 10) % 2 === 0){
-            var distanceCharacter = distance(this.x, this.y, rover.x, rover.y);
+            var distanceCharacter = distance(this.x + this.width * 0.5, this.y + this.height * 0.5, rover.x + rover.width * 0.5, rover.y + rover.height * 0.5);
             
             if(distanceCharacter < rover.height * roverSDFactor){
                 let vel = 0.2;
