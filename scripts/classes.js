@@ -30,9 +30,11 @@ class Rover extends Item{
         this.direction = 'E';
         this.image = new Image();
         this.image.src = './images/RoverEast.png';
-        this.damage = 10;
+        this.dischargeImage = new Image();
+        this.dischargeImage.src = '../images/discharge.png';
+        this.damage = 1;
         this.energy = 100;
-        this.condition = 100;
+        this.condition = 10000;
         }
 
     boundaries(){
@@ -62,18 +64,35 @@ class Rover extends Item{
         */
     }
 
-    collition(item){
-        return (this.x < item.width) &&
-            (this.x + this.width > item.x) &&
-            (this.y < item.y + item.height) &&
-            (this.y + this.height > item.y);
+    collition(enemy){
+        //console.log('testing');
+        return (this.x < enemy.x + enemy.width) &&
+            (this.x + this.width > enemy.x) &&
+            (this.y + this.height*0.3 < enemy.y + enemy.height) &&
+            (this.y + this.height*0.8 > enemy.y);
+    }
+
+    receiveDamage(enemy){
+        this.condition -= enemy.damage;
+        ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
+        console.log('Rover ',this.condition);
+
     }
 
     draw(){
         //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         roverDimUpdate();
-        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
         
+        ctx.beginPath();
+        ctx.moveTo(this.x,this.y+this.height*0.3)
+        ctx.lineTo(this.x + this.width, this.y+this.height*0.3)
+        ctx.lineTo(this.x + this.width, this.y+this.height*0.8);
+        ctx.lineTo(this.x, this.y+this.height*0.8);
+        ctx.lineTo(this.x, this.y+this.height*0.3);
+        ctx.stroke();
+
         //Map drawing
         
         mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
@@ -83,6 +102,7 @@ class Rover extends Item{
         mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
         mCtx.stroke();
         mCtx.strokeStyle = 'black';
+
     }
 }
 
@@ -92,7 +112,18 @@ class Enemy extends Item{
         this.direction = 'N';
         this.image = new Image();
         this.image.src = './images/Enemy2.png';
+        this.damage = 1;
+        this.health = 100;
     }
+
+    receiveDamage(item, index){
+        this.health -= item.damage;
+        console.log ('enemy ',index, 'health ', this.health)
+        if (this.health <= 0){
+            enemies.splice(index,1);
+        }
+    }
+
     draw(direction){
         if ((frames / 10) % 2 === 0){
             var distanceCharacter = distance(this.x, this.y, rover.x, rover.y);
@@ -163,7 +194,15 @@ class Enemy extends Item{
             }            
         }
         //Main
-        ctx.drawImage(this.image, this.x-this.width/2, this.y-this.height/2, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+        ctx.beginPath();
+        ctx.moveTo(this.x,this.y)
+        ctx.lineTo(this.x + this.width, this.y)
+        ctx.lineTo(this.x + this.width, this.y + this.height);
+        ctx.lineTo(this.x, this.y + this.height);
+        ctx.lineTo(this.x, this.y);
+        ctx.stroke();
 
         //Map
         mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);

@@ -163,17 +163,17 @@ function generateEnemies(){
 }
 
 function drawEnemies (){
-    enemies.forEach(function(enemy){
+    enemies.forEach(function(enemy, index){
         deepFactorEnemie = (enemy.y - scenario.y)/scenario.height;
         enemy.width = enemyWidth * itemScale * deepFactorEnemie;
         enemy.height = enemyHeight * itemScale * deepFactorEnemie;
-
         enemy.draw(enemyDirection(enemy,rover),deepFactorEnemie);
-
+        
         if(rover.collition(enemy)){
-            console.log('damage')
+            rover.receiveDamage(enemy);
+            enemy.receiveDamage(rover,index);
         }
-    })
+    });
 }
 
 
@@ -340,7 +340,7 @@ function turnLeft(rover){
             console.log("Direction not identified");
         break;
     }
-    console.log("Position (" + rover.x + "," + rover.y + ")" );
+    //console.log("Position (" + rover.x + "," + rover.y + ")" );
     //updatePosition(rover, grid, "R");
     //printGrid(grid);
   }
