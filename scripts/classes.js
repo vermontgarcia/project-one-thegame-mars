@@ -248,16 +248,18 @@ class Spaceman extends Item{
         spacemanDimUpdate();
 
         //Main drawing
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-
-        //Map drawing
-        mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
-
-        mCtx.beginPath();
-        mCtx.strokeStyle = 'green';
-        mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
-        mCtx.stroke();
-        mCtx.strokeStyle = 'black';
+        if (characterActive === 'spaceman'){
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    
+            //Map drawing
+            mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+    
+            mCtx.beginPath();
+            mCtx.strokeStyle = 'green';
+            mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
+            mCtx.stroke();
+            mCtx.strokeStyle = 'black';
+        }
 
     }
 }

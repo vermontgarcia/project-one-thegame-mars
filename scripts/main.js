@@ -54,7 +54,7 @@ const enemyHeight = 200;
 const enemyWidth = 160;
 const stationWidth = 200;
 const stationHeight = stationWidth * 0.4;
-const scale = 0.3/scenarioScale;
+const scale = (map.width/canvas.width)/scenarioScale;
 
 //Creating instances
 var scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale);
@@ -164,6 +164,18 @@ function spacemanDimUpdate(){
     deepFactorSpaceman = (spaceman.y - scenario.y)/scenario.height;
     spaceman.height = spacemanHeight * deepFactorSpaceman * itemScale;
     spaceman.width = spacemanWidth * deepFactorSpaceman * itemScale;
+}
+
+function gettingInRover(){
+    if (distance(spaceman.x + spaceman.width*0.5, spaceman.y, rover.x + rover.width*0.8, rover.y + rover.height * 0.2 ) <= spaceman.width){
+        characterActive = 'rover';
+    }
+}
+
+function gettingOutRover(){
+    spaceman.x = rover.x + rover.width*0.8;
+    spaceman.y = rover.y + rover.height * 0.5;
+    characterActive = 'spaceman';
 }
 
 function generateEnemies(){
@@ -546,14 +558,15 @@ function toggleSumary (){
 }
 
 function pauseResumeGame (){
+
     if (gameState === 'active'){
         gameState = 'paused';
         clearInterval(interval);
     } else if (gameState = 'paused') {
         gameState = 'active';
-          startGame();
-        }
+        startGame();
     }
+}
     
 
 
@@ -564,7 +577,7 @@ addEventListener('keydown', function(e){
    
 
     if (gameState === 'inactive' || gameState === 'paused'){
-        console.log('game Inactive',key);
+        console.log('game Inactive', key);
         if (key.keyCode === 80) startGame();
 
     } else if (gameState === 'active'){
@@ -600,6 +613,10 @@ addEventListener('keydown', function(e){
                     //Show summary
                     toggleMap();
                 break;
+                case 85:
+                    //Spaceman getting in the Rover
+                    gettingInRover();
+                break;
                 default:
                 break;        
             }
@@ -622,6 +639,10 @@ addEventListener('keydown', function(e){
                 case 40:
                     //Move Backward
                     moveBackward(rover);
+                break;
+                case 68:
+                    //Spaceman getting out of the Rover
+                    gettingOutRover();
                 break;
                 case 77:
                     //Toggle Map Visibility
