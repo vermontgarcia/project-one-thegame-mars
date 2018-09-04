@@ -13,7 +13,7 @@ class Scenario extends Item{
     constructor(x,y,width,height){
         super(x,y,width,height)
         this.image = new Image();
-        this.image.src = './images/MarsLandsCape.png';
+        this.image.src = './images/MarsScenario1.png';
     } 
     draw (){
         //this.x--;
@@ -83,6 +83,8 @@ class Rover extends Item{
     draw(){
         //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         roverDimUpdate();
+
+        //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
         
@@ -194,7 +196,7 @@ class Enemy extends Item{
                 }
             }            
         }
-        //Main
+        //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 
         ctx.beginPath();
@@ -205,7 +207,7 @@ class Enemy extends Item{
         ctx.lineTo(this.x, this.y);
         ctx.stroke();
 
-        //Map
+        //Map drawing
         mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
         mCtx.beginPath();
         mCtx.strokeStyle = '#FF0000';
@@ -215,11 +217,47 @@ class Enemy extends Item{
     }
 }
 
-class Astronaut extends Item{
-    constructor(){
+class Spaceman extends Item{
+    constructor(x,y,width,height){
+        super(x,y,width,height);
+        this.direction = 'E';
+        this.image = new Image();
+        this.image.src = './images/SpacemanEast.png';
+        this.dischargeImage = new Image();
+        this.dischargeImage.src = './images/discharge.png';
+        this.damage = 1;
+        this.energy = 100;
+        this.oxigen = 100;
+        this.health = 100;
+    }
+
+    collition(enemy){
+        return (this.x < enemy.x + enemy.width) &&
+            (this.x + this.width > enemy.x) &&
+            (this.y + this.height*0.3 < enemy.y + enemy.height) &&
+            (this.y + this.height*0.8 > enemy.y);
+    }
+
+    receiveDamage(){
 
     }
+
+
     draw(){
+
+        spacemanDimUpdate();
+
+        //Main drawing
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+        //Map drawing
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+
+        mCtx.beginPath();
+        mCtx.strokeStyle = 'green';
+        mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
+        mCtx.stroke();
+        mCtx.strokeStyle = 'black';
 
     }
 }
