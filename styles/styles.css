@@ -10,18 +10,19 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    flex-direction: column;
 }
 
 .map{
-    position: fixed;
+   position: fixed;
     top: 2vh;
-    left: calc(50vw - 285px);
 }
 
 #map{
     border: 1px solid black;
     border-radius: 25px;
-    
+    width: 30vw;
+    height: 30vh;
 }
 
 #mars{

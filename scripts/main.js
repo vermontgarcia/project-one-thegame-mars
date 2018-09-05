@@ -1,6 +1,6 @@
-    //Linking main canvas
-    var canvas = document.getElementById('mars');
-    var ctx = canvas.getContext('2d');
+//Linking main canvas
+var canvas = document.getElementById('mars');
+var ctx = canvas.getContext('2d');
     
 //Linking map canvas
 var map = document.getElementById('map');
@@ -72,6 +72,19 @@ var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth
 //console.log('station1 x, y, w & h ', station1.x, station1.y, station1.width, station1.height)
 
 //Defining auxiliar functions
+
+function isMobile(){
+    return (
+        (navigator.userAgent.match (/Android/i)) ||
+        (navigator.userAgent.match (/webOS/i)) ||
+        (navigator.userAgent.match (/iPhone/i)) ||
+        (navigator.userAgent.match (/iPad/i)) ||
+        (navigator.userAgent.match (/iPod/i)) ||
+        (navigator.userAgent.match (/BlackBerry/i))        
+    )
+}
+
+console.log('device', isMobile());
 
 function startGame(){
     gameState = 'active';
