@@ -76,7 +76,7 @@ class Rover extends Item{
         this.condition -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
         mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenario.x) * scale, (this.y - this.height - scenario.y)*scale, this.width*2*scale, this.height*2*scale);
-        console.log('Rover ',this.condition);
+        //console.log('Rover ',this.condition);
 
     }
 
@@ -121,7 +121,7 @@ class Enemy extends Item{
 
     receiveDamage(item, index){
         this.health -= item.damage;
-        console.log ('enemy ',index, 'health ', this.health)
+        //console.log ('enemy ',index, 'health ', this.health)
         if (this.health <= 0){
             enemies.splice(index,1);
         }
@@ -184,7 +184,7 @@ class Enemy extends Item{
                         break;
                     } 
                 } else {
-                    //console.log('No dierection')
+                    //console.log('No direction')
                     let direction = Math.pow(-1, Math.floor(Math.random()*3));
                     //console.log('direction', direction)
                     this.x -= Math.floor(Math.random()*this.width*vel)*direction;

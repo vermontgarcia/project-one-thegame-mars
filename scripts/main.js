@@ -85,6 +85,8 @@ function isMobile(){
 }
 
 console.log('device', isMobile());
+ctx.font = '55px serif';
+ctx.fillText(isMobile(), 100, 100);
 
 function startGame(){
     gameState = 'active';
@@ -307,37 +309,37 @@ function spacemanWest(){
 function turnLeft(rover){
     let actualDirection = rover.direction;
     let newDirection;
-    console.log("turnLeft");
+    //console.log("turnLeft");
     switch (actualDirection){
         case "N":
         newDirection = "W";
         rover.image.src = './images/RoverWest.png';
         rover.width = rover.height*1.38; 
-        console.log("Head West");
+        //console.log("Head West");
       break;
       case "E":
       newDirection = "N";
       rover.image.src = './images/RoverNorth.png';
       rover.width = rover.height; 
-      console.log("Head North");
+      //console.log("Head North");
       break;
       case "S":
       newDirection = "E";
         rover.image.src = './images/RoverEast.png';
         rover.width = rover.height*1.38; 
-        console.log("Head East");
+        //console.log("Head East");
         break;
         case "W":
         newDirection = "S";
         rover.image.src = './images/RoverSouth.png';
         rover.width = rover.height;
-        console.log("Head South");
+        //console.log("Head South");
         break;
         default:
-        console.log("Direction not identified");
+        //console.log("Direction not identified");
         break;
     }
-    console.log("Position (" + rover.x + "," + rover.y + ")");
+    //console.log("Position (" + rover.x + "," + rover.y + ")");
     //printGrid(grid);
     rover.direction = newDirection;  
 }
@@ -345,37 +347,37 @@ function turnLeft(rover){
 function turnRight(rover){
     let actualDirection = rover.direction;
     let newDirection;
-    console.log("turnRight");
+    //console.log("turnRight");
     switch (actualDirection){
         case "N":
         newDirection = "E";
         rover.image.src = './images/RoverEast.png';
         rover.width = rover.height*1.38; 
-        console.log("Head East");
+        //console.log("Head East");
       break;
       case "E":
       newDirection = "S";
       rover.image.src = './images/RoverSouth.png';
         rover.width = rover.height; 
-        console.log("Head South");
+        //console.log("Head South");
       break;
       case "S":
         newDirection = "W";
         rover.image.src = './images/RoverWest.png';
         rover.width = rover.height*1.38; 
-        console.log("Head West");
+        //console.log("Head West");
         break;
         case "W":
         newDirection = "N";
         rover.image.src = './images/RoverNorth.png';
         rover.width = rover.height; 
-        console.log("Head North");
+        //console.log("Head North");
         break;
       default:
-      console.log("Direction not identified");
+      //console.log("Direction not identified");
       break;
     }
-    console.log("Position (" + rover.x + "," + rover.y + ")");
+    //console.log("Position (" + rover.x + "," + rover.y + ")");
     //printGrid(grid);
     rover.direction = newDirection;  
 }
@@ -383,7 +385,7 @@ function turnRight(rover){
 function moveForward(rover){
 let actualDirection = rover.direction;
 //updatePosition(rover, grid, "*");  
-console.log("moveForward");
+//console.log("moveForward");
 //roverDimUpdate();
 
 switch (actualDirection){
@@ -464,7 +466,7 @@ switch (actualDirection){
         }
     break;
     default:
-        console.log("Direction not identified");
+        //console.log("Direction not identified");
     break;
 }
 //console.log("Position (" + rover.x + "," + rover.y + ")" );
@@ -475,7 +477,7 @@ switch (actualDirection){
 function moveBackward(rover){
     var actualDirection = rover.direction;
     //updatePosition(rover, grid, "*");
-    console.log("moveBackward");
+    //console.log("moveBackward");
     //roverDimUpdate();
     switch (actualDirection){
         case "S":
@@ -555,7 +557,7 @@ function moveBackward(rover){
             }
             break;
         default:
-        console.log("Direction not identified");
+        //console.log("Direction not identified");
         break;
     }
     //updatePosition(rover, grid, "R");
@@ -586,15 +588,15 @@ function pauseResumeGame (){
 var key; 
 addEventListener('keydown', function(e){
     key = e;
-    console.log(key);
+    //console.log(key);
    
 
     if (gameState === 'inactive' || gameState === 'paused'){
-        console.log('game Inactive', key);
+        //console.log('game Inactive', key);
         if (key.keyCode === 80) startGame();
 
     } else if (gameState === 'active'){
-        this.console.log('game active', key)
+        //console.log('game active', key)
         if (characterActive === 'spaceman'){
             
             switch(key.keyCode){
