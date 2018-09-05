@@ -311,25 +311,25 @@ function turnLeft(rover){
     switch (actualDirection){
         case "N":
         newDirection = "W";
-        rover.image.src = '../images/RoverWest.png';
+        rover.image.src = './images/RoverWest.png';
         rover.width = rover.height*1.38; 
         console.log("Head West");
       break;
       case "E":
       newDirection = "N";
-      rover.image.src = '../images/RoverNorth.png';
+      rover.image.src = './images/RoverNorth.png';
       rover.width = rover.height; 
       console.log("Head North");
       break;
       case "S":
       newDirection = "E";
-        rover.image.src = '../images/RoverEast.png';
+        rover.image.src = './images/RoverEast.png';
         rover.width = rover.height*1.38; 
         console.log("Head East");
         break;
         case "W":
         newDirection = "S";
-        rover.image.src = '../images/RoverSouth.png';
+        rover.image.src = './images/RoverSouth.png';
         rover.width = rover.height;
         console.log("Head South");
         break;
@@ -349,25 +349,25 @@ function turnRight(rover){
     switch (actualDirection){
         case "N":
         newDirection = "E";
-        rover.image.src = '../images/RoverEast.png';
+        rover.image.src = './images/RoverEast.png';
         rover.width = rover.height*1.38; 
         console.log("Head East");
       break;
       case "E":
       newDirection = "S";
-      rover.image.src = '../images/RoverSouth.png';
+      rover.image.src = './images/RoverSouth.png';
         rover.width = rover.height; 
         console.log("Head South");
       break;
       case "S":
         newDirection = "W";
-        rover.image.src = '../images/RoverWest.png';
+        rover.image.src = './images/RoverWest.png';
         rover.width = rover.height*1.38; 
         console.log("Head West");
         break;
         case "W":
         newDirection = "N";
-        rover.image.src = '../images/RoverNorth.png';
+        rover.image.src = './images/RoverNorth.png';
         rover.width = rover.height; 
         console.log("Head North");
         break;
