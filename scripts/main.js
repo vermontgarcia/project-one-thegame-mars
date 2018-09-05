@@ -28,13 +28,13 @@ var velocity = 5;
 var roverVelFac = 0.05;
 var spacemanVelFac = 0.1;
 var enemies = [];
-var scenarioScale = 4;
+var scenarioScale = 3;
 var itemScale = 0.75;
 var roverSDFactor = 3;
 var deepFactorCharacter;
 var deepFactorSpaceman;
 var deepFactorEnemie;
-var enemiesQuantity = 40;
+var enemiesQuantity = 1;
 
 var gameState = 'inactive';
 var characterActive = 'spaceman';
@@ -74,17 +74,19 @@ var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth
 //Defining auxiliar functions
 
 function isMobile(){
-    return (
+    if (
         (navigator.userAgent.match (/Android/i)) ||
         (navigator.userAgent.match (/webOS/i)) ||
+        (navigator.userAgent.match (/Mobi/i)) ||
         (navigator.userAgent.match (/iPhone/i)) ||
         (navigator.userAgent.match (/iPad/i)) ||
         (navigator.userAgent.match (/iPod/i)) ||
         (navigator.userAgent.match (/BlackBerry/i))        
-    )
+    ) return true;
+    return false;
 }
 
-console.log('device', isMobile());
+console.log('Is mobile device?', isMobile());
 ctx.font = '55px serif';
 ctx.fillText(isMobile(), 100, 100);
 
@@ -276,12 +278,12 @@ function spacemanSouth(){
         spaceman.y +=spaceman.height*spacemanVelFac;
     } else {
         //Character fixed, Scenario moving
-        scenario.y -=spaceman.height*spacemanVelFac;
-        station1.y -=spaceman.height*spacemanVelFac;
-        rover.y -=spaceman.height*spacemanVelFac;
-        enemies.forEach(function(enemy){
-            enemy.y -= spaceman.height*spacemanVelFac;
-        });
+            scenario.y -=spaceman.height*spacemanVelFac;
+            station1.y -=spaceman.height*spacemanVelFac;
+            rover.y -=spaceman.height*spacemanVelFac;
+            enemies.forEach(function(enemy){
+                enemy.y -= spaceman.height*spacemanVelFac;
+            });
     }
 }
 
@@ -486,7 +488,7 @@ function moveBackward(rover){
             } else {
                 rover.image.src = './images/RoverSouth.png';
             }
-            if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height 
+            if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
                 || rover.y - scenario.y < canvas.height/2){
                 //Scenario fixed, Character moving
                 rover.y -=rover.height*roverVelFac;
