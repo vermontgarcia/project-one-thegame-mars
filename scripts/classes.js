@@ -55,7 +55,7 @@ class Rover extends Item{
     receiveDamage(enemy){
         this.condition -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
-        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenarioActive].x) * scale, (this.y - this.height - scenarios[scenarioActive].y)*scale, this.width*2*scale, this.height*2*scale);
+        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
         //console.log('Rover ',this.condition);
 
     }
@@ -78,11 +78,11 @@ class Rover extends Item{
 
         //Map drawing
         
-        mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
 
         mCtx.beginPath();
         mCtx.strokeStyle = 'green';
-        mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
+        mCtx.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
         mCtx.stroke();
         mCtx.strokeStyle = 'black';
 
@@ -104,7 +104,7 @@ class Enemy extends Item{
         //console.log ('enemy ',index, 'health ', this.health)
         score.update(item.damage,0);
         if (this.health <= 0){
-            scenarios[scenarioActive].enemies.splice(index,1);
+            scenarios[scenActive].enemies.splice(index,1);
             score.update(0,1);
         }
     }
@@ -172,7 +172,7 @@ class Enemy extends Item{
                     this.x -= Math.floor(Math.random()*this.width*vel)*direction;
                     direction = Math.pow(-1, Math.floor(Math.random()*3));
                     this.y -= Math.floor(Math.random()*this.width*vel)*direction;
-                    if (this.y < (scenarios[scenarioActive].height*0.55)+scenarios[scenarioActive].y){
+                    if (this.y < (scenarios[scenActive].height*0.55)+scenarios[scenActive].y){
                         this.y+= 20;
                     }
                 }
@@ -190,11 +190,11 @@ class Enemy extends Item{
         ctx.stroke();
 
         //Map drawing
-        mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
         //Red circle
         mCtx.beginPath();
         mCtx.strokeStyle = '#FF0000';
-        mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
+        mCtx.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
         mCtx.stroke();
         mCtx.strokeStyle = '#000000';
     }
@@ -225,7 +225,7 @@ class Spaceman extends Item{
     receiveDamage(enemy){
         this.health -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
-        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenarioActive].x) * scale, (this.y - this.height - scenarios[scenarioActive].y)*scale, this.width*2*scale, this.height*2*scale);
+        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
         if (this.health <= 0){
             gameOver();
         }
@@ -238,7 +238,7 @@ class Spaceman extends Item{
         spacemanDimUpdate();
 
         //Main drawing
-        if (characterActive === 'spaceman'){
+        if (charActive === 'spaceman'){
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal black rectangle
             ctx.beginPath();
@@ -250,11 +250,11 @@ class Spaceman extends Item{
             ctx.stroke();
     
             //Map drawing
-            mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
+            mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
             //Green circle    
             mCtx.beginPath();
             mCtx.strokeStyle = 'green';
-            mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
+            mCtx.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
             mCtx.stroke();
             mCtx.strokeStyle = 'black';
         }
@@ -281,7 +281,7 @@ class Station extends Item{
         //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         //Map drawing
-        mCtx.drawImage(this.image, (this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
+        mCtx.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
     }
 }
 

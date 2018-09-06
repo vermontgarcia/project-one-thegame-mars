@@ -28,18 +28,17 @@ var frames = 0;
 var velocity = 5;
 var roverVelFac = 0.05;
 var spacemanVelFac = 0.1;
-//var enemies = [];
 var character = {};
 var scenarioScale = 2;
 var itemScale = 0.75;
-var deepFactorCharacter;
+var deepFactorChar = 1;
 var deepFactorSpaceman;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
 
 var gameState = 'inactive';
-var characterActive = 'spaceman';
-var scenarioActive = 0;
+var charActive = 'spaceman';
+var scenActive = 0;
 var scenarioImages = [
     './images/MarsScenario1.png',
     './images/MarsScenario2.png',
@@ -52,7 +51,6 @@ var scenarios = [];
 
 var borderError = "Error trying to excced the grid borders";
 
-var northBoundary;
 var stationBoundary;
 
 //Defining constants
@@ -69,21 +67,18 @@ const scale = (map.width/canvas.width)/scenarioScale;
 
 //Creating instances
 for (i=0; i<scenarioImages.length; i++){
-    //var scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale,scenarioImages[i]);
-    scenarios.push(new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale,scenarioImages[i]))
+    let scenario = new Scenario(0,-canvas.height*(scenarioScale-1),canvas.width*scenarioScale, canvas.height*scenarioScale,scenarioImages[i])
+    scenarios.push(scenario);
 }
 
-deepFactorCharacter = (canvas.height/2 - scenarios[scenarioActive].y)/scenarios[scenarioActive].height;
-//var rover = new Rover(scenario.x + scenario.width*(0.5/scenarioScale), scenario.y + scenario.height * (0.5*scenarioScale), roverWidthSide*itemScale*deepFactorCharacter, roverHeight*itemScale*deepFactorCharacter);
-
-//var station1 = new Station(scenarios[scenarioActive].x + scenarios[scenarioActive].width*0.8, scenarios[scenarioActive].y + scenarios[scenarioActive].height*0.5,stationWidth*scenarioScale,stationHeight*scenarioScale);
 generateStations();
 
-var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorCharacter, spacemanHeight*itemScale*deepFactorCharacter);
+var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
+character.spaceman = spaceman;
 
-var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorCharacter, roverHeight*itemScale*deepFactorCharacter);
+var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
 
-character = {'spaceman':spaceman,'rover':rover};
+character.rover = rover;
 
 var score = new Score();
 
@@ -111,7 +106,6 @@ function startGame(){
     gameState = 'active';
     
     //Initializing variables
-    northBoundary = scenarios[scenarioActive].height - scenarios[scenarioActive].height*0.53;
     
     //Setting drawing interval 60 frames per second
     interval = setInterval(function(){
@@ -125,12 +119,12 @@ function startGame(){
         mCtx.lineWidth = 3;
         
         
-        scenarios[scenarioActive].draw();
-        scenarios[scenarioActive].stations[0].draw();
+        scenarios[scenActive].draw();
+        scenarios[scenActive].stations[0].draw();
         
         //Auxiliar drawings
         ctx.beginPath();    
-        ctx.arc(scenarios[scenarioActive].stations[0].x + scenarios[scenarioActive].stations[0].width/2, scenarios[scenarioActive].stations[0].y + scenarios[scenarioActive].stations[0].height/2, scenarios[scenarioActive].stations[0].width/2, 0, Math.PI*2, false)
+        ctx.arc(scenarios[scenActive].stations[0].x + scenarios[scenActive].stations[0].width/2, scenarios[scenActive].stations[0].y + scenarios[scenActive].stations[0].height/2, scenarios[scenActive].stations[0].width/2, 0, Math.PI*2, false)
         ctx.stroke();
         /////
         
@@ -153,7 +147,7 @@ function startGame(){
         
         score.draw();
 
-        ctx.fillText('Scenario Active ' + scenarioActive, 100, 100);
+        ctx.fillText('Scenario Active ' + scenActive, 100, 100);
 
         
     }), 1000/60 ;
@@ -191,7 +185,7 @@ function gameOver(){
 }
 
 function roverDimUpdate(){
-    deepFactorRover = (rover.y - scenarios[scenarioActive].y)/scenarios[scenarioActive].height;
+    deepFactorRover = (rover.y - scenarios[scenActive].y)/scenarios[scenActive].height;
     rover.height = roverHeight * deepFactorRover * itemScale;
     if (rover.direction === 'E' || rover.direction === 'W'){
         rover.width = roverWidthSide * deepFactorRover * itemScale;
@@ -201,41 +195,41 @@ function roverDimUpdate(){
 }
 
 function spacemanDimUpdate(){
-    deepFactorSpaceman = (spaceman.y - scenarios[scenarioActive].y)/scenarios[scenarioActive].height;
+    deepFactorSpaceman = (spaceman.y - scenarios[scenActive].y)/scenarios[scenActive].height;
     spaceman.height = spacemanHeight * deepFactorSpaceman * itemScale;
     spaceman.width = spacemanWidth * deepFactorSpaceman * itemScale;
 }
 
 function gettingInRover(){
     if (distance(spaceman.x + spaceman.width*0.5, spaceman.y, rover.x + rover.width*0.8, rover.y + rover.height * 0.2 ) <= spaceman.width){
-        characterActive = 'rover';
+        charActive = 'rover';
     }
 }
 
 function gettingOutRover(){
     spaceman.x = rover.x + rover.width*0.8;
     spaceman.y = rover.y + rover.height * 0.5;
-    characterActive = 'spaceman';
+    charActive = 'spaceman';
 }
 
 function generateEnemies(){
-    if (scenarios[scenarioActive].enemies.length > enemiesQuantity-1) return;
+    if (scenarios[scenActive].enemies.length > enemiesQuantity-1) return;
     if (frames % 1000 == 0 || frames % 700 == 0 || frames % 1700 == 0){
         let width = enemyWidth*itemScale;
         let height = enemyHeight*itemScale;
-        let x = scenarios[scenarioActive].x + Math.floor(Math.random()*scenarios[scenarioActive].width)-width;
-        let y = scenarios[scenarioActive].y + Math.floor(Math.random()*scenarios[scenarioActive].height)-height;
-        if(/*y > northBoundary &&*/ distance(x,y,character[characterActive].x,character[characterActive].y) > character[characterActive].height * character[characterActive].saveDistanceFactor){
+        let x = scenarios[scenActive].x + Math.floor(Math.random()*scenarios[scenActive].width)-width;
+        let y = scenarios[scenActive].y + Math.floor(Math.random()*scenarios[scenActive].height)-height;
+        if(distance(x,y,character[charActive].x,character[charActive].y) > character[charActive].height * character[charActive].saveDistanceFactor){
             let enemy = new Enemy(x,y,width,height)
-            scenarios[scenarioActive].enemies.push(enemy);
+            scenarios[scenActive].enemies.push(enemy);
         }
     }
 }
 
 function generateStations(){
 
-    let x = scenarios[scenarioActive].x + scenarios[scenarioActive].width*0.8;
-    let y =scenarios[scenarioActive].y + scenarios[scenarioActive].height*0.5;
+    let x = scenarios[scenActive].x + scenarios[scenActive].width*0.8;
+    let y =scenarios[scenActive].y + scenarios[scenActive].height*0.5;
     let width = stationWidth*scenarioScale;
     let height = stationHeight*scenarioScale;    
     
@@ -246,14 +240,14 @@ function generateStations(){
 }
 
 function drawEnemies (){
-    scenarios[scenarioActive].enemies.forEach(function(enemy, index){
-        deepFactorEnemie = (enemy.y - scenarios[scenarioActive].y)/scenarios[scenarioActive].height;
+    scenarios[scenActive].enemies.forEach(function(enemy, index){
+        deepFactorEnemie = (enemy.y - scenarios[scenActive].y)/scenarios[scenActive].height;
         enemy.width = enemyWidth * itemScale * deepFactorEnemie;
         enemy.height = enemyHeight * itemScale * deepFactorEnemie;
-        enemy.draw(enemyDirection(enemy,character[characterActive]),character[characterActive]);
-        if(character[characterActive].collition(enemy)){
-            character[characterActive].receiveDamage(enemy);
-            enemy.receiveDamage(character[characterActive],index);
+        enemy.draw(enemyDirection(enemy,character[charActive]),character[charActive]);
+        if(character[charActive].collition(enemy)){
+            character[charActive].receiveDamage(enemy);
+            enemy.receiveDamage(character[charActive],index);
         }
     });
 }
@@ -264,16 +258,16 @@ function spacemanNorth(){
     } else {
         spaceman.image.src = './images/SpacemanNorth.png';
     }
-    if (spaceman.y - scenarios[scenarioActive].y > (1-(canvas.height*0.5/scenarios[scenarioActive].height))*scenarios[scenarioActive].height
-    || spaceman.y - scenarios[scenarioActive].y < canvas.height/2){
+    if (spaceman.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
+    || spaceman.y - scenarios[scenActive].y < canvas.height/2){
         //Scenario fixed, Character moving
         spaceman.y -= spaceman.height*spacemanVelFac;
     } else {
         //Character fixed, Scenario moving
-        scenarios[scenarioActive].y +=spaceman.height*spacemanVelFac;
-        scenarios[scenarioActive].stations[0].y +=spaceman.height*spacemanVelFac;
+        scenarios[scenActive].y +=spaceman.height*spacemanVelFac;
+        scenarios[scenActive].stations[0].y +=spaceman.height*spacemanVelFac;
         rover.y +=spaceman.height*spacemanVelFac;
-        scenarios[scenarioActive].enemies.forEach(function(enemy){
+        scenarios[scenActive].enemies.forEach(function(enemy){
             enemy.y += spaceman.height*spacemanVelFac;
         });
     }
@@ -286,16 +280,16 @@ function spacemanEast(){
     } else {
         spaceman.image.src = './images/SpacemanEast.png';
     }
-    if (spaceman.x - scenarios[scenarioActive].x < canvas.width/2 
-        || spaceman.x - scenarios[scenarioActive].x > (1-(canvas.width*0.5/scenarios[scenarioActive].width))*scenarios[scenarioActive].width){
+    if (spaceman.x - scenarios[scenActive].x < canvas.width/2 
+        || spaceman.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
         //Scenario fixed, Character moving
         spaceman.x +=spaceman.height*spacemanVelFac;
     } else {
         //Character fixed, Scenario moving
-        scenarios[scenarioActive].x -=spaceman.height*spacemanVelFac;
-        scenarios[scenarioActive].stations[0].x -=spaceman.height*spacemanVelFac;
+        scenarios[scenActive].x -=spaceman.height*spacemanVelFac;
+        scenarios[scenActive].stations[0].x -=spaceman.height*spacemanVelFac;
         rover.x -=spaceman.height*spacemanVelFac;
-        scenarios[scenarioActive].enemies.forEach(function(enemy){
+        scenarios[scenActive].enemies.forEach(function(enemy){
             enemy.x -= spaceman.height*spacemanVelFac;
         });
     }
@@ -307,16 +301,16 @@ function spacemanSouth(){
     } else {
         spaceman.image.src = './images/SpacemanSouth.png';
     }
-    if (spaceman.y - scenarios[scenarioActive].y > (1-(canvas.height*0.5/scenarios[scenarioActive].height))*scenarios[scenarioActive].height
-        || spaceman.y - scenarios[scenarioActive].y < canvas.height/2){
+    if (spaceman.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
+        || spaceman.y - scenarios[scenActive].y < canvas.height/2){
             //Scenario fixed, Character moving
         spaceman.y +=spaceman.height*spacemanVelFac;
     } else {
         //Character fixed, Scenario moving
-            scenarios[scenarioActive].y -=spaceman.height*spacemanVelFac;
-            scenarios[scenarioActive].stations[0].y -=spaceman.height*spacemanVelFac;
+            scenarios[scenActive].y -=spaceman.height*spacemanVelFac;
+            scenarios[scenActive].stations[0].y -=spaceman.height*spacemanVelFac;
             rover.y -=spaceman.height*spacemanVelFac;
-            scenarios[scenarioActive].enemies.forEach(function(enemy){
+            scenarios[scenActive].enemies.forEach(function(enemy){
                 enemy.y -= spaceman.height*spacemanVelFac;
             });
     }
@@ -328,16 +322,16 @@ function spacemanWest(){
     } else {
         spaceman.image.src = './images/SpacemanWest.png';
     }
-    if (spaceman.x - scenarios[scenarioActive].x < canvas.width/2 
-        || spaceman.x - scenarios[scenarioActive].x > (1-(canvas.width*0.5/scenarios[scenarioActive].width))*scenarios[scenarioActive].width){
+    if (spaceman.x - scenarios[scenActive].x < canvas.width/2 
+        || spaceman.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
             //Scenario fixed, Character moving
             spaceman.x -=spaceman.height*spacemanVelFac;
     } else {
         //Character fixed, Scenario moving
-        scenarios[scenarioActive].x +=spaceman.height*spacemanVelFac;
-        scenarios[scenarioActive].stations[0].x +=spaceman.height*spacemanVelFac;
+        scenarios[scenActive].x +=spaceman.height*spacemanVelFac;
+        scenarios[scenActive].stations[0].x +=spaceman.height*spacemanVelFac;
         rover.x +=spaceman.height*spacemanVelFac;
-        scenarios[scenarioActive].enemies.forEach(function(enemy){
+        scenarios[scenActive].enemies.forEach(function(enemy){
             enemy.x += spaceman.height*spacemanVelFac;
         });
     }
@@ -424,15 +418,15 @@ let actualDirection = rover.direction;
             } else {
                 rover.image.src = './images/RoverNorth.png';
             }
-            if (rover.y - scenarios[scenarioActive].y > (1-(canvas.height*0.5/scenarios[scenarioActive].height))*scenarios[scenarioActive].height
-                || rover.y - scenarios[scenarioActive].y < canvas.height/2){
+            if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
+                || rover.y - scenarios[scenActive].y < canvas.height/2){
                 //Scenario fixed, Character moving
                 rover.y -= rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].y +=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].y +=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].y +=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].y +=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y += rover.height*roverVelFac;
                 });
             }
@@ -443,25 +437,25 @@ let actualDirection = rover.direction;
             } else {
                 rover.image.src = './images/RoverEast.png';
             }
-            if (rover.x - scenarios[scenarioActive].x < canvas.width/2 
-                || rover.x - scenarios[scenarioActive].x > (1-(canvas.width*0.5/scenarios[scenarioActive].width))*scenarios[scenarioActive].width){
+            if (rover.x - scenarios[scenActive].x < canvas.width/2 
+                || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
                 //Scenario fixed, Character moving
                 rover.x +=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].x -=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].x -=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].x -=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].x -=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x -= rover.height*roverVelFac;
                 });
             }
             if (rover.x > canvas.width){
-                if (scenarioActive === 5){
-                    scenarioActive = 0;
+                if (scenActive === 5){
+                    scenActive = 0;
                 } else{
-                    scenarioActive += 1;
+                    scenActive += 1;
                 }
-                scenarios[scenarioActive].x = 0;
+                scenarios[scenActive].x = 0;
                 rover.x = -rover.width;
             }
         break;
@@ -471,15 +465,15 @@ let actualDirection = rover.direction;
             } else {
                 rover.image.src = './images/RoverSouth.png';
             }
-            if (rover.y - scenarios[scenarioActive].y > (1-(canvas.height*0.5/scenarios[scenarioActive].height))*scenarios[scenarioActive].height
-                || rover.y - scenarios[scenarioActive].y < canvas.height/2){
+            if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
+                || rover.y - scenarios[scenActive].y < canvas.height/2){
                     //Scenario fixed, Character moving
                 rover.y +=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].y -= rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].y -= rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].y -= rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].y -= rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y -= rover.height*roverVelFac;
                 });
             }
@@ -490,25 +484,25 @@ let actualDirection = rover.direction;
             } else {
                 rover.image.src = './images/RoverWest.png';
             }
-            if (rover.x - scenarios[scenarioActive].x < canvas.width/2 
-                || rover.x - scenarios[scenarioActive].x > (1-(canvas.width*0.5/scenarios[scenarioActive].width))*scenarios[scenarioActive].width){
+            if (rover.x - scenarios[scenActive].x < canvas.width/2 
+                || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
                     //Scenario fixed, Character moving
                 rover.x -=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].x +=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].x +=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].x +=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].x +=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x += rover.height*roverVelFac;
                 });
             }
             if (rover.x + rover.width < 0){
-                if (scenarioActive === 0){
-                    scenarioActive = 5;
+                if (scenActive === 0){
+                    scenActive = 5;
                 } else{
-                    scenarioActive -= 1;
+                    scenActive -= 1;
                 }
-                scenarios[scenarioActive].x = -canvas.width*(scenarioScale-1);
+                scenarios[scenActive].x = -canvas.width*(scenarioScale-1);
                 rover.x = canvas.width;
             }
 
@@ -528,15 +522,15 @@ function moveBackward(rover){
             } else {
                 rover.image.src = './images/RoverSouth.png';
             }
-            if (rover.y - scenarios[scenarioActive].y > (1-(canvas.height*0.5/scenarios[scenarioActive].height))*scenarios[scenarioActive].height
-                || rover.y - scenarios[scenarioActive].y < canvas.height/2){
+            if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
+                || rover.y - scenarios[scenActive].y < canvas.height/2){
                 //Scenario fixed, Character moving
                 rover.y -=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].y +=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].y +=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].y +=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].y +=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y += rover.height*roverVelFac;
                 });
             }
@@ -547,15 +541,15 @@ function moveBackward(rover){
             } else {
                 rover.image.src = './images/RoverWest.png';
             }
-            if (rover.x - scenarios[scenarioActive].x < canvas.width/2 
-                || rover.x - scenarios[scenarioActive].x > (1-(canvas.width*0.5/scenarios[scenarioActive].width))*scenarios[scenarioActive].width){
+            if (rover.x - scenarios[scenActive].x < canvas.width/2 
+                || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
                 //Scenario fixed, Character moving
                 rover.x +=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].x -=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].x -=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].x -=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].x -=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x -= rover.height*roverVelFac;
                 });
             }
@@ -566,15 +560,15 @@ function moveBackward(rover){
             } else {
                 rover.image.src = './images/RoverNorth.png';
             }
-            if (rover.y - scenarios[scenarioActive].y > (1-(canvas.height*0.5/scenarios[scenarioActive].height))*scenarios[scenarioActive].height 
-                || rover.y - scenarios[scenarioActive].y < canvas.height/2){
+            if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height 
+                || rover.y - scenarios[scenActive].y < canvas.height/2){
                 //Scenario fixed, Character moving
                 rover.y +=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].y -=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].y -=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].y -=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].y -=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y -= rover.height*roverVelFac;
                 });
             }
@@ -585,15 +579,15 @@ function moveBackward(rover){
             } else {
                 rover.image.src = './images/RoverEast.png';
             }
-            if (rover.x - scenarios[scenarioActive].x < canvas.width/2 
-                || rover.x - scenarios[scenarioActive].x > (1-(canvas.width*0.5/scenarios[scenarioActive].width))*scenarios[scenarioActive].width){
+            if (rover.x - scenarios[scenActive].x < canvas.width/2 
+                || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
                 //Scenario fixed, Character moving
                 rover.x -=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
-                scenarios[scenarioActive].x +=rover.height*roverVelFac;
-                scenarios[scenarioActive].stations[0].x +=rover.height*roverVelFac;
-                scenarios[scenarioActive].enemies.forEach(function(enemy){
+                scenarios[scenActive].x +=rover.height*roverVelFac;
+                scenarios[scenActive].stations[0].x +=rover.height*roverVelFac;
+                scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x += rover.height*roverVelFac;
                 });
             }
@@ -634,7 +628,7 @@ addEventListener('keydown', function(e){
 
     } else if (gameState === 'active'){
         //console.log('game active', key)
-        if (characterActive === 'spaceman'){
+        if (charActive === 'spaceman'){
             
             switch(key.keyCode){
                 case 37:
@@ -672,7 +666,7 @@ addEventListener('keydown', function(e){
                 default:
                 break;        
             }
-        } else if (characterActive === 'rover'){
+        } else if (charActive === 'rover'){
 
             switch(key.keyCode){
                 case 37:
