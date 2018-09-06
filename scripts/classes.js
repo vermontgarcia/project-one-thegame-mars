@@ -10,10 +10,10 @@ class Item{
 }
 
 class Scenario extends Item{
-    constructor(x,y,width,height){
+    constructor(x,y,width,height,image){
         super(x,y,width,height)
         this.image = new Image();
-        this.image.src = './images/MarsScenario1.png';
+        this.image.src = image;
     } 
     draw (){
         //this.x--;
@@ -76,7 +76,7 @@ class Rover extends Item{
     receiveDamage(enemy){
         this.condition -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
-        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenario.x) * scale, (this.y - this.height - scenario.y)*scale, this.width*2*scale, this.height*2*scale);
+        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenarioActive].x) * scale, (this.y - this.height - scenarios[scenarioActive].y)*scale, this.width*2*scale, this.height*2*scale);
         //console.log('Rover ',this.condition);
 
     }
@@ -99,11 +99,11 @@ class Rover extends Item{
 
         //Map drawing
         
-        mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
 
         mCtx.beginPath();
         mCtx.strokeStyle = 'green';
-        mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
+        mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
         mCtx.stroke();
         mCtx.strokeStyle = 'black';
 
@@ -193,7 +193,7 @@ class Enemy extends Item{
                     this.x -= Math.floor(Math.random()*this.width*vel)*direction;
                     direction = Math.pow(-1, Math.floor(Math.random()*3));
                     this.y -= Math.floor(Math.random()*this.width*vel)*direction;
-                    if (this.y < (scenario.height*0.55)+scenario.y){
+                    if (this.y < (scenarios[scenarioActive].height*0.55)+scenarios[scenarioActive].y){
                         this.y+= 20;
                     }
                 }
@@ -211,10 +211,10 @@ class Enemy extends Item{
         ctx.stroke();
 
         //Map drawing
-        mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+        mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
         mCtx.beginPath();
         mCtx.strokeStyle = '#FF0000';
-        mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
+        mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
         mCtx.stroke();
         mCtx.strokeStyle = '#000000';
     }
@@ -245,7 +245,7 @@ class Spaceman extends Item{
     receiveDamage(enemy){
         this.health -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
-        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenario.x) * scale, (this.y - this.height - scenario.y)*scale, this.width*2*scale, this.height*2*scale);
+        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenarioActive].x) * scale, (this.y - this.height - scenarios[scenarioActive].y)*scale, this.width*2*scale, this.height*2*scale);
         if (this.health <= 0){
             gameOver();
         }
@@ -270,11 +270,11 @@ class Spaceman extends Item{
             ctx.stroke();
     
             //Map drawing
-            mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
+            mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
     
             mCtx.beginPath();
             mCtx.strokeStyle = 'green';
-            mCtx.arc((this.x-scenario.x)*scale, (this.y-scenario.y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
+            mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
             mCtx.stroke();
             mCtx.strokeStyle = 'black';
         }
@@ -299,7 +299,7 @@ class Station extends Item{
     }
     draw(){
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        mCtx.drawImage(this.image, (this.x-scenario.x)*scale, (this.y-scenario.y)*scale, this.width*scale, this.height*scale);
+        mCtx.drawImage(this.image, (this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
     }
 }
 
