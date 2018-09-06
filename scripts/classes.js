@@ -20,7 +20,6 @@ class Scenario extends Item{
     draw (){
         //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-
         //Map drawing
         mCtx.drawImage(this.image, 0, 0, map.width, map.height);
     }
@@ -45,7 +44,7 @@ class Rover extends Item{
     }
 
     collition(enemy){
-        //console.log('testing');
+        //Collition to enemy
         return (this.x < enemy.x + enemy.width) &&
             (this.x + this.width > enemy.x) &&
             (this.y + this.height*0.3 < enemy.y + enemy.height) &&
@@ -56,18 +55,14 @@ class Rover extends Item{
         this.condition -= enemy.damage;
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
         mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
-        //console.log('Rover ',this.condition);
-
     }
 
     draw(){
-        //deepFactorRover = (rover.y - scenario.y)/scenario.height;
         roverDimUpdate();
 
         //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-
-        
+        //Temporal black rectangle
         ctx.beginPath();
         ctx.moveTo(this.x,this.y+this.height*0.3)
         ctx.lineTo(this.x + this.width, this.y+this.height*0.3)
@@ -75,11 +70,9 @@ class Rover extends Item{
         ctx.lineTo(this.x, this.y+this.height*0.8);
         ctx.lineTo(this.x, this.y+this.height*0.3);
         ctx.stroke();
-
         //Map drawing
-        
         mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
-
+        //Green circle
         mCtx.beginPath();
         mCtx.strokeStyle = 'green';
         mCtx.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
@@ -112,7 +105,6 @@ class Enemy extends Item{
     draw(direction, character){
         if ((frames / 10) % 2 === 0){
             var distanceCharacter = distance(this.x + this.width * 0.5, this.y + this.height * 0.5, character.x + character.width * 0.5, character.y + character.height * 0.5);
-            
             if(distanceCharacter < character.height * character.saveDistanceFactor){
                 let vel = 0.2;
                 switch(direction){
@@ -137,10 +129,8 @@ class Enemy extends Item{
                         this.y += Math.floor(Math.random()*this.width*vel);
                     break;
                 } 
-            
             } else {    
                 let vel = 0.05;
-
                 if (Math.floor(Math.random()*2)===1){
                     //console.log('Direction')
                     switch(direction){
@@ -188,7 +178,6 @@ class Enemy extends Item{
         ctx.lineTo(this.x, this.y + this.height);
         ctx.lineTo(this.x, this.y);
         ctx.stroke();
-
         //Map drawing
         mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
         //Red circle
@@ -232,13 +221,10 @@ class Spaceman extends Item{
 
     }
 
-
     draw(){
-
         spacemanDimUpdate();
-
-        //Main drawing
         if (charActive === 'spaceman'){
+            //Main drawing
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal black rectangle
             ctx.beginPath();
@@ -248,7 +234,6 @@ class Spaceman extends Item{
             ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.9);
             ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.1);
             ctx.stroke();
-    
             //Map drawing
             mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
             //Green circle    
@@ -258,7 +243,6 @@ class Spaceman extends Item{
             mCtx.stroke();
             mCtx.strokeStyle = 'black';
         }
-
     }
 }
 
@@ -280,6 +264,10 @@ class Station extends Item{
     draw(){
         //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        //Temporal drawings
+        ctx.beginPath();    
+        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI*2, false)
+        ctx.stroke();
         //Map drawing
         mCtx.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
     }

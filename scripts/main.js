@@ -6,7 +6,6 @@ var ctx = canvas.getContext('2d');
 var map = document.getElementById('map');
 var mCtx = map.getContext('2d');
 
-
 //Activating full scree request
 document.addEventListener("click", function (e) {
     if(!e.path) return;
@@ -77,7 +76,6 @@ var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth
 character.spaceman = spaceman;
 
 var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
-
 character.rover = rover;
 
 var score = new Score();
@@ -118,16 +116,8 @@ function startGame(){
         mCtx.clearRect(0, 0, map.width, map.height);
         mCtx.lineWidth = 3;
         
-        
         scenarios[scenActive].draw();
         scenarios[scenActive].stations[0].draw();
-        
-        //Auxiliar drawings
-        ctx.beginPath();    
-        ctx.arc(scenarios[scenActive].stations[0].x + scenarios[scenActive].stations[0].width/2, scenarios[scenActive].stations[0].y + scenarios[scenActive].stations[0].height/2, scenarios[scenActive].stations[0].width/2, 0, Math.PI*2, false)
-        ctx.stroke();
-        /////
-        
         
         mCtx.beginPath();
         mCtx.moveTo(map.width/2,map.height/2-10);
@@ -135,22 +125,16 @@ function startGame(){
         mCtx.moveTo(map.width/2-10,map.height/2);
         mCtx.lineTo(map.width/2+10,map.height/2)
         mCtx.stroke();
-        //mCtx.beginPath();
-        //mCtx.arc(map.width/2, map.height/2, 13, 0, Math.PI*2, false)
-        //mCtx.stroke();
-        
         
         generateEnemies();
         rover.draw();
         spaceman.draw();
         drawEnemies();
-        
         score.draw();
 
         ctx.fillText('Scenario Active ' + scenActive, 100, 100);
-
         
-    }), 1000/60 ;
+    }), 1000;
 }
 
 function distance(x1,y1,x2,y2){
@@ -467,7 +451,7 @@ let actualDirection = rover.direction;
             }
             if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
                 || rover.y - scenarios[scenActive].y < canvas.height/2){
-                    //Scenario fixed, Character moving
+                //Scenario fixed, Character moving
                 rover.y +=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
@@ -486,7 +470,7 @@ let actualDirection = rover.direction;
             }
             if (rover.x - scenarios[scenActive].x < canvas.width/2 
                 || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
-                    //Scenario fixed, Character moving
+                //Scenario fixed, Character moving
                 rover.x -=rover.height*roverVelFac;
             } else {
                 //Character fixed, Scenario moving
@@ -505,7 +489,6 @@ let actualDirection = rover.direction;
                 scenarios[scenActive].x = -canvas.width*(scenarioScale-1);
                 rover.x = canvas.width;
             }
-
         break;
         default:
             //console.log("Direction not identified");
@@ -617,8 +600,6 @@ function pauseResumeGame (){
     }
 }
 
-
-
 var key; 
 addEventListener('keydown', function(e){
     key = e;
@@ -707,7 +688,6 @@ addEventListener('keydown', function(e){
         }
     }
 });
-
     
-    //Excecuting the game
+//Excecuting the game
 startGame();
