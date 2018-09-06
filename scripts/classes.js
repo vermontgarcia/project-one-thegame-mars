@@ -14,12 +14,14 @@ class Scenario extends Item{
         super(x,y,width,height)
         this.image = new Image();
         this.image.src = image;
+        this.stations = [];
+        this.enemies = [];
     } 
     draw (){
-        //this.x--;
-        //if(this.x < -canvas.width) this.x = 0;
+        //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        //ctx.drawImage(this.image, this.x+this.width, this.y, this.width, this.height);
+
+        //Map drawing
         mCtx.drawImage(this.image, 0, 0, map.width, map.height);
     }
 }
@@ -40,29 +42,6 @@ class Rover extends Item{
 
     boundaries(){
 
-
-
-
-
-
-        /*
-        //Scenario North
-        if (rover.y - scenario.y < scenario.y + scenario.height*0.53){  ///rover.y - rover.height/2 - velocity*2 < northBoundary
-            rover.y +=1;
-            console.log('Scenario Restriction')
-            return true;            
-        } 
-        //Station
-        //if (distance(this.x + this.width/2 ,this.y + this.height/2, station1.x + station1.width/2, station1.y+station1.height/2 )< station1.width/2){
-        //    console.log('Station Restriction')
-        //    return true;            
-        //} 
-        //Obstacles
-        
-        
-        //No restrictions
-        return false;
-        */
     }
 
     collition(enemy){
@@ -125,7 +104,7 @@ class Enemy extends Item{
         //console.log ('enemy ',index, 'health ', this.health)
         score.update(item.damage,0);
         if (this.health <= 0){
-            enemies.splice(index,1);
+            scenarios[scenarioActive].enemies.splice(index,1);
             score.update(0,1);
         }
     }
@@ -201,7 +180,7 @@ class Enemy extends Item{
         }
         //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-
+        //Temporal black rectangle
         ctx.beginPath();
         ctx.moveTo(this.x,this.y)
         ctx.lineTo(this.x + this.width, this.y)
@@ -212,6 +191,7 @@ class Enemy extends Item{
 
         //Map drawing
         mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
+        //Red circle
         mCtx.beginPath();
         mCtx.strokeStyle = '#FF0000';
         mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
@@ -260,7 +240,7 @@ class Spaceman extends Item{
         //Main drawing
         if (characterActive === 'spaceman'){
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-
+            //Temporal black rectangle
             ctx.beginPath();
             ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
             ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.1)
@@ -271,7 +251,7 @@ class Spaceman extends Item{
     
             //Map drawing
             mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenarioActive].x)*scale, (this.y-this.height/2-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
-    
+            //Green circle    
             mCtx.beginPath();
             mCtx.strokeStyle = 'green';
             mCtx.arc((this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
@@ -298,7 +278,9 @@ class Station extends Item{
         this.image.src = './images/MarsStation.png'
     }
     draw(){
+        //Main drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        //Map drawing
         mCtx.drawImage(this.image, (this.x-scenarios[scenarioActive].x)*scale, (this.y-scenarios[scenarioActive].y)*scale, this.width*scale, this.height*scale);
     }
 }
