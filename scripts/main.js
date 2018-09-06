@@ -406,7 +406,7 @@ switch (actualDirection){
             rover.image.src = './images/RoverNorth.png';
         }
         if (rover.y - scenario.y > (1-(canvas.height*0.5/scenario.height))*scenario.height
-        || rover.y - scenario.y < canvas.height/2){
+            || rover.y - scenario.y < canvas.height/2){
             //Scenario fixed, Character moving
             rover.y -= rover.height*roverVelFac;
         } else {
@@ -449,12 +449,21 @@ switch (actualDirection){
             rover.y +=rover.height*roverVelFac;
         } else {
             //Character fixed, Scenario moving
-            scenario.y -=rover.height*roverVelFac;
-            station1.y -=rover.height*roverVelFac;
+            scenario.y -= rover.height*roverVelFac;
+            station1.y -= rover.height*roverVelFac;
             enemies.forEach(function(enemy){
                 enemy.y -= rover.height*roverVelFac;
             });
         }
+        //let correction = canvas.height - scenario.height - scenario.y;
+        //if ( correction > 0){
+        //    scenario.y +=correction*2;
+        //    station1.y +=correction*2;
+        //    enemies.forEach(function(enemy){
+        //        enemy.y += correction*2;
+        //    });
+        //    console.log('correction + ', correction);
+        //}
     break;
     case "W":
         if (frames%2 === 0){
@@ -465,11 +474,11 @@ switch (actualDirection){
         if (rover.x - scenario.x < canvas.width/2 
             || rover.x - scenario.x > (1-(canvas.width*0.5/scenario.width))*scenario.width){
                 //Scenario fixed, Character moving
-                rover.x -=rover.height*roverVelFac;
-            } else {
-                //Character fixed, Scenario moving
-                scenario.x +=rover.height*roverVelFac;
-                station1.x +=rover.height*roverVelFac;
+            rover.x -=rover.height*roverVelFac;
+        } else {
+            //Character fixed, Scenario moving
+            scenario.x +=rover.height*roverVelFac;
+            station1.x +=rover.height*roverVelFac;
             enemies.forEach(function(enemy){
                 enemy.x += rover.height*roverVelFac;
             });
