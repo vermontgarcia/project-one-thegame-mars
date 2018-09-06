@@ -122,8 +122,10 @@ class Enemy extends Item{
     receiveDamage(item, index){
         this.health -= item.damage;
         //console.log ('enemy ',index, 'health ', this.health)
+        score.update(item.damage,0);
         if (this.health <= 0){
             enemies.splice(index,1);
+            score.update(0,1);
         }
     }
 
@@ -297,5 +299,26 @@ class Map{
 class Visor{
     constructor(){
 
+    }
+}
+
+class Score{
+    constructor(){
+        this.hiScore = 0;
+        this.score = 0;
+        this.enemies = 0;
+    }
+
+    update(points, enemies){
+        this.score += points;
+        if (this.hiScore < this.score) this.hiScore = this.score;
+        this.enemies += enemies;
+    }
+
+    draw(){
+        ctx.font = '45px serif';
+        ctx.fillText('Hi Score ' + this.hiScore, 1600, 100);
+        ctx.fillText('Score    ' + this.score, 1600, 150);
+        ctx.fillText('Enemies  ' + this.enemies, 1600, 200);
     }
 }

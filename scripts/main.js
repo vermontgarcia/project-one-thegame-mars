@@ -22,6 +22,7 @@ document.addEventListener("click", function (e) {
 });
 
 //Definig variables
+var isMobile;
 var interval;
 var frames = 0;
 var velocity = 5;
@@ -34,7 +35,7 @@ var roverSDFactor = 3;
 var deepFactorCharacter;
 var deepFactorSpaceman;
 var deepFactorEnemie;
-var enemiesQuantity = 1;
+var enemiesQuantity = 20;
 
 var gameState = 'inactive';
 var characterActive = 'spaceman';
@@ -66,7 +67,9 @@ var station1 = new Station(scenario.x + scenario.width*0.8, scenario.y + scenari
 
 var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorCharacter, roverHeight*itemScale*deepFactorCharacter);
 
-var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorCharacter, spacemanHeight*itemScale*deepFactorCharacter)
+var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorCharacter, spacemanHeight*itemScale*deepFactorCharacter);
+
+var score = new Score();
 //console.log('scenario x, y, w & h ', scenario.x, scenario.y, scenario.width, scenario.height)
 //console.log('rover x, y, w & h ', rover.x, rover.y, rover.width, rover.height)
 //console.log('station1 x, y, w & h ', station1.x, station1.y, station1.width, station1.height)
@@ -86,9 +89,10 @@ function isMobile(){
     return false;
 }
 
-console.log('Is mobile device?', isMobile());
+isMobile = isMobile();
+console.log('Is mobile device?', isMobile);
 ctx.font = '55px serif';
-ctx.fillText(isMobile(), 100, 100);
+ctx.fillText(isMobile, 100, 100);
 
 function startGame(){
     gameState = 'active';
@@ -133,6 +137,8 @@ function startGame(){
         rover.draw();
         spaceman.draw();
         drawEnemies();
+        
+        score.draw();
         
     }), 1000/60 ;
 }
@@ -584,7 +590,7 @@ function pauseResumeGame (){
         startGame();
     }
 }
-    
+
 
 
 var key; 
