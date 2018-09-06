@@ -29,9 +29,9 @@ var velocity = 5;
 var roverVelFac = 0.05;
 var spacemanVelFac = 0.1;
 var enemies = [];
+var character = {};
 var scenarioScale = 3;
 var itemScale = 0.75;
-var roverSDFactor = 3;
 var deepFactorCharacter;
 var deepFactorSpaceman;
 var deepFactorEnemie;
@@ -65,9 +65,11 @@ deepFactorCharacter = (canvas.height/2 - scenario.y)/scenario.height;
 
 var station1 = new Station(scenario.x + scenario.width*0.8, scenario.y + scenario.height*0.5,stationWidth*scenarioScale,stationHeight*scenarioScale);
 
+var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorCharacter, spacemanHeight*itemScale*deepFactorCharacter);
+
 var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorCharacter, roverHeight*itemScale*deepFactorCharacter);
 
-var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorCharacter, spacemanHeight*itemScale*deepFactorCharacter);
+character = {'spaceman':spaceman,'rover':rover};
 
 var score = new Score();
 //console.log('scenario x, y, w & h ', scenario.x, scenario.y, scenario.width, scenario.height)
@@ -147,18 +149,18 @@ function distance(x1,y1,x2,y2){
     return Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));
 }
 
-function enemyDirection(enemy,rover){
+function enemyDirection(enemy,character){
     let direction = '';
-    if(enemy.y + enemy.height*0.5 > rover.y + rover.height * 0.5){
+    if(enemy.y + enemy.height*0.5 > character.y + character.height * 0.5){
         direction += 'N'
-        if (enemy.x + enemy.width * 0.5 > rover.x + rover.width * 0.5){
+        if (enemy.x + enemy.width * 0.5 > character.x + character.width * 0.5){
             direction += 'W'
         } else {
             direction += 'E';
         }
     } else {
         direction += 'S'
-        if (enemy.x + enemy.width * 0.5 > rover.x + rover.width * 0.5){
+        if (enemy.x + enemy.width * 0.5 > character.x + character.width * 0.5){
             direction += 'W'
         } else {
             direction += 'E';
@@ -168,6 +170,7 @@ function enemyDirection(enemy,rover){
 }
 
 function gameOver(){
+    console.log('game Over')
     gameState = 'gameOver';
     clearInterval(interval);
     
@@ -208,7 +211,7 @@ function generateEnemies(){
         let height = enemyHeight*itemScale;
         let x = scenario.x + Math.floor(Math.random()*scenario.width)-width;
         let y = scenario.y + Math.floor(Math.random()*scenario.height)-height;
-        if(/*y > northBoundary &&*/ distance(x,y,rover.x,rover.y) > rover.height * roverSDFactor){
+        if(/*y > northBoundary &&*/ distance(x,y,character[characterActive].x,character[characterActive].y) > character[characterActive].height * character[characterActive].saveDistanceFactor){
             let enemy = new Enemy(x,y,width,height)
             enemies.push(enemy);
         }
@@ -220,11 +223,10 @@ function drawEnemies (){
         deepFactorEnemie = (enemy.y - scenario.y)/scenario.height;
         enemy.width = enemyWidth * itemScale * deepFactorEnemie;
         enemy.height = enemyHeight * itemScale * deepFactorEnemie;
-        enemy.draw(enemyDirection(enemy,rover),deepFactorEnemie);
-        
-        if(rover.collition(enemy)){
-            rover.receiveDamage(enemy);
-            enemy.receiveDamage(rover,index);
+        enemy.draw(enemyDirection(enemy,character[characterActive]),character[characterActive]);
+        if(character[characterActive].collition(enemy)){
+            character[characterActive].receiveDamage(enemy);
+            enemy.receiveDamage(character[characterActive],index);
         }
     });
 }
@@ -688,7 +690,7 @@ addEventListener('keydown', function(e){
 
     
     //Excecuting the game
-//startGame();
+startGame();
 
 //scenario.image.onload = function(){
     //    scenario.draw();

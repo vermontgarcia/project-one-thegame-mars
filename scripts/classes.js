@@ -32,6 +32,7 @@ class Rover extends Item{
         this.image.src = './images/RoverEast.png';
         this.dischargeImage = new Image();
         this.dischargeImage.src = './images/discharge.png';
+        this.saveDistanceFactor = 3;
         this.damage = 1;
         this.energy = 100;
         this.condition = 10000;
@@ -129,11 +130,11 @@ class Enemy extends Item{
         }
     }
 
-    draw(direction){
+    draw(direction, character){
         if ((frames / 10) % 2 === 0){
-            var distanceCharacter = distance(this.x + this.width * 0.5, this.y + this.height * 0.5, rover.x + rover.width * 0.5, rover.y + rover.height * 0.5);
+            var distanceCharacter = distance(this.x + this.width * 0.5, this.y + this.height * 0.5, character.x + character.width * 0.5, character.y + character.height * 0.5);
             
-            if(distanceCharacter < rover.height * roverSDFactor){
+            if(distanceCharacter < character.height * character.saveDistanceFactor){
                 let vel = 0.2;
                 switch(direction){
                     case 'NW':
@@ -227,20 +228,27 @@ class Spaceman extends Item{
         this.image.src = './images/SpacemanEast.png';
         this.dischargeImage = new Image();
         this.dischargeImage.src = './images/discharge.png';
+        this.saveDistanceFactor = 5;
         this.damage = 1;
         this.energy = 100;
         this.oxigen = 100;
-        this.health = 100;
+        this.health = 200;
     }
 
     collition(enemy){
-        return (this.x < enemy.x + enemy.width) &&
-            (this.x + this.width > enemy.x) &&
-            (this.y + this.height*0.3 < enemy.y + enemy.height) &&
-            (this.y + this.height*0.8 > enemy.y);
+        return (this.x+ this.width*0.2 < enemy.x + enemy.width) &&
+            (this.x + this.width*0.8 > enemy.x) &&
+            (this.y + this.height*0.1 < enemy.y + enemy.height) &&
+            (this.y + this.height*0.9 > enemy.y);
     }
 
-    receiveDamage(){
+    receiveDamage(enemy){
+        this.health -= enemy.damage;
+        ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
+        mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenario.x) * scale, (this.y - this.height - scenario.y)*scale, this.width*2*scale, this.height*2*scale);
+        if (this.health <= 0){
+            gameOver();
+        }
 
     }
 
@@ -252,6 +260,14 @@ class Spaceman extends Item{
         //Main drawing
         if (characterActive === 'spaceman'){
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+            ctx.beginPath();
+            ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
+            ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.1)
+            ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.9);
+            ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.9);
+            ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.1);
+            ctx.stroke();
     
             //Map drawing
             mCtx.drawImage(this.image, (this.x-this.width/2-scenario.x)*scale, (this.y-this.height/2-scenario.y)*scale, this.width*scale, this.height*scale);
