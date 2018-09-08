@@ -34,7 +34,7 @@ class Rover extends Item{
         this.dischargeImage = new Image();
         this.dischargeImage.src = './images/discharge.png';
         this.saveDistanceFactor = 3;
-        this.damage = 1;
+        this.damage = 10;
         this.energy = 100;
         this.condition = 10000;
         }
@@ -92,18 +92,18 @@ class Enemy extends Item{
         this.health = 100;
     }
 
-    receiveDamage(item, index){
+    receiveDamage(item, indexEnemy, indexShoot){
         this.health -= item.damage;
-        //console.log ('enemy ',index, 'health ', this.health)
+        shoots.splice(indexShoot,1);
         score.update(item.damage,0);
         if (this.health <= 0){
-            scenarios[scenActive].enemies.splice(index,1);
+            scenarios[scenActive].enemies.splice(indexEnemy,1);
             score.update(0,1);
         }
     }
 
     draw(direction, character){
-        if ((frames / 10) % 2 === 0){
+        if ((frames/3 ) % 2 === 0){
             var distanceCharacter = distance(this.x + this.width * 0.5, this.y + this.height * 0.5, character.x + character.width * 0.5, character.y + character.height * 0.5);
             if(distanceCharacter < character.height * character.saveDistanceFactor){
                 let vel = 0.2;
@@ -198,7 +198,7 @@ class Spaceman extends Item{
         this.dischargeImage = new Image();
         this.dischargeImage.src = './images/discharge.png';
         this.saveDistanceFactor = 5;
-        this.damage = 1;
+        this.damage = 5;
         this.energy = 100;
         this.oxigen = 100;
         this.health = 200;
@@ -302,9 +302,54 @@ class Score{
     }
 
     draw(){
-        ctx.font = '45px serif';
+        ctx.font = '30px serif';
         ctx.fillText('Hi Score ' + this.hiScore, 1600, 100);
         ctx.fillText('Score    ' + this.score, 1600, 150);
         ctx.fillText('Enemies  ' + this.enemies, 1600, 200);
+    }
+}
+
+class Shooting extends Item{
+    constructor(x,y,width,height,direction){
+        super(x,y,width,height)
+        this.image = new Image();
+        this.image.src = './images/discharge.png';
+        this.direction = direction;
+        this.damage = 100;
+    }
+
+    collition(enemy){
+        return (this.x+ this.width*0.2 < enemy.x + enemy.width) &&
+            (this.x + this.width*0.8 > enemy.x) &&
+            (this.y + this.height*0.1 < enemy.y + enemy.height) &&
+            (this.y + this.height*0.9 > enemy.y);
+    }
+
+    draw(){
+        let vel = 10;
+        switch(this.direction){
+            case 'N':
+                this.y -= vel;
+            break;
+            case 'E':
+                this.x += vel;
+            break;
+            case 'S':
+                this.y += vel;
+            break;
+            case 'W':
+                this.x -= vel;
+            break;
+
+        }
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        //Temporal black rectangle
+        ctx.beginPath();
+        ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
+        ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.1)
+        ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.9);
+        ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.9);
+        ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.1);
+        ctx.stroke();      
     }
 }
