@@ -174,6 +174,9 @@ function spacemanNorth(){
         scenarios[scenActive].enemies.forEach(function(enemy){
             enemy.y += spaceman.height*spacemanVelFac;
         });
+        shoots.forEach(function(shoot){
+            shoot.y += spaceman.height*spacemanVelFac;
+        });
     }
 
 }
@@ -197,6 +200,9 @@ function spacemanEast(){
         scenarios[scenActive].enemies.forEach(function(enemy){
             enemy.x -= spaceman.height*spacemanVelFac;
         });
+        shoots.forEach(function(shoot){
+            shoot.x -= spaceman.height*spacemanVelFac;
+        });
     }
 }
 
@@ -219,6 +225,9 @@ function spacemanSouth(){
             scenarios[scenActive].enemies.forEach(function(enemy){
                 enemy.y -= spaceman.height*spacemanVelFac;
             });
+            shoots.forEach(function(shoot){
+                shoot.y -= spaceman.height*spacemanVelFac;
+            });
     }
 }
 
@@ -240,6 +249,9 @@ function spacemanWest(){
         rover.x +=spaceman.height*spacemanVelFac;
         scenarios[scenActive].enemies.forEach(function(enemy){
             enemy.x += spaceman.height*spacemanVelFac;
+        });
+        shoots.forEach(function(shoot){
+            shoot.x += spaceman.height*spacemanVelFac;
         });
     }
 }
@@ -355,6 +367,9 @@ let actualDirection = rover.direction;
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y += rover.height*roverVelFac;
                 });
+                shoots.forEach(function(shoot){
+                    shoot.y += rover.height*roverVelFac;
+                });
             }
         break;
         case "E":
@@ -373,6 +388,9 @@ let actualDirection = rover.direction;
                 scenarios[scenActive].stations[0].x -=rover.height*roverVelFac;
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x -= rover.height*roverVelFac;
+                });
+                shoots.forEach(function(shoot){
+                    shoot.x -= rover.height*roverVelFac;
                 });
             }
             if (rover.x > canvas.width){
@@ -403,6 +421,9 @@ let actualDirection = rover.direction;
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y -= rover.height*roverVelFac;
                 });
+                shoots.forEach(function(shoot){
+                    shoot.y -= rover.height*roverVelFac;
+                });
             }
         break;
         case "W":
@@ -421,6 +442,9 @@ let actualDirection = rover.direction;
                 scenarios[scenActive].stations[0].x +=rover.height*roverVelFac;
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x += rover.height*roverVelFac;
+                });
+                shoots.forEach(function(shoot){
+                    shoot.x += spaceman.height*spacemanVelFac;
                 });
             }
             if (rover.x + rover.width < 0){
@@ -460,6 +484,9 @@ function moveBackward(rover){
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y += rover.height*roverVelFac;
                 });
+                shoots.forEach(function(shoot){
+                    shoot.y += rover.height*roverVelFac;
+                });
             }
             break;
         case "W":
@@ -478,6 +505,9 @@ function moveBackward(rover){
                 scenarios[scenActive].stations[0].x -=rover.height*roverVelFac;
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x -= rover.height*roverVelFac;
+                });
+                shoots.forEach(function(shoot){
+                    shoot.x -= rover.height*roverVelFac;
                 });
             }
             break;
@@ -498,6 +528,9 @@ function moveBackward(rover){
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.y -= rover.height*roverVelFac;
                 });
+                shoots.forEach(function(shoot){
+                    shoot.y -= rover.height*roverVelFac;
+                });
             }
         break;
         case "E":
@@ -516,6 +549,9 @@ function moveBackward(rover){
                 scenarios[scenActive].stations[0].x +=rover.height*roverVelFac;
                 scenarios[scenActive].enemies.forEach(function(enemy){
                     enemy.x += rover.height*roverVelFac;
+                });
+                shoots.forEach(function(shoot){
+                    shoot.x += rover.height*roverVelFac;
                 });
             }
             break;
@@ -550,7 +586,13 @@ function createShoots(character){
 }
 
 function drawShoots(){
-    shoots.forEach(function(shoot){
+    shoots.forEach(function(shoot, indexShoot){
+        if (shoot.x > canvas.width ||
+            shoot.x < 0 ||
+            shoot.y > canvas.height||
+            shoot.y < 0){
+                shoots.splice(indexShoot,1);
+            }
         shoot.draw();
     });
 }

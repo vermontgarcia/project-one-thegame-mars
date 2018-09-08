@@ -342,6 +342,7 @@ class Shooting extends Item{
             break;
 
         }
+        //Main Drawing
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         //Temporal black rectangle
         ctx.beginPath();
@@ -350,6 +351,8 @@ class Shooting extends Item{
         ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.9);
         ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.9);
         ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.1);
-        ctx.stroke();      
+        ctx.stroke();
+        //Map Drawing
+        mCtx.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
     }
 }
