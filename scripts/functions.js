@@ -22,9 +22,11 @@ function startGame(){
     
     //Setting drawing interval 60 frames per second
     interval = setInterval(function(){
-        
         frames++;
-        
+
+        if (frames/10 % 2){
+            keyControls();
+        }
         //Drawing main canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         //Drawing map canvas
@@ -73,7 +75,7 @@ function pauseResumeGame (){
     if (gameState === 'active'){
         gameState = 'paused';
         clearInterval(interval);
-    } else if (gameState = 'paused') {
+    } else if (gameState === 'inactive' || gameState === 'paused') {
         gameState = 'active';
         startGame();
     }

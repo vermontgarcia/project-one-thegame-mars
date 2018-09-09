@@ -26,7 +26,7 @@ var interval;
 var frames = 0;
 var velocity = 5;
 var roverVelFac = 0.05;
-var spacemanVelFac = 0.1;
+var spacemanVelFac = 0.03;
 var character = {};
 var scenarioScale = 2;
 var itemScale = 0.75;
@@ -35,6 +35,7 @@ var deepFactorSpaceman;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
 var shoots = [];
+var keys = [];
 
 var gameState = 'inactive';
 var charActive = 'spaceman';
@@ -86,102 +87,144 @@ ctx.font = '55px serif';
 ctx.fillText(isMobile, 100, 100);
 
 //Setting the keyboard Controls
-var key; 
-addEventListener('keydown', function(e){
-    key = e;
+var key;
+
+addEventListener('keydown',function(e){
+    keys[e.keyCode]=true;
+    console.log(keys);
+});
+
+addEventListener('keyup', function(e){
+    keys[e.keyCode]=false;
+    console.log(keys);
+});
+
+addEventListener('keydown',function(e){
+    if(e.keyCode === 80) pauseResumeGame();
+    
+    if(charActive === 'spaceman'){
+        if(e.keyCode === 17) createShoots(spaceman);
+        if(e.keyCode === 77) toggleMap();
+    }
+    if(charActive === 'rover'){
+        if(e.keyCode === 17) createShoots(rover);
+        if(e.keyCode === 77) toggleMap();
+        if(e.keyCode === 37) turnLeft(rover);
+        if(e.keyCode === 39) turnRight(rover);
+    }
+});
+
+function keyControls(){
     if (gameState === 'inactive' || gameState === 'paused'){
         //console.log('game Inactive', key);
-        if (key.keyCode === 80) startGame();
-
+        //if (keys[80] === true) pauseResumeGame();
+    
     } else if (gameState === 'active'){
         //console.log('game active', key)
         if (charActive === 'spaceman'){
-            
-            switch(key.keyCode){
-                case 17:
-                    //Shoot
-                    createShoots(spaceman);
-                break;
-                case 37:
-                    //Walk West
-                    spacemanWest(spaceman);
-                break;
-                case 38:
-                    //Walk North
-                    spacemanNorth(spaceman);
-                break;
-                case 39:
-                    //Walk East
-                    spacemanEast(spaceman);
-                break;
-                case 40:
-                    //Walk South
-                    spacemanSouth(spaceman);
-                break;
-                case 77:
-                    //Toggle Map Visibility
-                    toggleMap();
-                break;
-                case 80:
-                    //Pause or resume the game
-                    pauseResumeGame();
-                break;
-                case 83:
-                    //Show summary
-                    toggleMap();
-                break;
-                case 85:
-                    //Spaceman getting in the Rover
-                    gettingInRover();
-                break;
-                default:
-                break;        
-            }
+            //if (keys[17] === true) createShoots(spaceman);
+            if (keys[37] === true) spacemanWest(spaceman);
+            if (keys[38] === true) spacemanNorth(spaceman);
+            if (keys[39] === true) spacemanEast(spaceman);
+            if (keys[40] === true) spacemanSouth(spaceman);
+            if (keys[85] === true) gettingInRover();
+            //switch(key.keyCode){
+            //    case 17:
+            //        //Shoot
+            //        createShoots(spaceman);
+            //    break;
+            //    case 37:
+            //        //Walk West
+            //        spacemanWest(spaceman);
+            //    break;
+            //    case 38:
+            //        //Walk North
+            //        spacemanNorth(spaceman);
+            //    break;
+            //    case 39:
+            //        //Walk East
+            //        spacemanEast(spaceman);
+            //    break;
+            //    case 40:
+            //        //Walk South
+            //        spacemanSouth(spaceman);
+            //    break;
+            //    case 77:
+            //        //Toggle Map Visibility
+            //        toggleMap();
+            //    break;
+            //    case 80:
+            //        //Pause or resume the game
+            //        pauseResumeGame();
+            //    break;
+            //    case 83:
+            //        //Show summary
+            //        toggleMap();
+            //    break;
+            //    case 85:
+            //        //Spaceman getting in the Rover
+            //        gettingInRover();
+            //    break;
+            //    default:
+            //    break;        
+            //}
         } else if (charActive === 'rover'){
-
-            switch(key.keyCode){
-                case 17:
-                    //Shoot
-                    createShoots(rover);
-                break;
-                case 37:
-                    //Turn Left
-                    turnLeft(rover);
-                break;
-                case 38:
-                    //Move Forward
-                    moveForward(rover);
-                break;
-                case 39:
-                    //Turn Rigth
-                    turnRight(rover);
-                break;
-                case 40:
-                    //Move Backward
-                    moveBackward(rover);
-                break;
-                case 68:
-                    //Spaceman getting out of the Rover
-                    gettingOutRover();
-                break;
-                case 77:
-                    //Toggle Map Visibility
-                    toggleMap();
-                break;
-                case 80:
-                    //Pause or resume the game
-                    pauseResumeGame();
-                break;
-                case 83:
-                    //Show summary
-                    toggleMap();
-                break;
-                default:
-                break;        
-            }
+            //if (keys[17] === true) createShoots(rover);
+            //if (keys[37] === true) turnLeft(rover);
+            if (keys[38] === true) moveForward(rover);
+            //if (keys[39] === true) turnRight(rover);
+            if (keys[40] === true) moveBackward(rover);
+            //if (keys[77] === true) toggleMap();
+            //if (keys[80] === true) pauseResumeGame();
+            if (keys[68] === true) gettingOutRover();
+    
+            //switch(key.keyCode){
+            //    case 17:
+            //        //Shoot
+            //        createShoots(rover);
+            //    break;
+            //    case 37:
+            //        //Turn Left
+            //        turnLeft(rover);
+            //    break;
+            //    case 38:
+            //        //Move Forward
+            //        moveForward(rover);
+            //    break;
+            //    case 39:
+            //        //Turn Rigth
+            //        turnRight(rover);
+            //    break;
+            //    case 40:
+            //        //Move Backward
+            //        moveBackward(rover);
+            //    break;
+            //    case 68:
+            //        //Spaceman getting out of the Rover
+            //        gettingOutRover();
+            //    break;
+            //    case 77:
+            //        //Toggle Map Visibility
+            //        toggleMap();
+            //    break;
+            //    case 80:
+            //        //Pause or resume the game
+            //        pauseResumeGame();
+            //    break;
+            //    case 83:
+            //        //Show summary
+            //        toggleMap();
+            //    break;
+            //    default:
+            //    break;        
+            //}
         }
     }
-});
+}
+
+//addEventListener('keydown', function(e){
+//    key = e;
+//});
     
 //Excecuting the game
 startGame();

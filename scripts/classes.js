@@ -303,9 +303,16 @@ class Score{
 
     draw(){
         ctx.font = '30px serif';
-        ctx.fillText('Hi Score ' + this.hiScore, 1600, 100);
-        ctx.fillText('Score    ' + this.score, 1600, 150);
-        ctx.fillText('Enemies  ' + this.enemies, 1600, 200);
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.fillText('Hi Score', 1500, 30);
+        ctx.fillText('Score', 1650, 30);
+        ctx.fillText('Enemies', 1800, 30);
+        ctx.fillText(this.hiScore, 1500, 65);
+        ctx.fillText(this.score, 1650, 65);
+        ctx.fillText(this.enemies, 1800, 65);
+        ctx.textAlign = 'start';
+
     }
 }
 
@@ -315,7 +322,7 @@ class Shooting extends Item{
         this.image = new Image();
         this.image.src = './images/discharge.png';
         this.direction = direction;
-        this.damage = 100;
+        this.damage = 10;
     }
 
     collition(enemy){
@@ -326,7 +333,7 @@ class Shooting extends Item{
     }
 
     draw(){
-        let vel = 10;
+        let vel = 30;
         switch(this.direction){
             case 'N':
                 this.y -= vel;
