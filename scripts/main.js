@@ -8,8 +8,10 @@ var mCtx = map.getContext('2d');
 
 //Activating full scree request
 document.addEventListener("click", function (e) {
+    console.log(e.path);
+
     if(!e.path) return;
-    if(e.path[2].id === "expand"){
+    if(e.path[3].id === "expand" || e.path[2].id === "expand" ){
         var el = document.documentElement,
         rfs = el.requestFullscreen
                 || el.webkitRequestFullScreen
@@ -39,6 +41,7 @@ var keys = [];
 
 var gameState = 'inactive';
 var charActive = 'spaceman';
+var stationInside = false;
 var scenActive = 0;
 var scenarioImages = [
     './images/MarsScenario1.png',
@@ -49,6 +52,17 @@ var scenarioImages = [
     './images/MarsScenario6.png'
 ]
 var scenarios = [];
+var stationsIntImages = [
+    './images/StationInt1.png',
+    './images/StationInt2.png',
+    './images/StationInt3.png',
+    './images/StationInt4.png',
+    './images/StationInt5.png',
+    './images/StationInt6.png',
+    './images/StationInt7.png',
+    './images/StationInt8.png'
+]
+var interiors = [];
 
 var borderError = "Error trying to excced the grid borders";
 
@@ -72,6 +86,8 @@ generateScenarios();
 
 generateStations();
 
+generateInteriors();
+
 var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
 character.spaceman = spaceman;
 
@@ -91,26 +107,34 @@ var key;
 
 addEventListener('keydown',function(e){
     keys[e.keyCode]=true;
-    console.log(keys);
 });
 
 addEventListener('keyup', function(e){
     keys[e.keyCode]=false;
-    console.log(keys);
 });
 
 addEventListener('keydown',function(e){
-    if(e.keyCode === 80) pauseResumeGame();
-    
-    if(charActive === 'spaceman'){
-        if(e.keyCode === 17) createShoots(spaceman);
-        if(e.keyCode === 77) toggleMap();
-    }
-    if(charActive === 'rover'){
-        if(e.keyCode === 17) createShoots(rover);
-        if(e.keyCode === 77) toggleMap();
-        if(e.keyCode === 37) turnLeft(rover);
-        if(e.keyCode === 39) turnRight(rover);
+    if (gameState === 'inactive' || gameState === 'paused'){
+        if(e.keyCode === 13) pauseResumeGame();
+    } else if (gameState === 'active'){
+        if(e.keyCode === 13) pauseResumeGame();
+        if(charActive === 'spaceman'){
+            if(e.keyCode === 17) createShoots(spaceman);
+            if(e.keyCode === 73) gettingInStation();
+            if(e.keyCode === 77) toggleMap();
+            if(e.keyCode === 79) gettingOutStation();
+            if(e.keyCode === 85) gettingInRover();
+        }
+        if(charActive === 'rover'){
+            if(e.keyCode === 17) createShoots(rover);
+            if(e.keyCode === 77) toggleMap();
+            if(e.keyCode === 37) turnLeft(rover);
+            if(e.keyCode === 39) turnRight(rover);
+            if(e.keyCode === 68) gettingOutRover();
+        }
+    } else if (gameState === 'gameOver'){
+        if(e.keyCode === 13) reStartGame();
+
     }
 });
 
@@ -127,7 +151,6 @@ function keyControls(){
             if (keys[38] === true) spacemanNorth(spaceman);
             if (keys[39] === true) spacemanEast(spaceman);
             if (keys[40] === true) spacemanSouth(spaceman);
-            if (keys[85] === true) gettingInRover();
             //switch(key.keyCode){
             //    case 17:
             //        //Shoot

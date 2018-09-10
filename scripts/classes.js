@@ -192,12 +192,18 @@ class Enemy extends Item{
 class Spaceman extends Item{
     constructor(x,y,width,height){
         super(x,y,width,height);
+        this.xTemp = 0;
+        this.yTemp = 0;
+        this.itemScaleTemp = itemScale;
+        this.mapActive = false;
         this.direction = 'E';
         this.image = new Image();
         this.image.src = './images/SpacemanEast.png';
         this.dischargeImage = new Image();
         this.dischargeImage.src = './images/discharge.png';
         this.saveDistanceFactor = 5;
+        this.weapons = [];
+        this.shields = [];
         this.damage = 5;
         this.energy = 100;
         this.oxigen = 100;
@@ -259,7 +265,7 @@ class Station extends Item{
     constructor(x,y,width,height){
         super(x,y,width,height);
         this.image = new Image();
-        this.image.src = './images/MarsStation.png'
+        this.image.src = './images/MarsStation.png';
     }
     draw(){
         //Main drawing
@@ -273,12 +279,16 @@ class Station extends Item{
     }
 }
 
-class Map{
-    constructor(){
-
+class StationInt extends Item{
+    constructor(x,y,width,height,image){
+        super(x,y,width,height)
+        this.image = new Image();
+        this.image.src = image;
+        this.items = [];
     }
-    draw(){
 
+    draw() {
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -322,7 +332,7 @@ class Shooting extends Item{
         this.image = new Image();
         this.image.src = './images/discharge.png';
         this.direction = direction;
-        this.damage = 10;
+        this.damage = 15;
     }
 
     collition(enemy){
