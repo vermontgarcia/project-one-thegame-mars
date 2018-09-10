@@ -93,7 +93,11 @@ class Enemy extends Item{
     }
 
     receiveDamage(item, indexEnemy, indexShoot){
-        this.health -= item.damage;
+        if (charActive === 'rover'){
+            this.health -= item.damage*2;
+        } else {
+            this.health -= item.damage;
+        }
         shoots.splice(indexShoot,1);
         score.update(item.damage,0);
         if (this.health <= 0){

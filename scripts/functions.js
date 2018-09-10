@@ -25,7 +25,7 @@ function startGame(){
         frames++;
 
         if (frames/100 % 2){
-            keyControls();
+            keyControls2();
         }
 
         if (!stationInside){            
