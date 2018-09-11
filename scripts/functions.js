@@ -16,6 +16,16 @@ function isMobile(){
 
 //Game controling
 function startGame(){
+    if(players === 2){
+        $('.container').addClass('halfHeight');
+        $('#2').removeClass('hide');
+        $('#map').addClass('halfHeightMap');
+        $('#map2').addClass('halfHeightMap');
+    } else {
+        $('.container').addClass('fullHeight');
+        $('#map').addClass('fullHeightMap');
+        $('#map2').addClass('fullHeightMap');
+    }
     gameState = 'active';
     
     //Initializing variables
@@ -31,9 +41,12 @@ function startGame(){
         if (!stationInside){            
             //Drawing main canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx2.clearRect(0, 0, canvas.width, canvas.height);
             //Drawing map canvas
             mCtx.clearRect(0, 0, map.width, map.height);
             mCtx.lineWidth = 3;
+            mCtx2.clearRect(0, 0, map.width, map.height);
+            mCtx2.lineWidth = 3;
             //Drawing main canvas
             scenarios[scenActive].draw();
             scenarios[scenActive].stations[0].draw();
@@ -44,10 +57,18 @@ function startGame(){
             mCtx.moveTo(map.width/2-10,map.height/2);
             mCtx.lineTo(map.width/2+10,map.height/2)
             mCtx.stroke();
+
+            mCtx2.beginPath();
+            mCtx2.moveTo(map.width/2,map.height/2-10);
+            mCtx2.lineTo(map.width/2,map.height/2+10)
+            mCtx2.moveTo(map.width/2-10,map.height/2);
+            mCtx2.lineTo(map.width/2+10,map.height/2)
+            mCtx2.stroke();
             //Drawing main canvas
             generateEnemies();
             rover.draw();
             spaceman.draw();
+            spaceman2.draw();
             drawEnemies();
             drawShoots();
             score.draw();
@@ -72,7 +93,7 @@ function reStartGame(){
     console.log('restarting....')
     frames = 0;
     character = {};
-    scenarioScale = 2;
+    //scenarioScale = 2;
     itemScale = 0.75;
     deepFactorChar = 1;
     deepFactorSpaceman;
@@ -214,7 +235,7 @@ function enemyDirection(enemy,character){
 }
 
 //Spaceman
-function spacemanNorth(){
+function spacemanNorth(spaceman){
     spaceman.direction = 'N';
     if (frames%2 === 0){
         //spaceman.image.src = './images/SpacemanNorth2.png';
@@ -243,7 +264,7 @@ function spacemanNorth(){
     }
 }
 
-function spacemanEast(){
+function spacemanEast(spaceman){
     spaceman.direction = 'E';
     if (frames%2 === 0){
         spaceman.image.src = './images/SpacemanEast2.png';
@@ -272,7 +293,7 @@ function spacemanEast(){
     }
 }
 
-function spacemanSouth(){
+function spacemanSouth(spaceman){
     spaceman.direction = 'S'
     if (frames%2 === 0){
         //spaceman.image.src = './images/SpacemanSouth2.png';
@@ -301,7 +322,7 @@ function spacemanSouth(){
     }
 }
 
-function spacemanWest(){
+function spacemanWest(spaceman){
     spaceman.direction = 'W';
     if (frames%2 === 0){
         spaceman.image.src = './images/SpacemanWest2.png';
@@ -386,7 +407,7 @@ function gettingOutStation(){
     }
 }
 
-function spacemanDimUpdate(){
+function spacemanDimUpdate(spaceman){
     deepFactorSpaceman = (spaceman.y - scenarios[scenActive].y)/scenarios[scenActive].height;
     spaceman.height = spacemanHeight * deepFactorSpaceman * itemScale;
     spaceman.width = spacemanWidth * deepFactorSpaceman * itemScale;
@@ -686,6 +707,52 @@ function roverDimUpdate(){
         rover.width = roverWidthSide * deepFactorRover * itemScale;
     } else {
         rover.width = roverWidthFront * deepFactorRover * itemScale;
+    }
+}
+
+//Key Control Functions
+function keyControls1(e){
+    if (gameState === 'inactive' || gameState === 'paused'){
+        if(e.keyCode === 13) pauseResumeGame();
+    } else if (gameState === 'active'){
+        if(e.keyCode === 13) pauseResumeGame();
+        if(charActive === 'spaceman'){
+            if(e.keyCode === 17) createShoots(spaceman);
+            if(e.keyCode === 73) gettingInStation();
+            if(e.keyCode === 77) toggleMap();
+            if(e.keyCode === 79) gettingOutStation();
+            if(e.keyCode === 85) gettingInRover();
+        }
+        if(charActive === 'rover'){
+            if(e.keyCode === 17) createShoots(rover);
+            if(e.keyCode === 77) toggleMap();
+            if(e.keyCode === 37) turnLeft(rover);
+            if(e.keyCode === 39) turnRight(rover);
+            if(e.keyCode === 68) gettingOutRover();
+        }
+    } else if (gameState === 'gameOver'){
+        if(e.keyCode === 13) reStartGame();
+    }
+}
+
+function keyControls2(){
+    if (gameState === 'active'){
+        if (charActive === 'spaceman'){
+            //Spaceman 1
+            if (keys[37] === true) spacemanWest(spaceman);
+            if (keys[38] === true) spacemanNorth(spaceman);
+            if (keys[39] === true) spacemanEast(spaceman);
+            if (keys[40] === true) spacemanSouth(spaceman);
+            //Spaceman 2
+            if (keys[90] === true) spacemanWest(spaceman2);
+            if (keys[83] === true) spacemanNorth(spaceman2);
+            if (keys[67] === true) spacemanEast(spaceman2);
+            if (keys[88] === true) spacemanSouth(spaceman2);
+        } else if (charActive === 'rover'){
+            if (keys[38] === true) moveForward(rover);
+            if (keys[40] === true) moveBackward(rover);
+            if (keys[68] === true) gettingOutRover();
+        }
     }
 }
 
