@@ -9,22 +9,48 @@
     <title>MARS</title>
 </head>
 <body id="expand">
-    <main id="1" class="container">
-        <div class="map">
+    <div class="modal">
+        <div class="language">
+            <div id="eng-btn" class="button">English</div>
+            <div id="spa-btn" class="button">Español</div>
+        </div>
+    </div>
+    <article id="controls">
+        <div class="settings">
+            <div class="col-3">
+                <div id="1p-btn" class="button">1 Player</div>
+                <div id="2p-btn" class="button">2 Player</div>
+            </div>
+            <div class="col-3">
+                <div id="surv-btn" class="button">Survival</div>
+                <div id="mission-btn" class="button">Mission</div>
+            </div>
+            <div class="col-3">
+                <div id="easy-btn" class="button selection">Easy</div>
+                <div id="hard-btn" class="button">Hard</div>
+                <div id="expert-btn" class="button">Expert</div>
+            </div>
+        </div>
+        <div class="start">
+            <div id="start-btn" class="button">Start Game</div>
+        </div>
+    </article>
+    <article id="1" class="container">
+        <div class="map hide">
             <canvas id="map" width="570" height="315"></canvas>
         </div>    
         <div class="canvas">
             <canvas id="mars" width="1900" height="1050"></canvas>
         </div>
-    </main>    
-    <main id="2" class="container hide">
+    </article>    
+    <article id="2" class="container hide">
         <div class="map2">
             <canvas id="map2" width="570" height="315"></canvas>
         </div>    
         <div class="canvas">
             <canvas id="mars2" width="1900" height="1050"></canvas>
         </div>
-    </main>    
+    </article>    
     <script src="./scripts/classes.js"></script>
     <script src="./scripts/functions.js"></script>
     <script src="./scripts/main.js"></script>    

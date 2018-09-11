@@ -1,12 +1,91 @@
 *{
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
+.modal{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all 1s;
+}
+
+#controls{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    flex-direction: column;
+    justify-content: flex-end;   
+    display: none;
+    transition: all 1s;
+}
+
+.start{
+    margin: 2%;
+}
+
+.settings{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.active{
+    visibility: visible;
+    opacity: 1 !important;
+}
+
+.language{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 35%;
+    height: 45%;
+    border-radius: 5px;
+    color: black;
+}
+
+.col-3{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    padding: auto;
+}
+
+.button{
+    width: 50% !important;
+    font-size: 1.5em;
+    text-align: center;
+    border-radius: 5px;
+    padding: 20px;
+    border: 1px;
+    background-color: white;
+    color: black;
+    font-weight: 900;
+    margin: 20px;
+}
+
+#start-btn{
+    width: 50px;
+    margin: auto;
+}
+
+.selection{
+    background-color: yellow;
+}
 .container{
     display: flex;
     width: 100vw;
-    
+    height: 100vh;
     justify-content: center;
     align-items: center;
     overflow: hidden;
@@ -14,11 +93,11 @@
 }
 
 .halfHeight{
-    height: 50vh;
+    height: 50vh !important;
 }
 
 .fullHeight{
-    height: 100vh;
+    height: 100vh !important;
 }
 
 .halfHeightMap{

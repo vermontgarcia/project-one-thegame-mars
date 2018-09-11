@@ -19,7 +19,7 @@ document.addEventListener("click", function (e) {
     console.log(e.path);
 
     if(!e.path) return;
-    if(e.path[3].id === "expand" || e.path[2].id === "expand" ){
+    if(e.path[3].id === "expand" || e.path[2].id === "expand" || e.path[1].id === "expand" ){
         var el = document.documentElement,
         rfs = el.requestFullscreen
                 || el.webkitRequestFullScreen
@@ -41,12 +41,13 @@ var character = {};
 var scenarioScale = 1;
 var itemScale = 0.60;
 var deepFactorChar = 1;
-var players = 1;
+var players = 2;
 var deepFactorSpaceman;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
 var shoots = [];
 var keys = [];
+var language = '';
 
 var gameState = 'inactive';
 var charActive = 'spaceman';
@@ -124,4 +125,5 @@ addEventListener('keydown',function(e){
 });
 
 //Excecuting the game
-startGame();
+intro(language);
+//startGame();

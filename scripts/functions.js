@@ -15,6 +15,58 @@ function isMobile(){
 }
 
 //Game controling
+function intro(lang){
+    let image = new Image();
+    image.src = './images/Mars-featured-image.jpg';
+    image.onload = function(){
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      }
+    if (lang === ''){
+        $(".modal").toggleClass("active");
+
+        $('#eng-btn').hover(function() {
+            $(this).css('cursor','pointer');
+            $(this).click(function(){
+                language = 'english'
+                $(".modal").toggleClass("active");
+                setTimeout(function(){
+                    $(".modal").attr("style", "display: none");
+                    writeMars();
+                },1500);
+            });
+        });
+        $('#spa-btn').hover(function() {
+            $(this).css('cursor','pointer');
+            $(this).click(function(){
+                language = 'spanish'
+                $(".modal").toggleClass("active");
+                setTimeout(function(){
+                    $(".modal").attr("style", "display: none");
+                    writeMars();
+                },1500);
+            });
+        });
+    }
+    $('#start-btn').hover(function() {
+        $(this).css('cursor','pointer');
+        $(this).click(function(){
+            $("#controls").attr("style", "display: none");
+            startGame();            
+        });
+    });
+}
+
+function writeMars(){
+    ctx.font = '200px arial';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    ctx.fillText('MARS', canvas.width*0.5, canvas.height*0.55);
+    $("#controls").attr("style", "display: flex");
+    setTimeout(function(){
+        $("#controls").addClass("active");
+    },1000);
+}
+
 function startGame(){
     if(players === 2){
         $('.container').addClass('halfHeight');
