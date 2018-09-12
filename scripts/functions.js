@@ -61,6 +61,7 @@ function intro(lang){
         $(this).click(function(){
             //Code here          
             $(this).addClass('selection');
+            players = 1;
         });
     }, function(){
         $(this).removeClass('hover');
@@ -72,6 +73,7 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            players = 2;
         });
     }, function(){
         $(this).removeClass('hover');
@@ -221,6 +223,7 @@ function startGame(){
 function gameOver(){
     console.log('game Over')
     gameState = 'gameOver';
+    console.log(interval);
     clearInterval(interval);
 }
 

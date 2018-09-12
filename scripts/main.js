@@ -41,13 +41,16 @@ var character = {};
 var scenarioScale = 2;
 var itemScale = 0.60;
 var deepFactorChar = 1;
-var players = 1;
 var deepFactorSpaceman;
 var deepFactorEnemie;
 var enemiesQuantity = 20;
 var shoots = [];
 var keys = [];
+
 var language = '';
+var players = 1;
+var mode;
+var dificulty;
 
 var gameState = 'inactive';
 var charActive = 'spaceman';
