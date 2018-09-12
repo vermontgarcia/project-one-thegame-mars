@@ -61,6 +61,8 @@ function intro(lang){
         $(this).click(function(){
             //Code here          
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            enableStart();
             players = 1;
         });
     }, function(){
@@ -73,6 +75,8 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            enableStart();
             players = 2;
         });
     }, function(){
@@ -84,6 +88,9 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            mode = 'survival';
+            enableStart();
         });
     }, function(){
         $(this).removeClass('hover');
@@ -94,6 +101,9 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            mode = 'mission';
+            enableStart();
         });
     }, function(){
         $(this).removeClass('hover');
@@ -104,6 +114,9 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            difficulty = 'easy';
+            enableStart();
         });
     }, function(){
         $(this).removeClass('hover');
@@ -114,6 +127,9 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            difficulty = 'hard';
+            enableStart();
         });
     }, function(){
         $(this).removeClass('hover');
@@ -124,6 +140,9 @@ function intro(lang){
         $(this).click(function(){
             //Code here
             $(this).addClass('selection');
+            $(this).siblings().removeClass('selection');
+            difficulty = 'expert';
+            enableStart();
         });
     }, function(){
         $(this).removeClass('hover');
@@ -134,6 +153,7 @@ function intro(lang){
         $(this).addClass('hover');
         $(this).click(function(){
             $("#controls").attr("style", "display: none");
+            console.log(players,mode,difficulty);
             startGame();            
         });
     }, function(){
@@ -150,6 +170,17 @@ function writeMars(){
     setTimeout(function(){
         $("#controls").addClass("active");
     },1000);
+}
+
+function enableStart(){
+    if ($('#players').children().hasClass('selection')
+        && $('#mode').children().hasClass('selection')
+        && $('#difficulty').children().hasClass('selection')){
+        console.log('Ready');
+        $('#start').removeClass('hide');
+    } else {
+        console.log('Not Ready');
+    }
 }
 
 function startGame(){

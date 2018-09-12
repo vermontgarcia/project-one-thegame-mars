@@ -49,8 +49,8 @@ var keys = [];
 
 var language = '';
 var players = 1;
-var mode;
-var dificulty;
+var mode = 'mission';
+var difficulty = 'easy';
 
 var gameState = 'inactive';
 var charActive = 'spaceman';
