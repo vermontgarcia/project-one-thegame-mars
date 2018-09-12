@@ -26,6 +26,7 @@ function intro(lang){
 
         $('#eng-btn').hover(function() {
             $(this).css('cursor','pointer');
+            $(this).addClass('hover');
             $(this).click(function(){
                 language = 'english'
                 $(".modal").toggleClass("active");
@@ -34,9 +35,13 @@ function intro(lang){
                     writeMars();
                 },1500);
             });
+        }, function(){
+            $(this).removeClass('hover');
         });
+
         $('#spa-btn').hover(function() {
             $(this).css('cursor','pointer');
+            $(this).addClass('hover');
             $(this).click(function(){
                 language = 'spanish'
                 $(".modal").toggleClass("active");
@@ -45,14 +50,92 @@ function intro(lang){
                     writeMars();
                 },1500);
             });
+        }, function(){
+            $(this).removeClass('hover');
         });
     }
+
+    $('#1p-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here          
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+    
+    $('#2p-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+    $('#surv-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+    $('#mission-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+    $('#easy-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+    $('#hard-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+    $('#expert-btn').hover(function(){
+        $(this).css('cursor','pointer');
+        $(this).addClass('hover');
+        $(this).click(function(){
+            //Code here
+            $(this).addClass('selection');
+        });
+    }, function(){
+        $(this).removeClass('hover');
+    });
+
     $('#start-btn').hover(function() {
         $(this).css('cursor','pointer');
+        $(this).addClass('hover');
         $(this).click(function(){
             $("#controls").attr("style", "display: none");
             startGame();            
         });
+    }, function(){
+        $(this).removeClass('hover');
     });
 }
 
@@ -120,7 +203,7 @@ function startGame(){
             generateEnemies();
             rover.draw();
             spaceman.draw();
-            spaceman2.draw();
+            //spaceman2.draw();
             drawEnemies();
             drawShoots();
             score.draw();
@@ -435,10 +518,10 @@ function gettingInStation(){
         spaceman.yTemp = spaceman.y;
         spaceman.itemScaleTemp = itemScale;
         itemScale = 3;
-        spacemanDimUpdate();
+        spacemanDimUpdate(spaceman);
         spaceman.x = canvas.width*0.9;
         spaceman.y = canvas.height - spaceman.height - 150;
-        spacemanWest();
+        spacemanWest(spaceman);
         stationInside = true;
     }
 }
@@ -446,10 +529,10 @@ function gettingInStation(){
 function gettingOutStation(){
     if (stationInside){
         itemScale = spaceman.itemScaleTemp;
-        spacemanDimUpdate();
+        spacemanDimUpdate(spaceman);
         spaceman.x = spaceman.xTemp;
         spaceman.y = spaceman.yTemp;
-        spacemanWest()
+        spacemanWest(spaceman)
         stationInside = false;
         if(spaceman.mapActive){
             $('.map').removeClass('hide');          

@@ -79,9 +79,16 @@
     margin: auto;
 }
 
+.hover{
+    background-color: grey;
+    color: white
+}
+
 .selection{
     background-color: yellow;
+    color: black;
 }
+
 .container{
     display: flex;
     width: 100vw;
