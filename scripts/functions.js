@@ -647,6 +647,11 @@
         let x2 = scenarios[scenActive].stations[0].x + scenarios[scenActive].stations[0].width * 0.8;
         let y2 = scenarios[scenActive].stations[0].y + scenarios[scenActive].stations[0].height * 0.2;
         if (distance(x1, y1, x2, y2) <= spaceman.height){
+            if (mode === 'mission'){
+                songs[1].stop();
+            } else {
+                songs[2].stop();
+            }
             songs[3].play();
             if(!$('.map').hasClass('hide')){
                 spaceman.mapActive = true;
@@ -669,6 +674,11 @@
     function gettingOutStation(){
         if (stationInside){
             songs[3].stop();
+            if (mode === 'mission'){
+                songs[1].play();
+            } else {
+                songs[2].play();
+            }
             itemScale = spaceman.itemScaleTemp;
             spacemanDimUpdate(spaceman);
             spaceman.x = spaceman.xTemp;
