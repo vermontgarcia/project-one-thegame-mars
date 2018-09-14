@@ -54,7 +54,9 @@ class Rover extends Item{
     }
 
     receiveDamage(enemy){
-        this.condition -= enemy.damage;
+        if (this.condition > 0){
+            this.condition -= enemy.damage;
+        }
         ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
         mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
     }
