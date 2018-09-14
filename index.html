@@ -9,7 +9,7 @@
     <title>MARS</title>
 </head>
 <body id="expand">
-    <div class="modal">
+    <div id="language" class="modal">
         <div class="language">
             <div id="eng-btn" class="button">English</div>
             <div id="spa-btn" class="button">Español</div>
@@ -35,6 +35,13 @@
             <div id="start-btn" class="button">Start Game</div>
         </div>
     </article>
+    <div id="game-over" class="modal hide">
+        <div><span id="game-over-text">GAME OVER</span></div>
+        <div class="game-over">
+            <div id="restart-btn" class="button">Restart</div>
+            <div id="menu-btn" class="button">Config</div>
+        </div>
+    </div>
     <article id="1" class="container">
         <div class="map hide">
             <canvas id="map" width="570" height="315"></canvas>

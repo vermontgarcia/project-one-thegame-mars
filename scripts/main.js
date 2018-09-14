@@ -16,7 +16,7 @@ var mCtx2 = map2.getContext('2d');
 
 //Activating full scree request
 document.addEventListener("click", function (e) {
-    console.log(e.path);
+    //console.log(e.path);
 
     if(!e.path) return;
     if(e.path[3].id === "expand" || e.path[2].id === "expand" || e.path[1].id === "expand" ){
@@ -116,7 +116,7 @@ ctx.fillText(isMobile, 100, 100);
 //Setting the keyboard Controls
 addEventListener('keydown',function(e){
     keys[e.keyCode]=true;
-    this.console.log(keys)
+    //this.console.log(keys)
 });
 
 addEventListener('keyup', function(e){

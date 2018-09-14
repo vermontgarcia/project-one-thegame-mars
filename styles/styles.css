@@ -17,15 +17,20 @@
     transition: all 1s;
 }
 
-#controls{
+#controls, #game-over{
     position: fixed;
     width: 100vw;
     height: 100vh;
     opacity: 0;
     flex-direction: column;
     justify-content: flex-end;   
-    display: none;
     transition: all 1s;
+}
+
+#game-over-text{
+    font-size: 5em;
+    font-weight: 1000;
+    color: yellow;
 }
 
 .start{
@@ -44,7 +49,7 @@
     opacity: 1 !important;
 }
 
-.language{
+.language, .game-over{
     display: flex;
     justify-content: space-around;
     align-items: center;

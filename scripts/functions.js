@@ -10,8 +10,8 @@ function isMobile(){
         (navigator.userAgent.match (/iPad/i)) ||
         (navigator.userAgent.match (/iPod/i)) ||
         (navigator.userAgent.match (/BlackBerry/i))        
-    ) return true;
-    return false;
+    ) return 'Movile';
+    return 'PC';
 }
 
 //Game controling
@@ -22,18 +22,21 @@ function intro(lang){
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
       }
     if (lang === ''){
-        $(".modal").toggleClass("active");
+
+        $('#controls').addClass('hide');
+        $('#language').toggleClass('active');
 
         $('#eng-btn').hover(function() {
             $(this).css('cursor','pointer');
             $(this).addClass('hover');
             $(this).click(function(){
+                $(this).addClass('selection');
                 language = 'english'
-                $(".modal").toggleClass("active");
+                $('#language').toggleClass('active');
                 setTimeout(function(){
-                    $(".modal").attr("style", "display: none");
+                    $('#language').addClass('hide');
                     writeMars();
-                },1500);
+                },1000);
             });
         }, function(){
             $(this).removeClass('hover');
@@ -43,10 +46,11 @@ function intro(lang){
             $(this).css('cursor','pointer');
             $(this).addClass('hover');
             $(this).click(function(){
+                $(this).addClass('selection');
                 language = 'spanish'
-                $(".modal").toggleClass("active");
+                $('#language').toggleClass("active");
                 setTimeout(function(){
-                    $(".modal").attr("style", "display: none");
+                    $('#language').attr("style", "display: none");
                     writeMars();
                 },1500);
             });
@@ -253,14 +257,20 @@ function startGame(){
 }
 
 function gameOver(){
-    console.log('game Over')
+    //console.log('game Over')
     gameState = 'gameOver';
-    console.log(interval);
+    //console.log(interval);
     clearInterval(interval);
+    $('#game-over').removeClass('hide');
+    $('#game-over').toggleClass("active");
 }
 
 function reStartGame(){
     console.log('restarting....')
+    $('#game-over').toggleClass("active");
+    setTimeout(function(){
+        $('#game-over').addClass('hide');
+    },500);
     frames = 0;
     character = {};
     //scenarioScale = 2;
@@ -354,7 +364,7 @@ function generateInteriors(){
 //Enemies
 function generateEnemies(){
     if (scenarios[scenActive].enemies.length > enemiesQuantity-1) return;
-    if (frames % 100 === 0 || frames % 140 === 0 || frames % 340 === 0){
+    if (frames % 50 === 0 || frames % 140 === 0 || frames % 340 === 0){
         let width = enemyWidth*itemScale;
         let height = enemyHeight*itemScale;
         let x = scenarios[scenActive].x + Math.floor(Math.random()*scenarios[scenActive].width)-width;
@@ -522,12 +532,14 @@ function spacemanWest(spaceman){
 }
 
 function gettingInRover(){
-    let x1 = spaceman.x + spaceman.width*0.5;
-    let y1 = spaceman.y;
-    let x2 = rover.x + rover.width*0.8;
-    let y2 = rover.y + rover.height * 0.2;
-    if (distance(x1, y1, x2, y2) <= spaceman.width){
-        charActive = 'rover';
+    if (rover.condition > 0){
+        let x1 = spaceman.x + spaceman.width*0.5;
+        let y1 = spaceman.y;
+        let x2 = rover.x + rover.width*0.8;
+        let y2 = rover.y + rover.height * 0.2;
+        if (distance(x1, y1, x2, y2) <= spaceman.width){
+            charActive = 'rover';
+        }
     }
 }
 
@@ -894,6 +906,7 @@ function keyControls1(e){
             if(e.keyCode === 85) gettingInRover();
         }
         if(charActive === 'rover'){
+            if (rover.condition <= 0) charActive = 'spaceman';
             if(e.keyCode === 17) createShoots(rover);
             if(e.keyCode === 77) toggleMap();
             if(e.keyCode === 37) turnLeft(rover);
@@ -919,6 +932,7 @@ function keyControls2(){
             if (keys[67] === true) spacemanEast(spaceman2);
             if (keys[88] === true) spacemanSouth(spaceman2);
         } else if (charActive === 'rover'){
+            if (rover.condition <= 0) charActive = 'spaceman';
             if (keys[38] === true) moveForward(rover);
             if (keys[40] === true) moveBackward(rover);
             if (keys[68] === true) gettingOutRover();
