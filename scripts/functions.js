@@ -162,10 +162,10 @@ function intro(lang){
 }
 
 function writeMars(){
-    ctx.font = '200px arial';
+    ctx.font = '900 250px arial';
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
-    ctx.fillText('MARS', canvas.width*0.5, canvas.height*0.55);
+    ctx.fillText('MARS', canvas.width*0.5, canvas.height*0.65);
     $("#controls").attr("style", "display: flex");
     setTimeout(function(){
         $("#controls").addClass("active");
@@ -240,8 +240,9 @@ function startGame(){
             drawEnemies();
             drawShoots();
             score.draw();
+            statusCharacter.draw(spaceman.health, rover.condition);
     
-            ctx.fillText('Scenario Active ' + scenActive, 100, 100);
+            //ctx.fillText('Scenario Active ' + scenActive, 100, 100);
 
         } else {
             ctx.clearRect(0, 0, canvas.width, canvas.height);

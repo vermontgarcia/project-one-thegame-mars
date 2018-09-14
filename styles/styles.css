@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-family: arial;
 }
 
 .modal{
@@ -63,15 +64,15 @@
 
 .button{
     width: 50% !important;
-    font-size: 1.5em;
+    font-size: 1em;
     text-align: center;
     border-radius: 5px;
-    padding: 20px;
+    padding: 10px;
     border: 1px;
     background-color: white;
     color: black;
     font-weight: 900;
-    margin: 20px;
+    margin: 10px;
 }
 
 #start-btn{

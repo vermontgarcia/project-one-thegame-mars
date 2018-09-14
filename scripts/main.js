@@ -105,6 +105,7 @@ character.spaceman2 = spaceman2;
 var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
 character.rover = rover;
 var score = new Score();
+var statusCharacter = new Status(100, 25, 400, 25);
 
 //Verifying the device runing the game
 isMobile = isMobile();

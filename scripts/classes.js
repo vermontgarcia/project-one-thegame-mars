@@ -38,7 +38,7 @@ class Rover extends Item{
         this.saveDistanceFactor = 8;
         this.damage = 10;
         this.energy = 100;
-        this.condition = 100;
+        this.condition = 200;
         }
 
     boundaries(){
@@ -66,13 +66,13 @@ class Rover extends Item{
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
         //Temporal black rectangle
-        ctx.beginPath();
-        ctx.moveTo(this.x,this.y+this.height*0.3)
-        ctx.lineTo(this.x + this.width, this.y+this.height*0.3)
-        ctx.lineTo(this.x + this.width, this.y+this.height*0.8);
-        ctx.lineTo(this.x, this.y+this.height*0.8);
-        ctx.lineTo(this.x, this.y+this.height*0.3);
-        ctx.stroke();
+        //ctx.beginPath();
+        //ctx.moveTo(this.x,this.y+this.height*0.3)
+        //ctx.lineTo(this.x + this.width, this.y+this.height*0.3)
+        //ctx.lineTo(this.x + this.width, this.y+this.height*0.8);
+        //ctx.lineTo(this.x, this.y+this.height*0.8);
+        //ctx.lineTo(this.x, this.y+this.height*0.3);
+        //ctx.stroke();
         //Map drawing
         mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
         mCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
@@ -185,13 +185,13 @@ class Enemy extends Item{
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
         ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
         //Temporal black rectangle
-        ctx.beginPath();
-        ctx.moveTo(this.x,this.y)
-        ctx.lineTo(this.x + this.width, this.y)
-        ctx.lineTo(this.x + this.width, this.y + this.height);
-        ctx.lineTo(this.x, this.y + this.height);
-        ctx.lineTo(this.x, this.y);
-        ctx.stroke();
+        //ctx.beginPath();
+        //ctx.moveTo(this.x,this.y)
+        //ctx.lineTo(this.x + this.width, this.y)
+        //ctx.lineTo(this.x + this.width, this.y + this.height);
+        //ctx.lineTo(this.x, this.y + this.height);
+        //ctx.lineTo(this.x, this.y);
+        //ctx.stroke();
         //Map drawing
         mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
         mCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
@@ -258,13 +258,13 @@ class Spaceman extends Item{
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
             ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal black rectangle
-            ctx.beginPath();
-            ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
-            ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.1)
-            ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.9);
-            ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.9);
-            ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.1);
-            ctx.stroke();
+            //ctx.beginPath();
+            //ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
+            //ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.1)
+            //ctx.lineTo(this.x + this.width*0.8, this.y + this.height*0.9);
+            //ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.9);
+            //ctx.lineTo(this.x + this.width*0.2, this.y + this.height*0.1);
+            //ctx.stroke();
             //Map drawing
             mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
             mCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
@@ -332,6 +332,49 @@ class Visor{
 
     }
 }
+
+class Status extends Item{
+    constructor(x,y,width,height){
+        super(x,y,width,height)
+        this.image = new Image();
+        this.image.src = './images/Status.png';
+    }
+
+    draw(spaceman, rover) {
+        //Spaceman
+        ctx.fillStyle = 'green';
+        if (spaceman < 70 ){
+            ctx.fillStyle = 'red';
+        } else if ( spaceman < 140){
+            ctx.fillStyle = 'yellow';
+        }
+        ctx.drawImage(this.image, this.x-45, this.y, this.width+90, this.height);
+        ctx.fillRect(this.x, this.y+6, spaceman*2, this.height-12);
+        //Rover
+        let space = 30;
+        ctx.fillStyle = 'green';
+        if (rover < 70 ){
+            ctx.fillStyle = 'red';
+        } else if ( rover < 140){
+            ctx.fillStyle = 'yellow';
+        }
+        ctx.drawImage(this.image, this.x-45, this.y+space, this.width+90, this.height);
+        ctx.fillRect(this.x, this.y+6+space, rover*2, this.height-12);
+    }
+}
+
+//class Status extends Item{
+//    constructor(x,y,width,height){
+//        super(x,y,width,height);
+//        this.image = new Image();
+//        this.image.src = 
+//        this.characterStatus = [];
+//    }
+//
+//    draw(){
+//        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+//    }
+//}
 
 class Score{
     constructor(){
