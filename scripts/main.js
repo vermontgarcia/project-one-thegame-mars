@@ -93,6 +93,22 @@
     var songs = [];
     var effects = [];
 
+    var frame1;
+    var frame2;
+    var frame3;
+
+
+
+    var spaceman;
+    var spaceman2;
+    var rover
+    var rover2
+    var score
+    var statusCharacter
+    var score2
+    var statusCharacter2
+
+
     var borderError = "Error trying to excced the grid borders";
 
     var stationBoundary;
@@ -113,19 +129,24 @@
 
     generateAudio();
     generateEffects();
-    generateScenarios();
-    generateStations();
-    generateInteriors();
-    var spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
-    character.spaceman = spaceman;
-    var spaceman2 = new Spaceman(canvas.width*0.75, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
-    character.spaceman2 = spaceman2;
-    var rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
-    character.rover = rover;
-    var score = new Score();
-    var statusCharacter = new Status(100, 25, 400, 25);
 
-    var confingSound = new Sound ()
+    function createInstances(){
+        generateScenarios();
+        generateStations();
+        generateInteriors();
+        spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
+        character.spaceman = spaceman;
+        spaceman2 = new Spaceman(canvas.width*0.75, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
+        character.spaceman2 = spaceman2;
+        rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
+        character.rover = rover;
+        rover2 = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
+        character.rover2 = rover2;
+        score = new Score();
+        statusCharacter = new Status(100, 25, 400, 25);
+        score2 = new Score();
+        statusCharacter2 = new Status(100, 25, 400, 25);
+    }
 
     //Verifying the device runing the game
     isMobile = isMobile();

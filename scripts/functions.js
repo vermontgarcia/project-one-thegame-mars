@@ -193,6 +193,63 @@
                 $("#controls").attr("style", "display: none");
                 console.log(players,mode,difficulty);
                 songs[0].stop();
+
+                if (players === 2 && mode === 'survival'){
+                    scenarioScale = 1;
+                    if (difficulty === 'easy'){
+                        enemiesQuantity = 40;
+                        frame1 = 100;
+                        frame2 = 180;
+                        frame3 = 320;
+                    } else if (difficulty === 'hard'){
+                        enemiesQuantity = 80;
+                        frame1 = 60;
+                        frame2 = 130;
+                        frame3 = 200;
+                    } else if (difficulty === 'expert'){
+                        enemiesQuantity = 120;
+                        frame1 = 40;
+                        frame2 = 70;
+                        frame3 = 130;
+                    }
+                } else if (players === 1 && mode === 'survival'){
+                    scenarioScale = 1;
+                    if (difficulty === 'easy'){
+                        enemiesQuantity = 40;
+                        frame1 = 100;
+                        frame2 = 180;
+                        frame3 = 320;
+                    } else if (difficulty === 'hard'){
+                        enemiesQuantity = 60;
+                        frame1 = 60;
+                        frame2 = 130;
+                        frame3 = 200;
+                    } else if (difficulty === 'expert'){
+                        enemiesQuantity = 80;
+                        frame1 = 40;
+                        frame2 = 70;
+                        frame3 = 130;
+                    }
+                } else if (players === 1 && mode === 'mission'){
+                    scenarioScale = 2;
+                    if (difficulty === 'easy'){
+                        enemiesQuantity = 30;
+                        frame1 = 100;
+                        frame2 = 180;
+                        frame3 = 320;
+                    } else if (difficulty === 'hard'){
+                        enemiesQuantity = 60;
+                        frame1 = 60;
+                        frame2 = 130;
+                        frame3 = 200;
+                    } else if (difficulty === 'expert'){
+                        enemiesQuantity = 90;
+                        frame1 = 40;
+                        frame2 = 70;
+                        frame3 = 130;
+                    }
+                }
+                createInstances();
                 startGame();            
             });
         }, function(){
@@ -225,11 +282,17 @@
 
     function startGame(){
         if(players === 2){
-            $('.container').addClass('halfHeight');
-            $('#2').removeClass('hide');
-            $('#map').addClass('halfHeightMap');
-            $('#map2').addClass('halfHeightMap');
-        } else {
+            if (mode === 'mision'){
+                $('.container').addClass('halfHeight');
+                $('#2').removeClass('hide');
+                $('#map').addClass('halfHeightMap');
+                $('#map2').addClass('halfHeightMap');
+            } else if (mode === 'survival'){
+                $('.container').addClass('fullHeight');
+                $('#map').addClass('fullHeightMap');
+                $('#map2').addClass('fullHeightMap');
+            }
+        } else if (players === 1) {
             $('.container').addClass('fullHeight');
             $('#map').addClass('fullHeightMap');
             $('#map2').addClass('fullHeightMap');
@@ -254,8 +317,8 @@
                 //Drawing map canvas
                 mCtx.clearRect(0, 0, map.width, map.height);
                 mCtx.lineWidth = 3;
-                mCtx2.clearRect(0, 0, map.width, map.height);
-                mCtx2.lineWidth = 3;
+                //mCtx2.clearRect(0, 0, map.width, map.height);
+                //mCtx2.lineWidth = 3;
                 //Drawing main canvas
                 scenarios[scenActive].draw();
                 scenarios[scenActive].stations[0].draw();
@@ -267,17 +330,19 @@
                 mCtx.lineTo(map.width/2+10,map.height/2)
                 mCtx.stroke();
 
-                mCtx2.beginPath();
-                mCtx2.moveTo(map.width/2,map.height/2-10);
-                mCtx2.lineTo(map.width/2,map.height/2+10)
-                mCtx2.moveTo(map.width/2-10,map.height/2);
-                mCtx2.lineTo(map.width/2+10,map.height/2)
-                mCtx2.stroke();
+                //mCtx2.beginPath();
+                //mCtx2.moveTo(map.width/2,map.height/2-10);
+                //mCtx2.lineTo(map.width/2,map.height/2+10)
+                //mCtx2.moveTo(map.width/2-10,map.height/2);
+                //mCtx2.lineTo(map.width/2+10,map.height/2)
+                //mCtx2.stroke();
                 //Drawing main canvas
                 generateEnemies();
                 rover.draw();
                 spaceman.draw();
-                //spaceman2.draw();
+                if (players === 2 && mode === 'survival'){
+                    spaceman2.draw();
+                }
                 drawEnemies();
                 drawShoots();
                 score.draw();
@@ -456,7 +521,7 @@
     //Enemies
     function generateEnemies(){
         if (scenarios[scenActive].enemies.length > enemiesQuantity-1) return;
-        if (frames % 50 === 0 || frames % 140 === 0 || frames % 340 === 0){
+        if (frames % frame1 === 0 || frames % frame2 === 0 || frames % frame3 === 0){
             let width = enemyWidth*itemScale;
             let height = enemyHeight*itemScale;
             let x = scenarios[scenActive].x + Math.floor(Math.random()*scenarios[scenActive].width)-width;
@@ -469,21 +534,50 @@
     }
 
     function drawEnemies (){
-        scenarios[scenActive].enemies.forEach(function(enemy, indexEnemy){
-            deepFactorEnemie = (enemy.y - scenarios[scenActive].y)/scenarios[scenActive].height;
-            enemy.width = enemyWidth * itemScale * deepFactorEnemie;
-            enemy.height = enemyHeight * itemScale * deepFactorEnemie;
-            enemy.draw(enemyDirection(enemy,character[charActive]),character[charActive]);
-            if(character[charActive].collition(enemy)){
-                character[charActive].receiveDamage(enemy);
-                enemy.receiveDamage(character[charActive],indexEnemy);
-            }
-            shoots.forEach(function(shoot,indexShoot){
-                if(shoot.collition(enemy)){
-                    enemy.receiveDamage(shoot,indexEnemy,indexShoot);
+        if (players === 1){
+            scenarios[scenActive].enemies.forEach(function(enemy, indexEnemy){
+                deepFactorEnemie = (enemy.y - scenarios[scenActive].y)/scenarios[scenActive].height;
+                enemy.width = enemyWidth * itemScale * deepFactorEnemie;
+                enemy.height = enemyHeight * itemScale * deepFactorEnemie;
+                enemy.draw(enemyDirection(enemy,character[charActive]),character[charActive]);
+                if(character[charActive].collition(enemy)){
+                    character[charActive].receiveDamage(enemy);
+                    enemy.receiveDamage(character[charActive],indexEnemy);
                 }
+                shoots.forEach(function(shoot,indexShoot){
+                    if(shoot.collition(enemy)){
+                        enemy.receiveDamage(shoot,indexEnemy,indexShoot);
+                    }
+                });
             });
-        });
+        } else if (players === 2 && mode === 'survival'){
+            scenarios[scenActive].enemies.forEach(function(enemy, indexEnemy){
+                deepFactorEnemie = (enemy.y - scenarios[scenActive].y)/scenarios[scenActive].height;
+                enemy.width = enemyWidth * itemScale * deepFactorEnemie;
+                enemy.height = enemyHeight * itemScale * deepFactorEnemie;
+                if (charActive === 'spaceman'){
+                    charActive = 'spaceman2'
+                    enemy.draw(enemyDirection(enemy,character[charActive]),character[charActive]);
+                    if(character[charActive].collition(enemy)){
+                        character[charActive].receiveDamage(enemy);
+                        enemy.receiveDamage(character[charActive],indexEnemy);
+                    }
+                } else {
+                    charActive = 'spaceman'
+                    enemy.draw(enemyDirection(enemy,character[charActive]),character[charActive]);
+                    if(character[charActive].collition(enemy)){
+                        character[charActive].receiveDamage(enemy);
+                        enemy.receiveDamage(character[charActive],indexEnemy);
+                    }
+                }
+                shoots.forEach(function(shoot,indexShoot){
+                    if(shoot.collition(enemy)){
+                        enemy.receiveDamage(shoot,indexEnemy,indexShoot);
+                    }
+                });
+            });
+
+        }
     }
 
     function enemyDirection(enemy,character){
@@ -776,10 +870,12 @@
     let actualDirection = rover.direction;
         switch (actualDirection){
             case "N":
-                if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverNorth2.png';
+                    rover.dust.src = './images/Dust1.png';
                 } else {
                     rover.image.src = './images/RoverNorth.png';
+                    rover.dust.src = './images/Dust2.png';
                 }
                 if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
                     || rover.y - scenarios[scenActive].y < canvas.height/2){
@@ -798,10 +894,14 @@
                 }
             break;
             case "E":
-                if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverEast2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverEast.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.x - scenarios[scenActive].x < canvas.width/2 
                     || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
@@ -830,10 +930,14 @@
                 }
             break;
             case "S":
-                if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverSouth2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverSouth.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
                     || rover.y - scenarios[scenActive].y < canvas.height/2){
@@ -852,10 +956,14 @@
                 }
             break;
             case "W":
-                if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverWest2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverWest.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.x - scenarios[scenActive].x < canvas.width/2 
                     || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
@@ -893,10 +1001,14 @@
         var actualDirection = rover.direction;
         switch (actualDirection){
             case "S":
-                if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverSouth2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverSouth.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
                     || rover.y - scenarios[scenActive].y < canvas.height/2){
@@ -915,10 +1027,14 @@
                 }
                 break;
             case "W":
-            if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverWest2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverWest.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.x - scenarios[scenActive].x < canvas.width/2 
                     || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){
@@ -937,10 +1053,14 @@
                 }
                 break;
             case "N":
-            if (frames%2 === 0){
-                rover.image.src = './images/RoverNorth2.png';
+                if (Math.floor(frames/2) % 3 === 0 ){
+                    rover.image.src = './images/RoverNorth2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverNorth.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height 
                     || rover.y - scenarios[scenActive].y < canvas.height/2){
@@ -959,10 +1079,14 @@
                 }
             break;
             case "E":
-                if (frames%2 === 0){
+                if (Math.floor(frames/2) % 3 === 0 ){
                     rover.image.src = './images/RoverEast2.png';
+                    rover.dust.src = './images/Dust1.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 } else {
                     rover.image.src = './images/RoverEast.png';
+                    rover.dust.src = './images/Dust2.png';
+                    ctx.drawImage(rover.dust, rover.x-20, rover.y+10+rover.height*0.5, rover.width+20, rover.height*0.5);
                 }
                 if (rover.x - scenarios[scenActive].x < canvas.width/2 
                     || rover.x - scenarios[scenActive].x > (1-(canvas.width*0.5/scenarios[scenActive].width))*scenarios[scenActive].width){

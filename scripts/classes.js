@@ -21,10 +21,10 @@
         draw (){
             //Main drawing
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+            //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Map drawing
             mCtx.drawImage(this.image, 0, 0, map.width, map.height);
-            mCtx2.drawImage(this.image, 0, 0, map.width, map.height);
+            //nCtx2.drawImage(this.image, 0, 0, map.width, map.height);
         }
     }
 
@@ -40,6 +40,9 @@
             this.damage = 10;
             this.energy = 100;
             this.condition = 200;
+            this.dust = new Image();
+            this.dust.src = './images/Dust1.png';
+            this.moving = false;
             }
 
         boundaries(){
@@ -67,7 +70,10 @@
 
             //Main drawing
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+            if (charActive === 'rover' && (keys[38] || keys[40])){
+                ctx.drawImage(rover.dust, rover.x-40, rover.y-35+rover.height, rover.width+80, rover.height*0.25);
+            }
+            //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal black rectangle
             //ctx.beginPath();
             //ctx.moveTo(this.x,this.y+this.height*0.3)
@@ -78,7 +84,7 @@
             //ctx.stroke();
             //Map drawing
             mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
-            mCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
+            //nCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
             //Green circle
             mCtx.beginPath();
             mCtx.strokeStyle = 'green';
@@ -86,11 +92,11 @@
             mCtx.stroke();
             mCtx.strokeStyle = 'black';
             
-            mCtx2.beginPath();
-            mCtx2.strokeStyle = 'green';
-            mCtx2.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
-            mCtx2.stroke();
-            mCtx2.strokeStyle = 'black';
+            //nCtx2.beginPath();
+            //nCtx2.strokeStyle = 'green';
+            //nCtx2.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*.5*scale), 0, Math.PI*2, false)
+            //nCtx2.stroke();
+            //nCtx2.strokeStyle = 'black';
         }
     }
 
@@ -186,7 +192,7 @@
             }
             //Main drawing
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+            //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal black rectangle
             //ctx.beginPath();
             //ctx.moveTo(this.x,this.y)
@@ -197,7 +203,7 @@
             //ctx.stroke();
             //Map drawing
             mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
-            mCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
+            //nCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
             //Red circle
             mCtx.beginPath();
             mCtx.strokeStyle = '#FF0000';
@@ -205,11 +211,11 @@
             mCtx.stroke();
             mCtx.strokeStyle = '#000000';
 
-            mCtx2.beginPath();
-            mCtx2.strokeStyle = '#FF0000';
-            mCtx2.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
-            mCtx2.stroke();
-            mCtx2.strokeStyle = '#000000';
+            //nCtx2.beginPath();
+            //nCtx2.strokeStyle = '#FF0000';
+            //nCtx2.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.width*scale), 0, Math.PI*2, false)
+            //nCtx2.stroke();
+            //nCtx2.strokeStyle = '#000000';
         }
     }
 
@@ -245,8 +251,8 @@
             this.health -= enemy.damage;
             ctx.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
             mCtx.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
-            ctx2.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
-            mCtx2.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
+            //ctx2.drawImage(this.dischargeImage, this.x - this.width/2, this.y - this.height/2, this.width*2, this.height*2);
+            //nCtx2.drawImage(this.dischargeImage, (this.x - this.width - scenarios[scenActive].x) * scale, (this.y - this.height - scenarios[scenActive].y)*scale, this.width*2*scale, this.height*2*scale);
             if (this.health <= 0){
                 gameOver();
             }
@@ -259,7 +265,7 @@
             if (charActive === 'spaceman'){
                 //Main drawing
                 ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-                ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+                //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
                 //Temporal black rectangle
                 //ctx.beginPath();
                 //ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
@@ -270,19 +276,19 @@
                 //ctx.stroke();
                 //Map drawing
                 mCtx.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
-                mCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
+                //nCtx2.drawImage(this.image, (this.x-this.width/2-scenarios[scenActive].x)*scale, (this.y-this.height/2-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
                 //Green circle    
                 mCtx.beginPath();
                 mCtx.strokeStyle = 'green';
                 mCtx.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
                 mCtx.stroke();
 
-                mCtx2.strokeStyle = 'black';
-                mCtx2.beginPath();
-                mCtx2.strokeStyle = 'green';
-                mCtx2.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
-                mCtx2.stroke();
-                mCtx2.strokeStyle = 'black';
+                //nCtx2.strokeStyle = 'black';
+                //nCtx2.beginPath();
+                //nCtx2.strokeStyle = 'green';
+                //nCtx2.arc((this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, Math.abs(this.height*.5*scale), 0, Math.PI*2, false)
+                //nCtx2.stroke();
+                //nCtx2.strokeStyle = 'black';
             }
         }
     }
@@ -305,14 +311,14 @@
         draw(){
             //Main drawing
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+            //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal drawings
-            ctx.beginPath();    
-            ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI*2, false)
-            ctx.stroke();
+            //ctx.beginPath();    
+            //ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI*2, false)
+            //ctx.stroke();
             //Map drawing
             mCtx.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
-            mCtx2.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
+            ////nCtx2.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
         }
     }
 
@@ -326,7 +332,7 @@
 
         draw() {
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+            //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
         }
     }
 
@@ -391,16 +397,16 @@
             ctx.fillText(this.enemies, 1800, 65);
             ctx.textAlign = 'start';
             
-            ctx2.font = '30px serif';
-            ctx2.fillStyle = 'white';
-            ctx2.textAlign = 'center';
-            ctx2.fillText('Hi Score', 1500, 30);
-            ctx2.fillText('Score', 1650, 30);
-            ctx2.fillText('Enemies', 1800, 30);
-            ctx2.fillText(this.hiScore, 1500, 65);
-            ctx2.fillText(this.score, 1650, 65);
-            ctx2.fillText(this.enemies, 1800, 65);
-            ctx2.textAlign = 'start';
+            //ctx2.font = '30px serif';
+            //ctx2.fillStyle = 'white';
+            //ctx2.textAlign = 'center';
+            //ctx2.fillText('Hi Score', 1500, 30);
+            //ctx2.fillText('Score', 1650, 30);
+            //ctx2.fillText('Enemies', 1800, 30);
+            //ctx2.fillText(this.hiScore, 1500, 65);
+            //ctx2.fillText(this.score, 1650, 65);
+            //ctx2.fillText(this.enemies, 1800, 65);
+            //ctx2.textAlign = 'start';
         }
     }
 
@@ -439,7 +445,7 @@
             }
             //Main Drawing
             ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-            ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
+            //ctx2.drawImage(this.image, this.x, this.y, this.width, this.height);
             //Temporal black rectangle
             ctx.beginPath();
             ctx.moveTo(this.x + this.width*0.2,this.y + this.height*0.1)
@@ -450,7 +456,7 @@
             ctx.stroke();
             //Map Drawing
             mCtx.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
-            mCtx2.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
+            //nCtx2.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
         }
     }
 
