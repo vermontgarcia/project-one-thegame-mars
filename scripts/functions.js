@@ -438,7 +438,8 @@
 
             } else {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                interiors[2].draw();
+                interiors[choseInterior].draw();
+                drawSpare();
                 spaceman.draw();
             }
             if (winner){
@@ -918,6 +919,8 @@
             spaceman.y = canvas.height - spaceman.height - 150;
             spacemanWest(spaceman);
             stationInside = true;
+            choseInterior = Math.floor(Math.random()*interiors.length);
+            createSpare();
         }
     }
 
@@ -1385,6 +1388,30 @@
     function distance(x1,y1,x2,y2){
         return Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));
     }
+
+
+    var spareItems = []
+    function createSpare(){
+        let ship = new Spare(200, 500, 300, 300, shipSpareImg[Math.floor(Math.random()*shipSpareImg.length)]);
+        spareItems.push(ship); 
+        let rover = new Spare(1000, 700, 150, 150, roverSpareImg[Math.floor(Math.random()*roverSpareImg.length)]);
+        spareItems.push(rover); 
+        let health = new Spare(700, 800, 150, 150, healthSpareImg[Math.floor(Math.random()*healthSpareImg.length)]);
+        spareItems.push(health); 
+        let other = new Spare(450, 600, 150, 150, otherSpareImg[Math.floor(Math.random()*otherSpareImg.length)]);
+        spareItems.push(other); 
+    }
+
+    function drawSpare(){
+        spareItems.forEach(function(item, index){
+            item.draw();
+            if(character[charActive].collition(item)){
+                spareItems.splice(index,1);
+            }
+        });
+    }
+
+
 
     function createShoots(character){
         effects[1].stop();

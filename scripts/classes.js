@@ -29,6 +29,18 @@
         }
     }
 
+    class Spare extends Item{
+        constructor(x,y,width,height,image){
+            super(x,y,width,height)
+            this.image = new Image();
+            this.image.src = image;
+        }
+
+        draw(){
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+    }
+
     class Rover extends Item{
         constructor(x,y,width,height){
             super(x,y,width,height);

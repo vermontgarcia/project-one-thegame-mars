@@ -57,7 +57,31 @@
     var gameState = 'inactive';
     var charActive = 'spaceman';
     var stationInside = false;
+    var choseInterior;
     var scenActive = 0;
+
+    var roverSpareImg = [
+        './images/Rover1.png',
+        './images/Rover2.png',
+        './images/Rover3.png',
+        './images/Rover4.png',
+        './images/Rover5.png'
+    ]
+    var shipSpareImg = [
+        './images/Spaceship1.png',
+        './images/Spaceship2.png',
+        './images/Spaceship3.png',
+        './images/Spaceship4.png',
+        './images/Spaceship5.png'
+    ]
+    var healthSpareImg = [
+        './images/Health.png',
+        './images/Oxigen.png',
+    ]
+    var otherSpareImg = [
+        '../images/Energy.png',
+        '../images/Weapon.png',
+    ]
     var scenarioImages = [
         './images/MarsScenario1.png',
         './images/MarsScenario2.png',
@@ -118,7 +142,6 @@
         './efects/Shoot.mp3',
         './efects/GetItem.mp3'
     ]
-    var scenarios = [];
     var stationsIntImages = [
         './images/StationInt1.png',
         './images/StationInt2.png',
@@ -136,9 +159,10 @@
         './images/Spaceship4.png',
         './images/Spaceship5.png'
     ]
-
-    var spaceshipSpare = [];
     
+    
+    var scenarios = [];
+    var spaceshipSpare = [];
     var interiors = [];
     var songs = [];
     var effects = [];
@@ -146,8 +170,6 @@
     var frame1;
     var frame2;
     var frame3;
-
-
 
     var spaceman;
     var spaceman2;
@@ -160,7 +182,6 @@
     var winner = false;
 
     var fixesShip = 0;
-
 
     var borderError = "Error trying to excced the grid borders";
 
