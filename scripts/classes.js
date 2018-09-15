@@ -228,7 +228,7 @@
             this.mapActive = false;
             this.direction = 'E';
             this.image = new Image();
-            this.image.src = './images/SpacemanEast.png';
+            this.image.src = './images/SpacemanE1.png';
             this.dischargeImage = new Image();
             this.dischargeImage.src = './images/discharge.png';
             this.saveDistanceFactor = 5;

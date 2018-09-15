@@ -6,9 +6,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="./styles/styles.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.js"></script>
     <title>MARS</title>
 </head>
 <body id="expand">
+        <div id="mobile-controls" class="hide">
+                <div id="bottom-left">
+                    <div>
+                        <img id="a" class="image" src="./images/center.png" alt="A">
+                    </div>
+                    <div>
+                        <img id="b" class="image" src="./images/center.png" alt="B">
+                        <img id="x" class="image" src="./images/center.png" alt="X">
+                        <img id="c" class="image" src="./images/center.png" alt="C">
+                    </div>
+                    <div>
+                        <img id="d" class="image" src="./images/center.png" alt="D">
+                    </div>
+                </div>
+                <div id="bottom-rigth">
+                    <div>
+                        <img id="up" class="image" src="./images/up.png" alt="Up">
+                    </div>
+                    <div>
+                        <img id="left" class="image" src="./images/left.png" alt="Left">
+                        <img id="center" class="image" src="./images/center.png" alt="O">
+                        <img id="rigth" class="image" src="./images/rigth.png" alt="Rigth">
+                    </div>
+                    <div>
+                        <img id="down" class="image" src="./images/down.png" alt="Down">
+                    </div>
+                </div>
+            </div> 
     <div id="language" class="modal">
         <div class="language">
             <div id="eng-btn" class="button">English</div>
@@ -57,7 +86,7 @@
         <div class="canvas">
             <canvas id="mars2" width="1900" height="1050"></canvas>
         </div>
-    </article>    
+    </article> 
     <script src="./scripts/classes.js"></script>
     <script src="./scripts/functions.js"></script>
     <script src="./scripts/main.js"></script>    

@@ -66,6 +66,46 @@
         './images/MarsScenario5.png',
         './images/MarsScenario6.png'
     ]
+    var spacemanE = [
+        './images/SpacemanE1.png',
+        './images/SpacemanE2.png',
+        './images/SpacemanE3.png',
+        './images/SpacemanE4.png',
+        './images/SpacemanE5.png',
+        './images/SpacemanE6.png',
+        './images/SpacemanE7.png',
+        './images/SpacemanE8.png',
+        './images/SpacemanE9.png',
+        './images/SpacemanE1.png'
+    ]
+    var spacemanW = [
+        './images/SpacemanW1.png',
+        './images/SpacemanW2.png',
+        './images/SpacemanW3.png',
+        './images/SpacemanW4.png',
+        './images/SpacemanW5.png',
+        './images/SpacemanW6.png',
+        './images/SpacemanW7.png',
+        './images/SpacemanW8.png',
+        './images/SpacemanW9.png',
+        './images/SpacemanW1.png'
+    ]
+    var spacemanN = [
+        './images/SpacemanN1.png',
+        './images/SpacemanN2.png',
+        './images/SpacemanN3.png',
+        './images/SpacemanN4.png',
+        './images/SpacemanN5.png',
+        './images/SpacemanN1.png'
+    ]
+    var spacemanS = [
+        './images/SpacemanS1.png',
+        './images/SpacemanS2.png',
+        './images/SpacemanS3.png',
+        './images/SpacemanS4.png',
+        './images/SpacemanS5.png',
+        './images/SpacemanS1.png'
+    ]
     var audioSongs = [
         './music/ConfigGame.mp3',
         './music/Mission.mp3',
@@ -115,7 +155,7 @@
 
     //Defining constants
     const spacemanHeight = 200;
-    const spacemanWidth = 57;
+    const spacemanWidth = 114;
     const roverHeight = 300;
     const roverWidthFront = 300;
     const roverWidthSide = 300*1.38;
@@ -168,6 +208,56 @@
         keyControls1(e);
         //keyControls2();
     });
+
+    //Mobile controls
+
+    //var $ = require('jquery');
+    //var loadTouchEvents = require('jquery-touch-events');
+    //loadTouchEvents($);
+
+
+    $('#up').click(function(){
+        console.log('up');
+        spacemanNorth(spaceman);
+    });
+    $('#left').click(function(){
+        console.log('left');
+        spacemanWest(spaceman);
+    });
+    $('#rigth').click(function(){
+        console.log('rigth');
+        spacemanEast(spaceman);
+    });
+    $('#down').click(function(){
+        console.log('down');
+        spacemanSouth(spaceman);
+    });
+    $('#center').click(function(){
+        console.log('center');
+        toggleMap();
+    });
+
+    $('#a').click(function(){
+        console.log('up');
+        gettingInRover();
+    });
+    $('#d').click(function(){
+        console.log('left');
+        gettingOutRover();
+    });
+    $('#b').click(function(){
+        console.log('rigth');
+        gettingOutStation();
+    });
+    $('#c').click(function(){
+        console.log('down');
+        gettingInStation();
+    });
+    $('#x').click(function(){
+        console.log('center');
+        createShoots(character[charActive]);
+    });
+
 
     //Excecuting the game
     intro(language);

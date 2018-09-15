@@ -281,6 +281,11 @@
     }
 
     function startGame(){
+        //if(isMobile()==='')
+        $('#mobile-controls').toggleClass('hide');
+        $('#mobile-controls').toggleClass('active');
+        $('#mobile-controls').attr('style', 'display: flex');
+
         if(players === 2){
             if (mode === 'mision'){
                 $('.container').addClass('halfHeight');
@@ -603,10 +608,13 @@
     //Spaceman
     function spacemanNorth(spaceman){
         spaceman.direction = 'N';
-        if (frames%2 === 0){
-            //spaceman.image.src = './images/SpacemanNorth2.png';
+        if (spacemanControl >= 5) spacemanControl = 0;
+        console.log(spacemanControl,spacemanN[spacemanControl]);
+        if (Math.floor(frames/2) % 3 === 0 ){
+            spacemanControl+=1;
+            spaceman.image.src = spacemanN[spacemanControl];
         } else {
-            //spaceman.image.src = './images/SpacemanNorth.png';
+            spaceman.image.src = spacemanN[spacemanControl];
         }
         if (!stationInside){
             if (spaceman.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
@@ -630,12 +638,17 @@
         }
     }
 
+    var spacemanControl = 0;
+
     function spacemanEast(spaceman){
         spaceman.direction = 'E';
-        if (frames%2 === 0){
-            spaceman.image.src = './images/SpacemanEast2.png';
+        if (spacemanControl >= 9) spacemanControl = 0;
+        console.log(spacemanControl,spacemanE[spacemanControl]);
+        if (Math.floor(frames/2) % 3 === 0 ){
+            spacemanControl+=1;
+            spaceman.image.src = spacemanE[spacemanControl];
         } else {
-            spaceman.image.src = './images/SpacemanEast.png';
+            spaceman.image.src = spacemanE[spacemanControl];
         }
         if (!stationInside){
             if (spaceman.x - scenarios[scenActive].x < canvas.width/2 
@@ -661,10 +674,13 @@
 
     function spacemanSouth(spaceman){
         spaceman.direction = 'S'
-        if (frames%2 === 0){
-            //spaceman.image.src = './images/SpacemanSouth2.png';
+        if (spacemanControl >= 5) spacemanControl = 0;
+        console.log(spacemanControl,spacemanS[spacemanControl]);
+        if (Math.floor(frames/2) % 3 === 0 ){
+            spacemanControl+=1;
+            spaceman.image.src = spacemanS[spacemanControl];
         } else {
-            //spaceman.image.src = './images/SpacemanSouth.png';
+            spaceman.image.src = spacemanS[spacemanControl];
         }
         if (!stationInside){
             if (spaceman.y - scenarios[scenActive].y > (1-(canvas.height*0.5/scenarios[scenActive].height))*scenarios[scenActive].height
@@ -690,10 +706,13 @@
 
     function spacemanWest(spaceman){
         spaceman.direction = 'W';
-        if (frames%2 === 0){
-            spaceman.image.src = './images/SpacemanWest2.png';
+        if (spacemanControl >= 9) spacemanControl = 0;
+        console.log(spacemanControl,spacemanW[spacemanControl]);
+        if (Math.floor(frames/2) % 3 === 0 ){
+            spacemanControl+=1;
+            spaceman.image.src = spacemanW[spacemanControl];
         } else {
-            spaceman.image.src = './images/SpacemanWest.png';
+            spaceman.image.src = spacemanW[spacemanControl];
         }
         if (!stationInside){
             if (spaceman.x - scenarios[scenActive].x < canvas.width/2 
@@ -1159,6 +1178,36 @@
                 if (keys[83] === true) spacemanNorth(spaceman2);
                 if (keys[67] === true) spacemanEast(spaceman2);
                 if (keys[88] === true) spacemanSouth(spaceman2);
+            } else if (charActive === 'rover'){
+                if (rover.condition <= 0) charActive = 'spaceman';
+                if (keys[38] === true) moveForward(rover);
+                if (keys[40] === true) moveBackward(rover);
+                if (keys[68] === true) gettingOutRover();
+            }
+        }
+    }
+
+    function mobileControlsRigth(){
+        if (gameState === 'active'){
+            if (charActive === 'spaceman'){
+                //Spaceman 1
+                $('#up').click(function(){
+                    console.log('up');
+                    spacemanNorth(spaceman);
+                });
+                $('#left').click(function(){
+                    console.log('left');
+                    spacemanWest(spaceman);
+                });
+                $('#rigth').click(function(){
+                    console.log('rigth');
+                    spacemanEast(spaceman);
+                });
+                $('#down').click(function(){
+                    console.log('down');
+                    spacemanSouth(spaceman);
+                });
+                //Spaceman 2
             } else if (charActive === 'rover'){
                 if (rover.condition <= 0) charActive = 'spaceman';
                 if (keys[38] === true) moveForward(rover);
