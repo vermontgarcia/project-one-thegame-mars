@@ -17,6 +17,7 @@
             this.image.src = image;
             this.stations = [];
             this.enemies = [];
+            this.spaceship = [];
         } 
         draw (){
             //Main drawing
@@ -293,11 +294,22 @@
         }
     }
 
-    class Transbordador extends Item{
-        constructor(){
-
+    class Spaceship extends Item{
+        constructor(x,y,width,height){
+            super(x,y,width,height);
+            this.image = new Image();
+            this.image.src = './images/Spaceship6.png';
+            this.images = [];
+            this.images.push(this.image);
+            this.condition = 0;
         }
         draw(){
+            //Main drawing
+            for (i=0; i<this.images.length;i++){
+                ctx.drawImage(this.images[i], this.x, this.y, this.width, this.height);
+            }
+            //Map drawing
+            mCtx.drawImage(this.image, (this.x-scenarios[scenActive].x)*scale, (this.y-scenarios[scenActive].y)*scale, this.width*scale, this.height*scale);
 
         }
     }
@@ -349,7 +361,7 @@
             this.image.src = './images/Status.png';
         }
 
-        draw(spaceman, rover) {
+        draw(spaceman, rover, spaceship) {
             //Spaceman
             ctx.fillStyle = 'green';
             if (spaceman < 70 ){
@@ -359,6 +371,10 @@
             }
             ctx.drawImage(this.image, this.x-45, this.y, this.width+90, this.height);
             ctx.fillRect(this.x, this.y+6, spaceman*2, this.height-12);
+            ctx.font = '30px serif';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'start';
+            ctx.fillText('Spaceman', 550, this.y+22);
             //Rover
             let space = 30;
             ctx.fillStyle = 'green';
@@ -369,6 +385,23 @@
             }
             ctx.drawImage(this.image, this.x-45, this.y+space, this.width+90, this.height);
             ctx.fillRect(this.x, this.y+6+space, rover*2, this.height-12);
+            ctx.font = '30px serif';
+            ctx.fillStyle = 'white';
+            ctx.fillText('Rover', 550, this.y+space+22);
+            //Spaceship
+            ctx.fillStyle = 'green';
+            if (spaceship < 70 ){
+                ctx.fillStyle = 'red';
+            } else if ( spaceship < 140){
+                ctx.fillStyle = 'yellow';
+            }
+            ctx.drawImage(this.image, this.x-45+canvas.width*0.7, this.y, this.width+90, this.height);
+            ctx.fillRect(this.x+canvas.width*0.7, this.y+6, spaceship*2, this.height-12);
+            ctx.font = '30px serif';
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'end';
+            ctx.fillText('Spaceship', 1380, this.y+22);
+            
         }
     }
 
@@ -386,16 +419,19 @@
         }
 
         draw(){
+            let positionY = 80;
             ctx.font = '30px serif';
             ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
-            ctx.fillText('Hi Score', 1500, 30);
-            ctx.fillText('Score', 1650, 30);
-            ctx.fillText('Enemies', 1800, 30);
-            ctx.fillText(this.hiScore, 1500, 65);
-            ctx.fillText(this.score, 1650, 65);
-            ctx.fillText(this.enemies, 1800, 65);
+            ctx.fillText('Hi Score', 1500, positionY);
+            ctx.fillText('Score', 1650, positionY);
+            ctx.fillText('Enemies', 1800, positionY);
+            ctx.fillText(this.hiScore, 1500, positionY+35);
+            ctx.fillText(this.score, 1650, positionY+35);
+            ctx.fillText(this.enemies, 1800, positionY+35);
             ctx.textAlign = 'start';
+
+
             
             //ctx2.font = '30px serif';
             //ctx2.fillStyle = 'white';

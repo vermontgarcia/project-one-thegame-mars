@@ -129,6 +129,16 @@
         './images/StationInt7.png',
         './images/StationInt8.png'
     ]
+    var spaceshipImages = [
+        './images/Spaceship1.png',
+        './images/Spaceship2.png',
+        './images/Spaceship3.png',
+        './images/Spaceship4.png',
+        './images/Spaceship5.png'
+    ]
+
+    var spaceshipSpare = [];
+    
     var interiors = [];
     var songs = [];
     var effects = [];
@@ -148,6 +158,8 @@
     var score2
     var statusCharacter2
 
+    var fixesShip = 0;
+
 
     var borderError = "Error trying to excced the grid borders";
 
@@ -163,6 +175,8 @@
     const enemyWidth = 160;
     const stationWidth = 200;
     const stationHeight = stationWidth * 0.4;
+    const spaceshipWidth = 300;
+    const spaceshipHeight = spaceshipWidth * 0.57;
     const scale = (map.width/canvas.width)/scenarioScale;
 
     //Creating instances
@@ -173,6 +187,8 @@
     function createInstances(){
         generateScenarios();
         generateStations();
+        generateSpaceship();
+        generateSpare();
         generateInteriors();
         spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
         character.spaceman = spaceman;
@@ -190,7 +206,7 @@
 
     //Verifying the device runing the game
     isMobile = isMobile();
-    console.log('Is mobile device?', isMobile);
+    //console.log('Is mobile device?', isMobile);
     ctx.font = '55px serif';
     ctx.fillText(isMobile, 100, 100);
 
@@ -217,44 +233,44 @@
 
 
     $('#up').click(function(){
-        console.log('up');
+        //console.log('up');
         spacemanNorth(spaceman);
     });
     $('#left').click(function(){
-        console.log('left');
+        //console.log('left');
         spacemanWest(spaceman);
     });
     $('#rigth').click(function(){
-        console.log('rigth');
+        //console.log('rigth');
         spacemanEast(spaceman);
     });
     $('#down').click(function(){
-        console.log('down');
+        //console.log('down');
         spacemanSouth(spaceman);
     });
     $('#center').click(function(){
-        console.log('center');
+        //console.log('center');
         toggleMap();
     });
 
     $('#a').click(function(){
-        console.log('up');
+        //console.log('up');
         gettingInRover();
     });
     $('#d').click(function(){
-        console.log('left');
+        //console.log('left');
         gettingOutRover();
     });
     $('#b').click(function(){
-        console.log('rigth');
+        //console.log('rigth');
         gettingOutStation();
     });
     $('#c').click(function(){
-        console.log('down');
+        //console.log('down');
         gettingInStation();
     });
     $('#x').click(function(){
-        console.log('center');
+        //console.log('center');
         createShoots(character[charActive]);
     });
 
