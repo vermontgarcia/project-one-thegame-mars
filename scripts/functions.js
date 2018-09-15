@@ -20,8 +20,60 @@
     function intro(lang){
         let image = new Image();
         image.src = './images/Mars-featured-image.jpg';
-        image.onload = function(){
+        let crash = new Image();
+        crash.src = './images/crash.png';
+
+        let ship = new Image();
+        ship.src = './images/Spaceship.png';
+
+        frames = 0;
+
+        let x = -600;
+        let y = -300;
+        let width = 200;
+        let height = 114;
+        
+        interval = setInterval(function(){
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            
+            if (language === 'english'){
+                if (frames < 460){
+                    x+= 2.5;
+                    y+= 1
+                    width -= 0.3;
+                    height -= 0.17;
+                } else if (frames < 360 + 360) {
+                    if (width > 0){
+                        x+= 1.5;
+                        y+= 1;
+                        width -= 0.3;
+                        height -= 0.17;
+                    } else {
+                        x+= 1;
+                        y+= 1;
+                        width -= 0.3;
+                        height -= 0.17;
+                    } 
+
+                } else {
+                    ctx.drawImage(crash, x-25, y-100, 50, 100);
+                    //songs[0].stop();
+                    clearInterval(interval);            
+                    writeMars();
+                }
+    
+                frames++;
+    
+                ctx.drawImage(ship, x, y, width, height);
+                
+            }
+
+
+
+            
+        },1000/60);
+
+        image.onload = function(){
         }
         if (lang === ''){
 
@@ -35,12 +87,14 @@
                     effects[0].stop();
                     effects[0].sound.currentTime = 0;
                     effects[0].play();
+                    songs[0].play();
                     $(this).addClass('selection');
                     language = 'english'
+                    frames = 0;
                     $('#language').toggleClass('active');
                     setTimeout(function(){
                         $('#language').addClass('hide');
-                        writeMars();
+                        //writeMars();
                     },1000);
                 });
             }, function(){
@@ -265,7 +319,7 @@
         $("#controls").attr("style", "display: flex");
         setTimeout(function(){
             $("#controls").addClass("active");
-            songs[0].play();
+            //songs[0].play();
         },1000);
     }
 
@@ -331,7 +385,7 @@
                     width +=2*0.5;
                     height += 1.14*0.5;
                 } else {
-                    songs[0].stop();
+                    //songs[0].stop();
                     clearInterval(interval);            
                     writeMars();
                 }
