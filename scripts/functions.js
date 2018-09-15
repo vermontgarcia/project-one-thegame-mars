@@ -578,12 +578,15 @@
 
         generateStations();
 
-        
-        spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
-        character.spaceman = spaceman;
+        createInstances();
 
-        rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
-        character.rover = rover;
+        //spaceman = new Spaceman(canvas.width*0.25, canvas.height*0.75, spacemanWidth*itemScale*deepFactorChar, spacemanHeight*itemScale*deepFactorChar);
+        //character.spaceman = spaceman;
+//
+//
+//
+        //rover = new Rover(canvas.width*0.45, canvas.height*0.55, roverWidthSide*itemScale*deepFactorChar, roverHeight*itemScale*deepFactorChar);
+        //character.rover = rover;
         
         score.score = 0;
         score.enemies = 0;
@@ -1366,7 +1369,7 @@
             if(e.keyCode === 13) pauseResumeGame();
             if(e.keyCode === 32) toggleDirections();
             if(charActive === 'spaceman'){
-                if(e.keyCode === 17) createShoots(spaceman);
+                if(e.keyCode === 75) createShoots(spaceman);
                 if(e.keyCode === 73) gettingInStation();
                 if(e.keyCode === 77) toggleMap();
                 if(e.keyCode === 79) gettingOutStation();
@@ -1375,7 +1378,7 @@
             }
             if(charActive === 'rover'){
                 if (rover.condition <= 0) charActive = 'spaceman';
-                if(e.keyCode === 17) createShoots(rover);
+                if(e.keyCode === 75) createShoots(rover);
                 if(e.keyCode === 77) toggleMap();
                 if(e.keyCode === 37) turnLeft(rover);
                 if(e.keyCode === 39) turnRight(rover);
