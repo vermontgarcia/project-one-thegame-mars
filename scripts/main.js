@@ -157,6 +157,7 @@
     var statusCharacter
     var score2
     var statusCharacter2
+    var winner = false;
 
     var fixesShip = 0;
 

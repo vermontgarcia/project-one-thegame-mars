@@ -280,6 +280,83 @@
         }
     }
 
+
+    var counter = 0;
+    var counter2 = 0;
+
+    function finishGame(){
+        if (counter < 420) {
+            scenarios[scenActive].spaceship[0].y -= 0.3;
+            counter++;
+        } else if (counter < 420 + 60) {
+            
+            scenarios[scenActive].spaceship[0].y += 1 ;
+            scenarios[scenActive].spaceship[0].x += 2.8 + counter2;
+            counter2++;
+            counter++;
+        } else if (counter < 420 + 60 + 120) {
+            
+            scenarios[scenActive].spaceship[0].y += 1 ;
+            scenarios[scenActive].spaceship[0].x += 2.8 + counter2;
+            counter2++;
+            counter++;
+        } else{
+            pauseResumeGame();
+            let image = new Image();
+            image.src = './images/Mars-featured-image.jpg';
+            let ship = new Image();
+            ship.src = './images/Spaceship.png';
+
+            frames = 0;
+
+            let x = canvas.width*0.25;
+            let y = canvas.height*0.5;
+            let width = 20;
+            let height = 13;
+
+            interval = setInterval(function(){
+
+                if (frames < 360){
+                    width +=1*0.5;
+                    height += 0.57*0.5;
+                } else if (frames < 360 + 240){
+                    x+=1.5;
+                    y+=0.1;
+                } else if (frames < 360 + 240 + 240){
+                    x+=1.5;
+                    y-=0.1;
+                } else if (frames < 360 + 240 + 240 + 300){
+                    x+=2.5;
+                    y-=0.3;
+                    width +=2*0.5;
+                    height += 1.14*0.5;
+                } else {
+                    songs[0].stop();
+                    clearInterval(interval);            
+                    writeMars();
+                }
+
+                frames++;
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                ctx.font = '900 250px arial';
+                ctx.fillStyle = 'white';
+                ctx.textAlign = 'center';
+                ctx.fillText('MARS', canvas.width*0.5, canvas.height*0.65);
+
+                ctx.drawImage(ship, x, y, width, height);
+                
+            },1000/60);
+
+
+
+            image.onload = function(){
+            }
+
+        }
+    
+        
+    }
+
     function startGame(){
         if(isMobile==='mobile'){
             $('#mobile-controls').toggleClass('hide');
@@ -363,6 +440,9 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 interiors[2].draw();
                 spaceman.draw();
+            }
+            if (winner){
+                finishGame();
             }
         },1000/60);
     }
@@ -535,12 +615,20 @@
 
     function fixShip(){
         if (fixesShip < spaceshipImages.length){
+            effects[2].stop();
+            effects[2].sound.currentTime = 0;
+            effects[2].play();
             scenarios[0].spaceship[0].condition += 40;
             scenarios[scenActive].spaceship[0].images.push(spaceshipSpare[fixesShip]);
             score.update(1500,0);
             fixesShip++;
             if (fixesShip === spaceshipImages.length){
                 console.log('You win');
+                songs[1].stop();
+                songs[0].play();
+                winner = true;
+                charActive = 'rover';
+                finishGame();
             }
         }
     }
@@ -1299,6 +1387,9 @@
     }
 
     function createShoots(character){
+        effects[1].stop();
+        effects[1].sound.currentTime = 0;
+        effects[1].play();
         let x =character.x + character.width *0.25;
         let y =character.y + character.height*0.25;
         let width = character.height*0.5;
