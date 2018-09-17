@@ -12,7 +12,7 @@
             (navigator.userAgent.match (/iPad/i)) ||
             (navigator.userAgent.match (/iPod/i)) ||
             (navigator.userAgent.match (/BlackBerry/i))        
-        ) return 'Movile';
+        ) return 'Mobile';
         return 'PC';
     }
 
@@ -412,7 +412,11 @@
     }
 
     function startGame(){
+<<<<<<< HEAD
         if(isMobile==='Movile'){
+=======
+        if(isMobile==='Mobile'){
+>>>>>>> master
             $('#mobile-controls').toggleClass('hide');
             $('#mobile-controls').toggleClass('active');
             $('#mobile-controls').attr('style', 'display: flex');
