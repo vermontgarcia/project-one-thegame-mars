@@ -412,11 +412,7 @@
     }
 
     function startGame(){
-<<<<<<< HEAD
-        if(isMobile==='Movile'){
-=======
         if(isMobile==='Mobile'){
->>>>>>> master
             $('#mobile-controls').toggleClass('hide');
             $('#mobile-controls').toggleClass('active');
             $('#mobile-controls').attr('style', 'display: flex');
