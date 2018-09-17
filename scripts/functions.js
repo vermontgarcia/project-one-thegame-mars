@@ -412,7 +412,7 @@
     }
 
     function startGame(){
-        if(isMobile==='mobile'){
+        if(isMobile==='Movile'){
             $('#mobile-controls').toggleClass('hide');
             $('#mobile-controls').toggleClass('active');
             $('#mobile-controls').attr('style', 'display: flex');
