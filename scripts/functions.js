@@ -12,7 +12,7 @@
             (navigator.userAgent.match (/iPad/i)) ||
             (navigator.userAgent.match (/iPod/i)) ||
             (navigator.userAgent.match (/BlackBerry/i))        
-        ) return 'Movile';
+        ) return 'Mobile';
         return 'PC';
     }
 
@@ -412,7 +412,7 @@
     }
 
     function startGame(){
-        if(isMobile==='mobile'){
+        if(isMobile==='Mobile'){
             $('#mobile-controls').toggleClass('hide');
             $('#mobile-controls').toggleClass('active');
             $('#mobile-controls').attr('style', 'display: flex');
@@ -1366,7 +1366,7 @@
             if(e.keyCode === 13) pauseResumeGame();
             if(e.keyCode === 32) toggleDirections();
             if(charActive === 'spaceman'){
-                if(e.keyCode === 17) createShoots(spaceman);
+                if(e.keyCode === 75) createShoots(spaceman);
                 if(e.keyCode === 73) gettingInStation();
                 if(e.keyCode === 77) toggleMap();
                 if(e.keyCode === 79) gettingOutStation();
@@ -1375,7 +1375,7 @@
             }
             if(charActive === 'rover'){
                 if (rover.condition <= 0) charActive = 'spaceman';
-                if(e.keyCode === 17) createShoots(rover);
+                if(e.keyCode === 75) createShoots(rover);
                 if(e.keyCode === 77) toggleMap();
                 if(e.keyCode === 37) turnLeft(rover);
                 if(e.keyCode === 39) turnRight(rover);
