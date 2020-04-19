@@ -401,14 +401,9 @@
                 
             },1000/60);
 
-
-
             image.onload = function(){
             }
-
         }
-    
-        
     }
 
     function startGame(){
